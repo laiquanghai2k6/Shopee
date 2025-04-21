@@ -31,7 +31,7 @@ const BottomNav = () => {
         let currentWidth = 0
         const fakeTrendingElement = document.createElement('span')
         fakeTrendingElement.style.visibility = 'hidden'
-        fakeTrendingElement.style.position = 'absolute'
+        fakeTrendingElement.style.position = 'fixed'
         document.body.appendChild(fakeTrendingElement)
         const tempVisible = []
         const l = TrendingItem.length
@@ -79,7 +79,7 @@ const BottomNav = () => {
           className="flex flex-row space-x-3 whitespace-nowrap mt-1 max-md:hidden"
         >
           {trendingVisible.map((item, index) => (
-            <p key={index} className="text-white text-md max-md:text-sm">
+            <p key={index} className="text-white text-md max-md:text-sm cursor-pointer hover:underline">
               {item}
             </p>
           ))}

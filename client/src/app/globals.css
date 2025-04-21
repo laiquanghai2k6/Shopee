@@ -19,16 +19,80 @@
 .navbar {
   background: var(--background-shopeeColor);
 }
+
 html{
   width: 100%;
   overflow-x: hidden;
-  /* line-height: 0; */
+  overflow-y: auto;
+  min-height:100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+
+}
+@keyframes move-up {
+  0% {
+    transform: translateY(0);
+  }
+  100%{
+    transform:translateY(-100%)
+  }
+}
+@keyframes move-down {
+  0% {
+    transform: translateY(0%);
+  }
+  100%{
+    transform:translateY(-100%)
+  }
+}
+@keyframes sliderInRightToLeft{
+    0% { transform: translateX(100%) }
+    100% { transform: translateX(0%) }
+}
+@keyframes sliderOutRightToLeft {
+  0% { transform: translateX(0) }
+  100% { transform: translateX(-100%) }
+}
+@keyframes sliderInLeftToRight{
+  0% { transform: translateX(-100%) }
+  to { transform: translateX(0) }
+}
+@keyframes sliderOutLeftToRight {
+0% { transform: translateX(0) }
+to { transform: translateX(100%) }
+}
+.slideOutRightToLeft{
+  animation: sliderOutRightToLeft 1s ease-out forwards;
+} 
+
+.slideInRightToLeft{
+  animation: sliderInRightToLeft 1s ease-out forwards;
+}
+.slideOutLeftToRight{
+  animation:  sliderOutLeftToRight 1s ease-out forwards;
+}
+.slideInLeftToRight{
+  animation: sliderInLeftToRight 1s ease-out forwards;
 }
 
+
+
+.up {
+  animation: move-up 1s ease-out;
+}
+.down {
+  animation: move-down 1s ease-out;
+}
 body {
-  overflow-x:hidden;
-  background: var(--background);
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height:100%;
+  height: auto;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 
+}
+[data-nextjs-toast] {
+  display: none !important;
 }
