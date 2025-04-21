@@ -32,7 +32,7 @@ const Category = () => {
                 <div className="min-h-[100px] h-auto grid grid-cols-8 max-md:grid-cols-4 mt-2 select-none ">
                     {CategoryItem.map((category, i) => {
                         return (
-                            <div key={`img category:${i}`} className="border-[1px] h-[100px] flex-col border-gray-200 shadow-none hover:shadow-[4px_4px_7px_rgba(0,0,0,0.2)] text-center hover:scale-103 transition-transform duration-350 cursor-pointer flex justify-between items-center">
+                            <div key={`img category:${i}`} className="border-[1px] h-[100px] flex-col border-gray-200 shadow-none hover:shadow-[4px_4px_7px_rgba(0,0,0,0.2)] hover:scale-103 text-center transition-transform duration-350 cursor-pointer flex justify-between items-center">
                                 <div className="w-10 h-[60%] ">
                                     <img src={category.image} alt="category" className="w-full h-full object-contain" />
                                 </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import ProductList from "./ProductList"
 import FlashSaleLogo from '../../../public/flash-sale.png'
+import ProductListFlashSale from "../Product/ProductListFlashSale"
 
 export type ProductOverview  = {
     id:string,
@@ -9,7 +9,7 @@ export type ProductOverview  = {
     discount:number,
     image:string
 }
-const fakeProduct = [
+export const fakeProduct = [
     {    id:'1',
         title:'Laptop gaming Acer',
         price:20000000,
@@ -127,7 +127,7 @@ const FlashSale = () => {
         <>
         {time.hour != '0' && time.minute != '0' && time.second != '0' && (
 
-        <div className="flex bg-[#f5f5f5] min-h-80 justify-center select-none">
+        <div className="flex bg-[#f5f5f5] min-h-90 justify-center select-none">
             <div className="flex w-290 h-full bg-white flex-col">
                 <div className="flex flex-row items-center">
                     <div className="h-15 w-30 flex item-center">
@@ -172,10 +172,7 @@ const FlashSale = () => {
                         </div>
                     
                 </div>
-
-
-
-                <ProductList product={fakeProduct} />
+                <ProductListFlashSale product={fakeProduct} />
             </div>
 
         </div>
