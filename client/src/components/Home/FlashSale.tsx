@@ -9,9 +9,9 @@ export type ProductOverview  = {
     discount:number,
     image:string
 }
-export const fakeProduct = [
+export const fakeProduct:ProductOverview[] = [
     {    id:'1',
-        title:'Laptop gaming Acer',
+        title:'Quần áo',
         price:20000000,
         discount:10,
         image:'https://th.bing.com/th/id/OIP.Qf2RFcuudbE3JRqkxfae_wHaHa?rs=1&pid=ImgDetMain'
@@ -127,7 +127,7 @@ const FlashSale = () => {
         <>
         {time.hour != '0' && time.minute != '0' && time.second != '0' && (
 
-        <div className="flex bg-[#f5f5f5] min-h-90 justify-center select-none">
+        <div className="flex bg-[#f5f5f5] h-auto pb-30 justify-center select-none">
             <div className="flex w-290 h-full bg-white flex-col">
                 <div className="flex flex-row items-center">
                     <div className="h-15 w-30 flex item-center">

@@ -35,7 +35,7 @@ export const throttle = (callback:Function,delay:number)=>{
 
 const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
     const width = window.innerWidth
-    const [ITEMS_PER_PAGE,setITEMS_PER_PAGE] = useState(width < 800 ? 3 : 6)
+    const [ITEMS_PER_PAGE,setITEMS_PER_PAGE] = useState(width < 768 ? 3 : 6)
     const [page, setPage] = useState(0)
     const [currentProducts, setCurrentProducts] = useState<ProductOverview[]>([])
     const [nextProducts, setNextProducts] = useState<ProductOverview[]>([])
@@ -46,7 +46,7 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
         setCurrentProducts(product.slice(0, ITEMS_PER_PAGE))
         const handlerResize = (width: number) => {
             console.log('res')
-            setITEMS_PER_PAGE(width < 800 ? 3 : 6)
+            setITEMS_PER_PAGE(width < 768 ? 3 : 6)
         };
         const throttledResize = throttle(() => handlerResize(window.innerWidth), 1000);
         window.addEventListener('resize',throttledResize)
@@ -90,6 +90,7 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
         setPage(prev => prev - 1)
     }
 
+
     return (
         <div className="relative">
             <div className="overflow-hidden relative">
@@ -97,7 +98,7 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
                 {animDirection == 'left' ? (
                     (!previousProducts.length ? (
                         <>
-                            <div className={`grid grid-cols-6 gap-2 box-border max-md:grid-cols-3 `} key={`${Date.now()}  sfdsdsq`}>
+                            <div className={`grid grid-cols-6 gap-2 box-border max-sm:grid-cols-3 `} key={`${Date.now()}  sfdsdsq`}>
                                 {currentProducts.map((product, idx) => {
                                     const priceDiscount = product.price - product.price * (product.discount / 100)
                                     const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)

@@ -10,7 +10,16 @@
   --background-shopeeColor:linear-gradient(#ee4d2d,#ff7337);
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none;
+}
 
+input[type="password"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
 
 
 .navbar {
@@ -19,22 +28,21 @@
 
 html{
   width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  min-height:100%;
-  height: auto;
   margin: 0;
   padding: 0;
+ 
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100%; 
 
 }
 
 body {
   overflow-x: hidden;
   overflow-y: auto;
-  min-height:100%;
-
-  height: 100%;
+  margin: 0;
+  padding: 0;
+   min-height: 100%; 
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 
@@ -71,8 +79,29 @@ body {
 0% { transform: translateX(0) }
 to { transform: translateX(100%) }
 }
+@keyframes OpenCart {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes CloseCart {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
 .slideOutRightToLeft{
   animation: sliderOutRightToLeft 1s ease-out forwards;
+  
 } 
 
 .slideInRightToLeft{
@@ -84,7 +113,12 @@ to { transform: translateX(100%) }
 .slideInLeftToRight{
   animation: sliderInLeftToRight 1s ease-out forwards;
 }
-
+.appearCart{
+  animation:OpenCart 0.15s ease-out
+}
+.disappearCart{
+  animation:CloseCart 0.15s ease-out
+}
 
 
 .up {

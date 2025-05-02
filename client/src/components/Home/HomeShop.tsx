@@ -6,8 +6,10 @@ import FlashSale from "./FlashSale";
 const HomeShop = () => {
     
     return (  
-        <div className="h-auto max-md:min-h-500 min-h-screen overflow-y-auto bg-red-400 flex flex-col">
+        <div className="h-auto overflow-y-auto bg-[#f5f5f5]  flex flex-col">
             <AdsShow />
+    
+
             <Category />
             <FlashSale />
             <SuggestProduct />
