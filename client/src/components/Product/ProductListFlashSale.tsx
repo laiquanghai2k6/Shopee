@@ -45,7 +45,6 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
     useEffect(() => {
         setCurrentProducts(product.slice(0, ITEMS_PER_PAGE))
         const handlerResize = (width: number) => {
-            console.log('res')
             setITEMS_PER_PAGE(width < 768 ? 3 : 6)
         };
         const throttledResize = throttle(() => handlerResize(window.innerWidth), 1000);
@@ -72,8 +71,6 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
         const end = start + ITEMS_PER_PAGE;
         setCurrentProducts(product.slice(start, end));
     }, [ITEMS_PER_PAGE, page, product]);
-    console.log(ITEMS_PER_PAGE)
-    console.log(currentProducts)
 
 
     const prevPage = (page: number) => {

@@ -9,12 +9,10 @@ const UserSetting = () => {
                 <p className="text-[20px]">Hồ sơ của tôi</p>
                 <div className="h-[1px] mt-3 w-full border-t-[1px] border-gray-200"></div>
                 <div className="flex flex-row">
-                    <div className="flex flex-col w-[20%] h-fit ">
-                        <p className="mt-5">Tên đăng nhập</p>
-                        <p className="mt-14">Email</p>
+                    <div className="flex flex-col  w-[20%] h-fit ">
+                        <p className="mt-10">Email</p>
                     </div>
                     <div className="flex flex-col w-[40%] h-fit">
-                        <Input defaultValue={'lqhzz'} placeholder="Nhập tên đăng nhập" />
                         <p className="mt-10">yortvrluer@gmail.com</p>
                     </div>
                     <div className="border-[1px] border-gray-300 select-none flex w-[40%] flex-col ml-5 h-70 justify-center items-center">

@@ -1,6 +1,11 @@
 'use client'
+import { requestUser } from "@/service/axiosRequest";
+import { setToken } from "@/slice/accessTokenSlice";
+import { setUser } from "@/slice/userSlice";
+import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 type ModalSettingProp = {
     openSettingModal: boolean,
@@ -10,6 +15,8 @@ type ModalSettingProp = {
 
 const ModalSetting = ({ openSettingModal,closeModalSetting }: ModalSettingProp) => {
     const [shouldRenderModal, setShouldRenderModal] = useState(false)
+    const dispatch = useDispatch()
+    const accessToken = useSelector((state:RootState)=>state.accessToken.accessToken)
     const router = useRouter()
     useEffect(() => {
         if (openSettingModal) {
@@ -27,6 +34,21 @@ const ModalSetting = ({ openSettingModal,closeModalSetting }: ModalSettingProp) 
         closeModalSetting()
         router.push('/history')
     }
+    const LogOut = async()=>{
+    
+        try{
+            console.log('in sign out')
+            const r = await requestUser.get('/sign-out')
+            console.log('sign outed')
+            dispatch(setUser({email:'',image:'',id:''}))
+            dispatch(setToken({accessToken:''}))
+        router.push('/login')
+
+        }catch(e){
+            console.log(e)
+        }
+ 
+    }
     return (
         <>
             {
@@ -42,7 +64,7 @@ const ModalSetting = ({ openSettingModal,closeModalSetting }: ModalSettingProp) 
                                 <p className="group-hover:text-[#00bfa5] max-md:group-active:text-[#00bfa5] text-[15px] text-black">Lịch sử mua</p>
                             </div>
 
-                            <div className="hover:bg-gray-300 p-4 flex max-md:active:bg-gray-300 items-center group">
+                            <div onClick={()=>LogOut()} className="hover:bg-gray-300 p-4 flex max-md:active:bg-gray-300 items-center group">
 
                                 <p className="group-hover:text-[#00bfa5] max-md:group-active:text-[#00bfa5] text-[15px] text-black">Đăng xuất</p>
                             </div>

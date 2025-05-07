@@ -8,7 +8,17 @@ import Global from '../../../public/global.png'
 import Default from '../../../public/default-image.png'
 import { useCallback, useState } from "react";
 import ModalSetting from "../Modal/ModalSetting";
+import { shallowEqual, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
 const TopNav = () => {
+    const router = useRouter()
+    const currentUser = useSelector((state:RootState)=>{
+        return{
+            name:state.user.user.email.split('@')[0],
+            image:state.user.user.image
+        }
+    },shallowEqual)
     const [openSettingModal,setOpenSettingModal] = useState(false)
      const closeModalSetting = useCallback(()=>{
         setOpenSettingModal(false)
@@ -25,10 +35,15 @@ const TopNav = () => {
                 <ItemText text="Thông báo" type="left" icon={Notification} />
                 <ItemText text="Tải ứng dụng" type="left" icon={Question} />
                 <ItemText text="Kết nối" type="left" icon={Global} />
-                <ItemText extraClass="relative" isOpa={false} text="lqhzzz" type="left" icon={Default} isImage={true} onMouseEnter={()=>setOpenSettingModal(true)} onMouseLeave={()=>setOpenSettingModal(false)} >
+                {currentUser.name != '' ? (
+
+                <ItemText extraClass="relative" image={currentUser.image} isOpa={false} text={currentUser.name} type="left" icon={Default} isImage={true} onMouseEnter={()=>setOpenSettingModal(true)} onMouseLeave={()=>setOpenSettingModal(false)} >
                  <ModalSetting openSettingModal={openSettingModal}closeModalSetting={closeModalSetting} />
                     
                 </ItemText>
+                ):(
+                    <ItemText text="Đăng nhập" onClick={()=>{router.push('/login')}} />
+                )}
             </div>
 
         </div>

@@ -7,17 +7,18 @@ interface ItemTextProps extends React.HTMLAttributes<HTMLDivElement> {
     icon?: string | StaticImageData,
     isImage?: boolean,
     extraClass?:string,
-    isOpa?:boolean
+    isOpa?:boolean,
+    image?:string
 }
 
-const ItemText = ({ text, type, icon,extraClass="", isOpa=true,children,isImage,...other }: ItemTextProps) => {
+const ItemText = ({ text, type, icon,extraClass="",image='', isOpa=true,children,isImage,...other }: ItemTextProps) => {
     return (
         <>
             {!isImage ? (
                 <div className={`text-[#fff] text-[clamp(8px,1.5vw,15px)] ${isOpa &&'hover:opacity-70 ' }cursor-pointer font-[500] flex flex-row items-center ${extraClass}`} {...other}>
-                    {type == 'left' && icon && <img className='mr-2 w-5 h-5 object-contain' src={typeof icon === 'string' ? icon : icon.src} />}
+                    {type == 'left' && icon && <img className='mr-2 w-5 h-5 object-contain' src={image == '' ? (typeof icon === 'string' ? icon : icon.src):(image)} />}
                     {text}
-                    {type == 'right' && icon && <img className='ml-2 w-5 h-5 object-contain' src={typeof icon === 'string' ? icon : icon.src} />}
+                    {type == 'right' && icon && <img className='ml-2 w-5 h-5 object-contain' src={image == '' ? (typeof icon === 'string' ? icon : icon.src):(image)} />}
                     {children}
                 </div>
             ) : (
