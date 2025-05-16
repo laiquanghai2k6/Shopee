@@ -7,6 +7,8 @@ import { store } from "@/store/store";
 import NavWrapper from "@/components/NavBar/NavWrapper";
 import ReduxProvider from "@/provider/reduxProvider";
 import AutoLogin from "@/components/Auth/AutoLogin";
+import QueryProvider from "@/provider/queryProvider";
+import LoadingWrapper from "@/components/Spinner/LoadingWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +38,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <AutoLogin />
-          <NavWrapper />
+          <QueryProvider>
+            <LoadingWrapper />
+            <AutoLogin />
+            <NavWrapper />
 
-          {children}
+            {children}
+          </QueryProvider>
         </ReduxProvider>
       </body>
     </html>

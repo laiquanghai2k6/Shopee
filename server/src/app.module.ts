@@ -10,8 +10,26 @@ import { APP_GUARD } from '@nestjs/core';
 import { PublicGuard } from './auth/guard/public.guard';
 import { RefreshTokenMiddlewares } from './auth/middlewares/refreshToken.middlewares';
 import { CloudinaryController } from './cloudinary/cloudinary.controller';
-import { ServiceModule } from './cloudinary/service/service.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { UserCart } from './entities/user_cart.entity';
+import { Products } from './entities/products.entity';
+import { ProductResponse } from './entities/product_response.entity';
+import { Address } from './entities/address.entity';
+import { Detail } from './entities/detail.entity';
+import { Option } from './entities/option.entity';
+import { ProductOptions } from './entities/product_options.entity';
+import { Category } from './entities/category.entity';
+import { CategoryController } from './category/category.controller';
+import { CategoryModule } from './category/category.module';
+import { Vouncher } from './entities/vouncher.entity';
+import { VouncherController } from './vouncher/vouncher.controller';
+import { VouncherModule } from './vouncher/vouncher.module';
+import { History } from './entities/history.entity';
+import { AdminModule } from './admin/admin.module';
+import { AdminController } from './admin/admin.controller';
+import { ProductModule } from './product/product.module';
+import { ProductController } from './product/product.controller';
+import { Banner } from './entities/banner.entity';
 
 @Module({
   imports: [
@@ -35,12 +53,16 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
         }
       }
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User,History,Banner,UserCart,Products,ProductResponse,Address,Detail,Option,ProductOptions,Category,Vouncher]),
     AuthModule,
-    ServiceModule,
-    CloudinaryModule
+    CloudinaryModule,
+    CategoryModule,
+    VouncherModule,
+    AdminModule,
+    ProductModule,
+    
   ],
-  controllers: [AuthController, CloudinaryController],
+  controllers: [AuthController,ProductController, CloudinaryController, CategoryController,VouncherController,AdminController],
   providers:[
     JwtAuthGuard,
     {

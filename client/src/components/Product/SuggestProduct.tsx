@@ -3,6 +3,7 @@ import { fakeProduct } from "../Home/FlashSale";
 import ProductCardOverview from "./ProductCardOverview";
 import DoubleLeft from '../../../public/double-left.png'
 import DoubleRight from '../../../public/double-right.png'
+import { useProducts } from "@/hooks/useProducts";
 
 const SuggestProduct = () => {
     const max = 13;
@@ -13,6 +14,13 @@ const SuggestProduct = () => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
         setChosen(numChosen)
     }
+    const {
+        data,
+        fetchNextPage,
+        isError,
+        isFetchingNextPage
+    } = useProducts()
+    console.log('here data:',data?.pages[0])
     return (
         <div className="h-auto max-h-1500 overflow-y-auto w-full bg-[#f5f5f5] flex items-center flex-col">
             <div className="w-290 max-xs:w-full max-md:w-full h-auto overflow-hidden ">

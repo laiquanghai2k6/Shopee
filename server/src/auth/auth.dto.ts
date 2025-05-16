@@ -1,3 +1,4 @@
+import { UploadedFile } from "@nestjs/common";
 import { IsEmail, IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
 export class AuthSignUpDto{
@@ -36,4 +37,8 @@ export class GetUserDto{
 export class SignInGoogleDto{
     @IsNotEmpty({message:'Lỗi không có email'})
     email:string
+}
+export class UploadImageDto{
+    @IsNotEmpty({message:'Lỗi thiếu folder ảnh'})
+    folder:string
 }

@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthSignInDto, AuthSignUpDto, GetUserDto, SignInGoogleDto } from './auth.dto';
+import { AuthSignInDto, AuthSignUpDto, GetUserDto, SignInGoogleDto, UploadImageDto } from './auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -7,10 +7,12 @@ import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './strategy/jwt-payload.interface';
 import { Response } from 'express';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 @Injectable()
 export class AuthService {
     constructor(@InjectRepository(User)
     private userRepository: Repository<User>,
+    private cloudinaryService:CloudinaryService,
         private jwtService: JwtService
     ) {
 
@@ -33,7 +35,7 @@ export class AuthService {
 
         const salt = await bcrypt.genSalt(8)
         const newPassword = await bcrypt.hash(password, salt)
-        const newUser = this.userRepository.create({ email, password: newPassword })
+        const newUser = await this.userRepository.create({ email, password: newPassword })
 
         try {
             await this.userRepository.save(newUser)
@@ -101,8 +103,9 @@ export class AuthService {
     }
 
     async getUser(getUserDto: GetUserDto) {
+        console.log('getUserD:',getUserDto)
         const { id } = getUserDto
-        
+        console.log('id:',id)
         if(!id){
             throw new BadRequestException(['Chưa tồn tại người dùng'])
         }
@@ -149,5 +152,14 @@ export class AuthService {
         });
         return { message: 'sign out success' }
 
+    }
+    async uploadUserImage(file:Express.Multer.File,uploadImageDto:UploadImageDto){
+        const {folder} = uploadImageDto
+        
+        if(file){
+            const imgUrl = await this.cloudinaryService.uploadImage(file,folder)
+            
+            return imgUrl
+        }else throw new BadRequestException(['Không tồn tại file'])
     }
 }

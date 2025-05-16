@@ -2,7 +2,28 @@
 import Input from "@/components/Input/Input";
 import ItemText from "@/components/NavBar/ItemText";
 import Default from '../../../public/default-image.png'
+import React, { useState } from "react";
+import { requestUser } from "@/service/axiosRequest";
+import { AxiosError } from "axios";
 const UserSetting = () => {
+    const [currentFile,setCurrentFIle] = useState<File | undefined>(undefined)
+    const ChangeImage = async(event:React.ChangeEvent<HTMLInputElement>)=>{
+        try{
+        console.log(event.target?.files?.[0] as File)
+        const data = new FormData()
+        data.append('file',event.target?.files?.[0] as File)
+        data.append('folder','user-image')
+
+        const response = await requestUser.post('/upload-user-image',data)
+        if (response.status === 413) {
+            // @ts-ignore
+            console.log((response).response.data.message[0])
+        }
+        setCurrentFIle(currentFile)
+        }catch(e:any){
+            console.log(e)
+        }
+    }
     return (
         <div className="min-h-screen bg-[#f5f5f5] w-full flex justify-center">
             <div className="w-200 p-5 bg-white flex flex-col h-fit rounded-sm mt-5">
@@ -22,7 +43,7 @@ const UserSetting = () => {
                         <div onClick={()=>document.getElementById('user-image')?.click()} className="w-25 h-10 mt-3 hover:bg-gray-200 select-none border-[1px] border-gray-300 text-gray-500 cursor-pointer flex justify-center items-center">
                             <p>Chọn ảnh</p>
                         </div>
-                        <input id="user-image" type="file" className="hidden" />
+                        <input value={currentFile ? currentFile.name : ''} id="user-image" type="file" className="hidden" onChange={(e)=>ChangeImage(e)} />
                         <p className="w-[80%] h-fit mt-3 text-gray-500">Dụng lượng file tối đa 1 MB.
                         Định dạng:.JPEG, .PNG</p>
                     </div>

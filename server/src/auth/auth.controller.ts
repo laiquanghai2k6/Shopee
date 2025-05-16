@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthSignInDto, AuthSignUpDto, GetUserDto, SignInGoogleDto } from './auth.dto';
+import { AuthSignInDto, AuthSignUpDto, GetUserDto, SignInGoogleDto, UploadImageDto } from './auth.dto';
 import { GetGoogleUser, GetUser, Public } from './auth.decorator';
 import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -8,6 +8,8 @@ import { JwtAuthGuard } from './guard/jwt.guard';
 import { Response } from 'express';
 import { RefreshStrategy } from './strategy/refresh.strategy';
 import { GoogleGuard } from './guard/google.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {  FileLargeFilter } from './filter/FileLarge.filter';
 
 @Controller('auth')
 export class AuthController {
@@ -62,6 +64,22 @@ export class AuthController {
     @Get('/sign-out-auto')
     SignOutAuto(@Res({passthrough:true}) res:Response){
         return this.authService.signOutAuto(res)
+    }
+    @UseGuards(JwtAuthGuard)
+    @Post('/upload-user-image')
+    @UseInterceptors(FileInterceptor('file',{
+        limits:{fileSize:1024*1024},
+        fileFilter:(req,file,cb)=>{
+            if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
+                return cb(new Error('Only image files allowed'), false);
+              }
+              cb(null,true)
+        }
+    }
+    ))
+    @UseFilters(FileLargeFilter)
+    UploadUserImage(@UploadedFile()file:Express.Multer.File,@Body() uploadImageDto:UploadImageDto){
+        return this.authService.uploadUserImage(file,uploadImageDto)
     }
 
 

@@ -112,6 +112,8 @@ const Login = () => {
             console.log(e)
         }
     }
+    const banner = useSelector((state:RootState)=>state.banner.banner)
+
     return (
         <div className="min-h-screen flex flex-col">
             {loading && <SpinnerShopee />}
@@ -129,8 +131,8 @@ const Login = () => {
                 </div>
                
             </div>
-            <div className={`grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end `}  style={{
-                backgroundImage: `url('/shopee-banner.jpg')`
+            <div className={`aspect-[19/6] grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end `}  style={{
+                backgroundImage: `url(${banner.bgLogin})`
              }}>
                 {routeState == Route.LOGIN ? (
 

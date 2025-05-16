@@ -32,12 +32,12 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         const { id } = payload
         
       
-        const userExist = await this.userRepository.count({ where: { id } })
+        const userExist = await this.userRepository.findOne({ where: { id } })
         
         if (!userExist) {
             throw new UnauthorizedException('Không tồn tại người dùng')
         }
         
-        return id
+        return {id:id,role:userExist.role}
     }
 }

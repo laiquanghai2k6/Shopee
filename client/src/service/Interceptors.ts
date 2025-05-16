@@ -25,7 +25,7 @@ export const interceptorAxios = (instance:AxiosInstance)=>{
             if(originalRequest.url == '/sign-in' ||originalRequest.url == '/sign-up'){
                 return Promise.reject(error)
             }
-            if (error.response&&!originalRequest._retry&& !originalRequest.url?.includes('/refreshToken')) {
+            if (error.response&&error.response.status === 401&&!originalRequest._retry&& !originalRequest.url?.includes('/refreshToken')) {
             originalRequest._retry = true;
                 
                 try {

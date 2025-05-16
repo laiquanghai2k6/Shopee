@@ -11,11 +11,15 @@ import { RefreshStrategy } from './strategy/refresh.strategy';
 import googleOauthConfig from './config/google-oauth.config';
 import { JwtAuthGuard } from './guard/jwt.guard';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   providers: [AuthService,JwtStrategy,RefreshStrategy,JwtAuthGuard,GoogleStrategy],
   controllers:[AuthController],
-  imports: [TypeOrmModule.forFeature([User]),
+  imports:
+  
+   [TypeOrmModule.forFeature([User]),
+   CloudinaryModule,
   ConfigModule.forFeature(googleOauthConfig),
   PassportModule.register({defaultStrategy:'jwt'}),
   JwtModule.registerAsync({

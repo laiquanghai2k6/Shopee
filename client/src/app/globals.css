@@ -110,9 +110,28 @@ to { transform: translateX(100%) }
     transform:translateY(0%)
   }
 }
+@keyframes loading-down{
+  0%{
+    transform:translateY(-100%)
+  }
+
+  100%{
+    transform: translateY(0%);
+  }
+}
+@keyframes loading-up{
+  0%{
+    transform:translateY(0%)
+  }
+  20%{
+    transform:translateY(30%);
+  }
+  100%{
+    transform: translateY(-100%);
+  }
+}
 .slideOutRightToLeft{
   animation: sliderOutRightToLeft 1s ease-out forwards;
-  
 } 
 
 .slideInRightToLeft{
@@ -134,8 +153,6 @@ to { transform: translateX(100%) }
 .bounce{
   animation:Bounce 0.5s ease infinite
 }
-
-
 .up {
   animation: move-up 1s ease-out;
 }
@@ -143,3 +160,29 @@ to { transform: translateX(100%) }
   animation: move-down 1s ease-out;
 }
 
+.loadingDown{
+  animation: loading-down 0.2s ease-out;
+}
+.loadingUp{
+  animation:loading-up 0.4s ease-in;
+}
+.placeholder {
+    width: 200px;
+    aspect-ratio: 16/9;
+    background-color: #f0f0f0;
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+   .push-left {
+    transform: translateX(-20px);
+  }
+  .push-right {
+    transform: translateX(20px);
+  }
+  .push-up {
+    transform: translateY(-0);
+  }
+  .push-down {
+    transform: translateY(0);
+  }

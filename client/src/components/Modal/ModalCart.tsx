@@ -31,7 +31,6 @@ const ModalCart = ({ productCart, openCartModal, closeModalCart }: ModalCartProp
         closeModalCart()
         router.push(`/cart`)
     }
-    console.log('im closing')
     return (
         <>
        {shouldRenderCart && (<div className={`${openCartModal == false ? 'disappearCart' : ' appearCart'} absolute shadow-[0px_0px_7px_rgba(0,0,0,0.2)] w-100 min-h-30 bg-white rounded-sm transition-all right-0 max-md:right-[-50%] top-[90%] origin-top-right transform translate-x-[-16px] translate-y-[8px] z-1000  `}>

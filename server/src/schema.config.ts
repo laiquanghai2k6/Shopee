@@ -9,5 +9,7 @@ export const configValidationSchema = Joi.object({
     GOOGLE_SECRET:Joi.string().required(),
     GOOGLE_CALLBACK_URL:Joi.string().required(),
     CLIENT_URL:Joi.string().required(),
-
+    CLOUDINARY_SECRET:Joi.string().required(),
+    CLOUDINARY_KEY:Joi.string().required(),
+    CLOUDINARY_NAME:Joi.string().required(),
 })

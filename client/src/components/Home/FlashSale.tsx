@@ -81,7 +81,7 @@ export const fakeProduct:ProductOverview[] = [
     }
 ]
 const FlashSale = () => {
-    let futureTime = 1745214800927
+    let futureTime = 1747198116642
 
 
     const [time, setTime] = useState({
@@ -97,8 +97,7 @@ const FlashSale = () => {
     useEffect(() => {
         const calTime = setInterval(() => {
             const current = futureTime - Date.now()
-
-            let hour: string = (Math.floor(current / (1000 * 3600)) % 24).toString()
+            let hour: string = (Math.floor(current / (1000 * 3600))).toString()
             let minute: string = (Math.floor(current / (1000 * 60)) % 60).toString()
             let second: string = (Math.floor(current / 1000) % 60).toString()
             if (minute.length < 2) {

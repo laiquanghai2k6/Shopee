@@ -4,19 +4,21 @@ import test from '../../../public/test2.png'
 import test2 from '../../../public/imgtest.jpg'
 import Wallet from '../../../public/wallet.png'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
 const images = [
   test,
   test2
 ]
 const AdsShow = () => {
   const [indexAds, setIndexAds] = useState(1)
-
+  const banner = useSelector((state:RootState)=>state.banner.banner)
   return (
 
     <div className="overflow-hidden bg-white h-95 max-md:h-auto text-white select-none flex flex-col items-center  ">
       <div className="w-290 max-h-60 flex flex-row gap-2 mt-7 max-md:mt-5 max-md:mx-2  max-md:flex-col max-md:w-[100%] max-md:max-h-280 max-md:h-130   ">
 
-        <div className="h-full max-md:mx-2 max-md:h-20 h-1 max-md:grow-6 max-md:h-10 flex relative grow-12 basis-0         hover:scale-102
+        <div className="h-full max-md:mx-2 max-md:h-20 h-1 max-md:grow-6 max-md:h-10 flex relative grow-12 basis-0 hover:scale-102
           transition-transform
           duration-300 "  >
           <div className="flex scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto
@@ -25,15 +27,15 @@ const AdsShow = () => {
         [-ms-overflow-style:none] select-none
         [scrollbar-width:none] "
           >
-            {images.map((image, i) => {
+            {banner.bgNavigate.map((image, i) => {
 
               return (
 
-                <img key={`img-nav-${i}`} src={typeof image == 'string' ? image : image.src} className="cursor-pointer flex-[1_0_100%] object-cover scroll-snap-start h-full w-full" id={`slide-${i + 1}`} />
+                (image != '' && <img key={`img-nav-${i}`} src={image} className="cursor-pointer flex-[1_0_100%] object-cover scroll-snap-start h-full w-full" id={`slide-${i + 1}`} />)
               )
             })}
             <div className="absolute bottom-0 flex gap-3 z-10 mb-5 left-[50%]">
-              {Array.from({ length: images.length }, (_, i) => {
+              {Array.from({ length: banner.bgNavigate.length }, (_, i) => {
 
                 if (indexAds == i + 1) {
                   return (
@@ -63,12 +65,12 @@ const AdsShow = () => {
 
         </div>
         <div className="flex flex-col max-md:mx-2  grow-6 basis-0 gap-[4%] max-h-60 ">
-          <img src={typeof test == 'string' ? test : test.src} className="h-[48%] hover:scale-102
+          {banner.bg1 != '' &&<img src={banner.bg1} className="h-[48%] aspect-[16/9] hover:scale-102
           transition-transform
-          duration-300 w-full object-cover cursor-pointer " />
-          <img src={typeof test == 'string' ? test : test.src} className="h-[48%] hover:scale-102
+          duration-300 w-full object-cover cursor-pointer " />}
+          {banner.bg2 != '' &&<img src={banner.bg2} className="h-[48%] aspect-[16/9] hover:scale-102
           transition-transform
-          duration-300 w-full object-cover cursor-pointer " />
+          duration-300 w-full object-cover cursor-pointer " />}
 
         </div>
       </div>

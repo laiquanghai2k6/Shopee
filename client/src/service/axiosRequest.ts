@@ -5,5 +5,25 @@ export const requestUser = axios.create({
     baseURL:process.env.NEXT_PUBLIC_USER_URL,
     withCredentials:true
 })
+export const requestCategory = axios.create({
+    baseURL:process.env.NEXT_PUBLIC_CATEGORY_URL,
+    withCredentials:true
+})
+export const requestVouncher = axios.create({
+    baseURL:process.env.NEXT_PUBLIC_VOUNCHER_URL,
+    withCredentials:true
+})
+export const requestAdmin = axios.create({
+    baseURL:process.env.NEXT_PUBLIC_ADMIN_URL,
+    withCredentials:true
+})
+export const requestProduct = axios.create({
+    baseURL:process.env.NEXT_PUBLIC_PRODUCT_URL,
+    withCredentials:true
+})
 
 interceptorAxios(requestUser)
+interceptorAxios(requestCategory)
+interceptorAxios(requestVouncher)
+interceptorAxios(requestAdmin)
+

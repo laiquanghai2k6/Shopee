@@ -12,18 +12,19 @@ export class JwtStrategy extends PassportStrategy(Strategy,'jwt'){
         private userRepository:Repository<User>
     ){
         super({
+            
             secretOrKey:process.env.JWT_SECRET,
             jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken()
         })
     }
     async validate(payload:JwtPayload){
-        console.log('payload:',payload)
         const {id} = payload
-        console.log('in valuid',id)
-        const userExist = await this.userRepository.count({where:{id}})
+         console.log('in acpt1')
+        const userExist = await this.userRepository.findOne({where:{id}})
         if(!userExist){
             throw new UnauthorizedException(['Không tồn tại người dùng'])
         }
-        return id
+        console.log('in acpt2')
+        return {id:id,role:userExist.role}
     }
 }

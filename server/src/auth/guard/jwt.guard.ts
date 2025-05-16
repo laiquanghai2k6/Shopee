@@ -6,7 +6,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
  
   
   handleRequest(err: any, user: any, info: any, context: ExecutionContext) {
-
+    
     if (info?.message === 'No auth token' ||info?.message === 'jwt expired') {
       throw new HttpException(
         {
@@ -17,7 +17,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     );
     }
 
-
+    console.log('hẻe')
     return user;
   }
 }

@@ -3,6 +3,7 @@
 import ButtonOrange from "@/components/Button/ButtonOrange"
 import { Color, Sizes } from "../[slug]/page"
 import { ConvertToVND } from "../cart/page"
+import ButtonLightRed from "@/components/Button/ButtonLightRed"
 
 export enum StateProduct {
     RECEIVED = 'Đã nhận ✅',
@@ -174,7 +175,12 @@ const History = () => {
                                 </div>
                             </div>
                             <div className="flex flex-row p-3 max-md:p-0 max-md:mt-1 justify-end w-full">
-                                <ButtonOrange text="Mua lại" extraClass="p-3 w-50" />
+                                {history.state == StateProduct.RECEIVED ? (
+
+                                    <ButtonOrange text="Mua lại" extraClass="p-3 w-50" />
+                                ) :(
+                                    <ButtonLightRed  text="Xác nhận đã nhận" extraClass="p-3 w-50" />
+                                )}
                             </div>
                         </div>
                     )

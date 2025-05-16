@@ -8,7 +8,8 @@ import { usePathname } from "next/navigation";
 
 const NavWrapper=()=>{
     const pathName = usePathname()
-    if(pathName == '/login') return null
+    
+    if(pathName == '/login' || pathName == '/admin') return null
     return <NavBar />
 }
 

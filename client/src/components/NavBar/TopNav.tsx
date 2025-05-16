@@ -8,11 +8,13 @@ import Global from '../../../public/global.png'
 import Default from '../../../public/default-image.png'
 import { useCallback, useState } from "react";
 import ModalSetting from "../Modal/ModalSetting";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
+import { LoadingType, setLoading } from "@/slice/loadingSlice";
 const TopNav = () => {
     const router = useRouter()
+    const dispatch =useDispatch()
     const currentUser = useSelector((state:RootState)=>{
         return{
             name:state.user.user.email.split('@')[0],
@@ -29,7 +31,7 @@ const TopNav = () => {
             <div className="flex flex-row space-x-4 max-lg:hidden ">
                 <ItemText text="Kênh bán hàng" />
                 <ItemText text="Tải ứng dụng" />
-                <ItemText text="Kết nối" type="right" icon={FacebookIcon} />
+                <ItemText text="Kết nối" type="right" icon={FacebookIcon}  />
             </div>
             <div className="flex flex-row space-x-6 justify-center max-md:space-x-4 max-lg:justify-between max-lg:w-full ">
                 <ItemText text="Thông báo" type="left" icon={Notification} />
