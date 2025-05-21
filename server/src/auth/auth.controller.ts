@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Req, Res, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, Res, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthSignInDto, AuthSignUpDto, GetUserDto, SignInGoogleDto, UploadImageDto } from './auth.dto';
+import { AuthSignInDto, AuthSignUpDto, GetMyVouncherDto, GetUserDto, SaveVouncherDto, SignInGoogleDto, UpdateVouncherDto, UploadImageDto } from './auth.dto';
 import { GetGoogleUser, GetUser, Public } from './auth.decorator';
 import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -81,7 +81,22 @@ export class AuthController {
     UploadUserImage(@UploadedFile()file:Express.Multer.File,@Body() uploadImageDto:UploadImageDto){
         return this.authService.uploadUserImage(file,uploadImageDto)
     }
+    @UseGuards(JwtAuthGuard)
+    @Post('/save-vouncher')
+    SaveVouncher(@Body() saveVouncherDto:SaveVouncherDto){
+        return this.authService.addVouncher(saveVouncherDto)
+    }
+    @UseGuards(JwtAuthGuard)
+    @Post('/update-vouncher')
+    DeleteVouncher(@Body() updateVouncherDto:UpdateVouncherDto){
+        return this.authService.deleteVouncher(updateVouncherDto)
+    }
+    @UseGuards(JwtAuthGuard)
+    @Get('/my-vouncher')
+    GetMyVouncher(@Query('id') id:string){
+        return this.authService.getMyVouncher(id)
 
+    }
 
 
 }

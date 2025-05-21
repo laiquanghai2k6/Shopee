@@ -32,7 +32,6 @@ const SettingProduct = ({ topContent }: SettingProductProps) => {
         id:''
     })
     const Categories = useSelector((state: RootState) => state.categories.category)
-    console.log('Categories',Categories)
     const CloseModal = useCallback(() => {
         setModal((prev) => ({ ...prev, active: false }))
     }, [])
@@ -45,7 +44,7 @@ const SettingProduct = ({ topContent }: SettingProductProps) => {
         isError,
         isFetchingNextPage
     } = useProducts()
-    console.log('here data:', data?.pages[0])
+    
 
     return (
         <>

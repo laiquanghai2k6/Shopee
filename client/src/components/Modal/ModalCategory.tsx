@@ -48,10 +48,13 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                     name: nameRef.current?.value,
                     image: file == undefined ? categories[currentIndex].image :newImage
                 }
-                console.log('changeData:',data)
 
                 const res = await requestAdmin.patch(`/update-category/${categories[currentIndex].id}`, data)
-                console.log('resChange',res)
+                if(res.status == 403){
+                    setIsLoading(false)
+                return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 dispatch(changeCategory(res.data as Category))
                 dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Tạo thể loại thành công!' }))
                 setIsLoading(false)
@@ -77,8 +80,13 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                 }
                 console.log(file)
 
-                console.log('createData:',data)
                 const res = await requestAdmin.post(`/create-category`,data)
+                 if(res.status == 403){
+                    setIsLoading(false)
+
+                return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 dispatch(addCategory(res.data as Category))
                 dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Thay đổi thể loại thành công!' }))
                 setIsLoading(false)

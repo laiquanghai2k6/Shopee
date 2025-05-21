@@ -45,7 +45,12 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
         switch (type) {
             case 'bgLogin':
 
-                await requestAdmin.patch(`/update-banner`, { ...banner.banner, bgLogin: value })
+                const res1 = await requestAdmin.patch(`/update-banner`, { ...banner.banner, bgLogin: value })
+                if (res1.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 dispatch(setBanner({ ...banner.banner, bgLogin: value }))
 
                 break;
@@ -54,9 +59,13 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                 try {
                     setIsLoading(true)
 
-                    const res = await requestAdmin.patch(`/update-banner`, { ...banner.banner, bgNavigate: bannerNav })
-                    console.log({ ...banner.banner, bgNavigate: bannerNav })
-                    console.log(res)
+                    const res2 = await requestAdmin.patch(`/update-banner`, { ...banner.banner, bgNavigate: bannerNav })
+                    if (res2.status == 403) {
+                        setIsLoading(false)
+                        return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                    }
+
                     dispatch(setBanner({ ...banner.banner, bgNavigate: bannerNav ?? [] }))
                     setIsLoading(false)
                     dispatch(setLoading({ active: true, text: 'Tải ảnh lên thành công', type: LoadingType.SUCCESS }))
@@ -69,15 +78,23 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                 break;
 
             case 'bg1':
-                await requestAdmin.patch(`/update-banner`, { ...banner.banner, bg1: value })
+                const res3 = await requestAdmin.patch(`/update-banner`, { ...banner.banner, bg1: value })
+                if (res3.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
+                }
                 dispatch(setBanner({ ...banner.banner, bg1: value }))
 
                 break;
 
             case 'bg2':
-                await requestAdmin.patch(`/update-banner`, { ...banner.banner, bg2: value })
+                const res4 = await requestAdmin.patch(`/update-banner`, { ...banner.banner, bg2: value })
+                if (res4.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
+                }
                 dispatch(setBanner({ ...banner.banner, bg2: value }))
 
 

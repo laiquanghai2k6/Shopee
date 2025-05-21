@@ -41,7 +41,6 @@ const Login = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
     useEffect(()=>{
-        console.log(currentUser)
         if(currentUser !=''){
             router.push('/')
         }
@@ -76,7 +75,6 @@ const Login = () => {
             setLoading(false)
             setError('')
         }catch(e:any){
-            console.log('inlgoin',e)
             setError(e.response.data.message[0])
             setLoading(false)
 
@@ -131,7 +129,7 @@ const Login = () => {
                 </div>
                
             </div>
-            <div className={`aspect-[19/6] grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end `}  style={{
+            <div className={`aspect-[16/9] grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end `}  style={{
                 backgroundImage: `url(${banner.bgLogin})`
              }}>
                 {routeState == Route.LOGIN ? (

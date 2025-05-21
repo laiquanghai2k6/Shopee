@@ -1,3 +1,4 @@
+import { VnpayController } from './vnpay/vnpay.controller';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,7 +15,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { UserCart } from './entities/user_cart.entity';
 import { Products } from './entities/products.entity';
 import { ProductResponse } from './entities/product_response.entity';
-import { Address } from './entities/address.entity';
 import { Detail } from './entities/detail.entity';
 import { Option } from './entities/option.entity';
 import { ProductOptions } from './entities/product_options.entity';
@@ -30,6 +30,11 @@ import { AdminController } from './admin/admin.controller';
 import { ProductModule } from './product/product.module';
 import { ProductController } from './product/product.controller';
 import { Banner } from './entities/banner.entity';
+import { HistoryCart } from './entities/history_cart.entity';
+import { UserVouncher } from './entities/user_vouncher';
+import { VnpayModule } from './vnpay/vnpay.module';
+import { HistoryCartModule } from './history_cart/history_cart.module';
+import { HistoryCartController } from './history_cart/history_cart.controller';
 
 @Module({
   imports: [
@@ -53,16 +58,19 @@ import { Banner } from './entities/banner.entity';
         }
       }
     }),
-    TypeOrmModule.forFeature([User,History,Banner,UserCart,Products,ProductResponse,Address,Detail,Option,ProductOptions,Category,Vouncher]),
+    TypeOrmModule.forFeature([User,UserVouncher,History,HistoryCart,Banner,UserCart,Products,ProductResponse,Detail,Option,ProductOptions,Category,Vouncher]),
     AuthModule,
     CloudinaryModule,
     CategoryModule,
     VouncherModule,
     AdminModule,
     ProductModule,
+    VnpayModule,
+    HistoryCartModule,
+
     
   ],
-  controllers: [AuthController,ProductController, CloudinaryController, CategoryController,VouncherController,AdminController],
+  controllers: [AuthController,VnpayController,ProductController,HistoryCartController, CloudinaryController, CategoryController,VouncherController,AdminController],
   providers:[
     JwtAuthGuard,
     {

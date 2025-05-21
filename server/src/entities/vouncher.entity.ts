@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
+import { UserVouncher } from "./user_vouncher";
 
 
 
@@ -11,6 +12,8 @@ export class Vouncher{
     discount:string
     @Column()
     expire:Date
+    @OneToMany(()=>UserVouncher,(userVouncher)=>userVouncher.vouncher,{cascade:true})
+    userVouncher:UserVouncher[]
     @Column({ nullable: false, default: '' })
     maxDiscount:string
  

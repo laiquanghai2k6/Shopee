@@ -1,15 +1,15 @@
 import { store } from "@/store/store";
 import { GetNewAccessToken } from "./GetNewAccessToken";
-import { setToken } from "@/slice/accessTokenSlice";
+import { resetToken, setToken } from "@/slice/accessTokenSlice";
 import axios, { AxiosInstance } from "axios";
-import { useRouter } from "next/router";
-import { setUser } from "@/slice/userSlice";
+import { resetUser, setUser } from "@/slice/userSlice";
 import { requestUser } from "./axiosRequest";
+import { resetMyVouncher } from "@/slice/myVouncherSlice";
+import { resetUserCart } from "@/slice/userCartSlice";
 
 export const interceptorAxios = (instance:AxiosInstance)=>{
     instance.interceptors.request.use((config)=>{
         const accessToken = store.getState().accessToken.accessToken
-        console.log('ac:',accessToken)
         config.headers['Authorization'] = `Bearer ${accessToken}`
         return config
     },(error)=>{
@@ -39,8 +39,10 @@ export const interceptorAxios = (instance:AxiosInstance)=>{
                     }
                 } catch (error){
                    await instance.get('/sign-out-auto')
-                    store.dispatch(setUser({ email: '', image: '', id: '' }))
-                    store.dispatch(setToken({ accessToken: '' }))
+                    store.dispatch(resetUser())
+                    store.dispatch(resetMyVouncher())
+                    store.dispatch(resetToken())
+                    store.dispatch(resetUserCart())
                     return error
                 }
             }

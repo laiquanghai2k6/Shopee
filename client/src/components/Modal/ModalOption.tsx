@@ -92,7 +92,6 @@ const ModalOption = ({ CloseModal, index, indexDetail, indexOption, setAddProduc
         CloseModal()
     }
     const renderer = () => {
-        console.log('type:', type)
         switch (type) {
             case 'product-option':
                 return (

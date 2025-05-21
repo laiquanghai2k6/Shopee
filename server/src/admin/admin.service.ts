@@ -30,7 +30,7 @@ export class AdminService {
         try {
 
             const newProduct = await this.productRepository.create(productDto)
-            const savedProduct = await this.productRepository.save(newProduct); // Lưu vào DB
+            const savedProduct = await this.productRepository.save(newProduct); 
             return savedProduct;
         } catch (e) {
             console.log(e)

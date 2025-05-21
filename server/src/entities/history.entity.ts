@@ -1,19 +1,17 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserCart } from "./user_cart.entity";
+import { User } from "./user.entity";
+import { HistoryCart } from "./history_cart.entity";
 
-export enum StateHistory{
-    RECEIVED = 'Đã nhận ✅',
-    DELIVERING = 'Đang giao hàng 🚚',
-    CONFIRMING = 'Đang xác nhận hàng 👨‍💻'
 
-}
 
 @Entity('history')
 export class History{
     @PrimaryGeneratedColumn('uuid')
     id:string
-    @OneToOne(()=>UserCart)
-    userCart:UserCart
-    @Column()
-    state:StateHistory
+    @OneToOne(()=>User,user=>user.history,)
+    user:User
+    @OneToMany(()=>HistoryCart,(cart)=>cart.history)
+    historyCart:HistoryCart[]
+    
 }

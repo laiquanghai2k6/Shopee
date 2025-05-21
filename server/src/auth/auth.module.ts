@@ -12,13 +12,16 @@ import googleOauthConfig from './config/google-oauth.config';
 import { JwtAuthGuard } from './guard/jwt.guard';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { Vouncher } from 'src/entities/vouncher.entity';
+import { UserVouncher } from 'src/entities/user_vouncher';
+import { History } from 'src/entities/history.entity';
 
 @Module({
   providers: [AuthService,JwtStrategy,RefreshStrategy,JwtAuthGuard,GoogleStrategy],
   controllers:[AuthController],
   imports:
   
-   [TypeOrmModule.forFeature([User]),
+   [TypeOrmModule.forFeature([User,Vouncher,UserVouncher,History]),
    CloudinaryModule,
   ConfigModule.forFeature(googleOauthConfig),
   PassportModule.register({defaultStrategy:'jwt'}),

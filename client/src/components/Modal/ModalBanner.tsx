@@ -189,7 +189,6 @@ const ModalBanner = ({ closeBanner,setIsLoading, bgNavigate, SaveBanner }: Modal
         gallery.addEventListener("drop", dragDrop);
         gallery.addEventListener("dragend", dragEnd);
 
-        console.log('galerry:', gallery)
         return () => {
             gallery?.removeEventListener("dragstart", dragStart);
             gallery?.removeEventListener("dragover", dragOver);
@@ -202,7 +201,6 @@ const ModalBanner = ({ closeBanner,setIsLoading, bgNavigate, SaveBanner }: Modal
         if (gallery) {
 
             const childrend = [...gallery.children].filter((el) => el.tagName == 'IMG').map((el) => (el as HTMLImageElement).src)
-            console.log('gallery', childrend)
         }
     }
     return (

@@ -4,6 +4,11 @@ import CommentProduct from '@/components/Buying/CommentProduct';
 import DescriptionProduct from '@/components/Buying/DescriptionProduct';
 import DetailProduct from '@/components/Buying/DetailProduct';
 import ProductBuyingClient from '@/components/Buying/ProductBuyingClient'
+import { InfoProduct } from '@/components/Modal/ModalProduct';
+import ProductClient from '@/components/Product/ProductClient';
+import { requestProduct } from '@/service/axiosRequest';
+import { useQuery } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 type ProductBuyingProps = {
     params: {
@@ -11,79 +16,72 @@ type ProductBuyingProps = {
     };
 };
 export type Comment = {
-    star:number,user:string,text:string
+    star: number, user: string, text: string
 }
 export type Color = {
-    image?:string,
-    text:string,
-    key?:number
+    image?: string,
+    text: string,
+    key?: number
 }
 export type Sizes = {
-    size:string,
-    key?:number
+    size: string,
+    key?: number
 }
 export type ProductDetail = {
-    image:string,
-    starsAvg:number,
-    comment:Comment[],
-    sold:number,price:number,
-    discount:number,
-    sizes:Sizes[],
-    colors:Color[]
+    image: string,
+    starsAvg: number,
+    comment: Comment[],
+    sold: number, price: number,
+    discount: number,
+    sizes: Sizes[],
+    colors: Color[]
 }
 
-const fakeProductDetail:ProductDetail = {
-    image:'https://i.ibb.co/27FXrK58/test3.png',
-    starsAvg: 4.9,
-    comment: [
-        { star: 3, user: 'lqh', text: 'affsdf' },
-        { star: 4.6, user: 'lqhw', text: 'wa' }
 
-    ],
-    sold: 38,
-    price: 2000000,
-    discount: 20,
-    sizes:[
-        {size:'Size S < 46Kg'},
-        {size:'Size M < 53kg'}
-    ],
-    colors:[
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'},
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'},
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'},
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'}, {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'},
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-        {image:'',text:'Xám - Tay ngắn'},
-        {image:'https://i.ibb.co/WNvHzvxX/image.png',text:'Trắng - Tay dài'},
-        {image:'https://i.ibb.co/Gv1vJYQ7/image.png',text:'Đen - Tay ngắn'},
-    ]
+export async function generateMetadata({ params }: ProductBuyingProps): Promise<Metadata> {
+    const { slug } = params;
+    const id = slug.split("-").slice(-5).join('-');
+
+    if (!id) {
+        return {
+            title: "Sản phẩm không hợp lệ | Shopee Clone",
+            description: "Sản phẩm không tồn tại hoặc ID không đúng định dạng.",
+        };
+    }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_URL}/get-one-product/${id}`, { cache: 'no-store', })
+    const product = await res.json();
+    return {
+        title: `${product.title ?? 'Shopee Clone'} `,
+
+    };
 }
+const fetchProductById = async (id: string): Promise<InfoProduct> => {
 
-const ProductBuying = async ({ params }: ProductBuyingProps) => {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_URL}/get-one-product/${id}`, {
+        next: { revalidate: 60 },
+    });
+    const data = await res.json();
+    return data as InfoProduct;
+}
+const PageSlug = async ({ params }: ProductBuyingProps) => {
     const { slug } = await params;
-  
-    return (
-        <div className="flex min-h-screen justify-center  w-full  h-auto bg-[#f5f5f5] overflow-y-auto max-xl:w-[100%]">
-            <div className="w-290 max-xl:w-[100%] h-auto bg-[#f5f5f5] flex flex-col mt-10 select-none pb-10">
-               <ProductBuyingClient fakeProductDetail={fakeProductDetail} />
-               <DetailProduct />
-               <DescriptionProduct />
-               <CommentProduct />
-            </div>
-         
-        </div>
-    );
+    const parts = slug.split('-');
+    if (parts.length < 5) return <p>Không tìm thấy sản phẩm</p>;
+    const uuidParts = parts.slice(-5);
+    const uuid = uuidParts.join('-');
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(uuid)) return <p>Không tìm thấy sản phẩm</p>;;
+
+    try {
+        const product = await fetchProductById(uuid ?? '');
+        return <ProductClient data={product}/>
+    } catch (e) {
+        console.log(e)
+        return <p>Không tìm thấy sản phẩm</p>;
+    }
 }
 
-export default ProductBuying;
+
+
+
+export default PageSlug

@@ -14,9 +14,9 @@ type ModalVouncherProps = {
     CloseModal: Function,
     vouncher: Vouncher,
     type: string,
-    setIsLoading:Function
+    setIsLoading: Function
 }
-const ModalVouncher = ({ CloseModal, vouncher,setIsLoading, type }: ModalVouncherProps) => {
+const ModalVouncher = ({ CloseModal, vouncher, setIsLoading, type }: ModalVouncherProps) => {
     const time = type == 'change' ? vouncher.expire : Date.now();
     const formatDate = new Date(time)
     const day = String(formatDate.getDate()).padStart(2, '0')
@@ -52,41 +52,51 @@ const ModalVouncher = ({ CloseModal, vouncher,setIsLoading, type }: ModalVounche
                 maxDiscount: maxDiscountNum,
                 expire: timeDate
             }
-            try{
+            try {
                 setIsLoading(true)
-                await requestAdmin.patch('/update-vouncher',newVouncher)
+                const res = await requestAdmin.patch('/update-vouncher', newVouncher)
+                if (res.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 dispatch(changeVouncher(newVouncher))
                 setIsLoading(false)
-                dispatch(setLoading({active:true,type:LoadingType.SUCCESS,text:'Điều chỉnh vouncher thành công!'}))
-            }catch(e){
+                dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Điều chỉnh vouncher thành công!' }))
+            } catch (e) {
                 console.log(e)
                 setIsLoading(false)
-                dispatch(setLoading({active:true,type:LoadingType.ERROR,text:'Điều chỉnh vouncher thất bại!'}))
+                dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Điều chỉnh vouncher thất bại!' }))
 
             }
-        }else{
-             const newVouncher: Vouncher = {
-                
+        } else {
+            const newVouncher: Vouncher = {
+
                 discount: discountInput,
                 maxDiscount: maxDiscountNum,
                 expire: timeDate
             }
-            try{
+            try {
                 setIsLoading(true)
-               
-                const res = await requestAdmin.post('/create-vouncher',newVouncher)
-               console.log(res)
-               dispatch(addVouncher(res.data as Vouncher))
-                if(res.status == 400){
-                dispatch(setLoading({active:true,type:LoadingType.ERROR,text:'Tạo vouncher thất bại!'}))
 
-                }else
-                dispatch(setLoading({active:true,type:LoadingType.SUCCESS,text:'Tạo vouncher thành công!'}))
+                const res = await requestAdmin.post('/create-vouncher', newVouncher)
+                console.log(res)
+                dispatch(addVouncher(res.data as Vouncher))
+                if (res.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
+                if (res.status == 400) {
+                    dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Tạo vouncher thất bại!' }))
+
+                } else
+                    dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Tạo vouncher thành công!' }))
                 setIsLoading(false)
-            }catch(e){
+            } catch (e) {
                 console.log(e)
                 setIsLoading(false)
-                dispatch(setLoading({active:true,type:LoadingType.ERROR,text:'Tạo vouncher thất bại!'}))
+                dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Tạo vouncher thất bại!' }))
 
             }
         }
@@ -96,67 +106,67 @@ const ModalVouncher = ({ CloseModal, vouncher,setIsLoading, type }: ModalVounche
     }
     return (
         <>
- 
-        <div className="h-full min-w-screen bg-black/50  z-10000 flex fixed items-start select-none  justify-center">
-            <div className="w-200 max-h-150 bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
-                <div className="flex justify-end mr-3 h-7 w-full ">
-                    <img src={typeof Close == 'string' ? Close : Close.src} className="size-7 cursor-pointer" onClick={() => CloseModal()} />
-                </div>
-                <div className='flex flex-row gap-3 h-15 items-center '>
-                    <p className='w-fit whitespace-nowrap  flex items-center '>Giảm giá:</p>
-                    <Input type='number' onChange={
 
-                        (e) => {
+            <div className="h-full min-w-screen bg-black/50  z-10000 flex fixed items-start select-none  justify-center">
+                <div className="w-200 max-h-150 bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
+                    <div className="flex justify-end mr-3 h-7 w-full ">
+                        <img src={typeof Close == 'string' ? Close : Close.src} className="size-7 cursor-pointer" onClick={() => CloseModal()} />
+                    </div>
+                    <div className='flex flex-row gap-3 h-15 items-center '>
+                        <p className='w-fit whitespace-nowrap  flex items-center '>Giảm giá:</p>
+                        <Input type='number' onChange={
+
+                            (e) => {
+                                const raw = e.target.value.replace(/\D/g, '')
+                                setDiscountInput(raw)
+
+                            }} extraClassParent='mb-5' extraClass='mt-0' value={discountInput} />
+                        <p >%</p>
+                    </div>
+                    <div className='flex flex-row gap-3 h-15 items-center '>
+                        <p className='w-fit whitespace-nowrap  flex items-center '>Giảm giá tối đa:</p>
+                        <Input onChange={(e) => {
                             const raw = e.target.value.replace(/\D/g, '')
-                            setDiscountInput(raw)
+                            const formatted = new Intl.NumberFormat('vi-VN').format(Number(raw));
+                            setMaxDiscountInput(formatted);
+                        }} extraClassParent='mb-5' extraClass='mt-0' type='text' value={maxDiscountInput} />
+                        <p >VNĐ</p>
+                    </div>
+                    <div className='flex flex-row gap-3 h-15 items-center '>
+                        <p className='w-fit whitespace-nowrap  flex items-center '>Hạn sử dụng:</p>
+                        <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, day: e.target.value }))} value={date.day}>
+                            {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map((v) => {
+                                return (
+                                    <option key={v} value={v}>
+                                        {v}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                        <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, month: e.target.value }))} value={date.month}>
+                            {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((v) => {
+                                return (
+                                    <option key={v} value={v}>
+                                        {v}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                        <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, year: e.target.value }))} value={date.year}>
+                            {Array.from({ length: 100 }, (_, i) => String(2030 - i)).map((v) => {
+                                return (
+                                    <option key={v} value={v}>
+                                        {v}
+                                    </option>
+                                )
+                            })}
+                        </select>
 
-                        }} extraClassParent='mb-5' extraClass='mt-0' value={discountInput} />
-                    <p >%</p>
+                    </div>
+                    <ButtonOrange text='Lưu' onClick={() => Save()} extraClass='p-3 select-none' />
                 </div>
-                <div className='flex flex-row gap-3 h-15 items-center '>
-                    <p className='w-fit whitespace-nowrap  flex items-center '>Giảm giá tối đa:</p>
-                    <Input onChange={(e) => {
-                        const raw = e.target.value.replace(/\D/g, '')
-                        const formatted = new Intl.NumberFormat('vi-VN').format(Number(raw));
-                        setMaxDiscountInput(formatted);
-                    }} extraClassParent='mb-5' extraClass='mt-0' type='text' value={maxDiscountInput} />
-                    <p >VNĐ</p>
-                </div>
-                <div className='flex flex-row gap-3 h-15 items-center '>
-                    <p className='w-fit whitespace-nowrap  flex items-center '>Hạn sử dụng:</p>
-                    <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, day: e.target.value }))} value={date.day}>
-                        {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map((v) => {
-                            return (
-                                <option key={v} value={v}>
-                                    {v}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, month: e.target.value }))} value={date.month}>
-                        {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((v) => {
-                            return (
-                                <option key={v} value={v}>
-                                    {v}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    <select className='cursor-pointer border-1' onChange={(e) => setDate((prev) => ({ ...prev, year: e.target.value }))} value={date.year}>
-                        {Array.from({ length: 100 }, (_, i) => String(2030 - i)).map((v) => {
-                            return (
-                                <option key={v} value={v}>
-                                    {v}
-                                </option>
-                            )
-                        })}
-                    </select>
-
-                </div>
-                <ButtonOrange  text='Lưu' onClick={() => Save()} extraClass='p-3 select-none' />
             </div>
-        </div>
-         </>
+        </>
     );
 }
 

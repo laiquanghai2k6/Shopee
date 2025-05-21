@@ -21,9 +21,18 @@ export const requestProduct = axios.create({
     baseURL:process.env.NEXT_PUBLIC_PRODUCT_URL,
     withCredentials:true
 })
-
+export const requestAddress = axios.create({
+    baseURL:'https://vn-public-apis.fpo.vn',
+    withCredentials:false 
+})
+export const requestHistoryCart = axios.create({
+    baseURL:process.env.NEXT_PUBLIC_HISTORY_CART_URL,
+    withCredentials:true
+})
 interceptorAxios(requestUser)
 interceptorAxios(requestCategory)
 interceptorAxios(requestVouncher)
 interceptorAxios(requestAdmin)
+interceptorAxios(requestHistoryCart)
+
 

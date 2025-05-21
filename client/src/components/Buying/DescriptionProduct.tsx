@@ -1,13 +1,16 @@
-const DescriptionProduct = () => {
-    const text = `Chất liệu vải thun coton co dãn 4 chiều
-🌸 BẢNG SIZE
-• Size S: dưới 46kg
-• Size M: dưới 53kg
-Màu sắc: Đen, Xám, Trắng
-Xưởng may LÂM TÚ cam kết
-- Hàng xác nhận trước 16h00 giao qua đơn vị vận chuyển trong ngày
-- Sản phẩm giống chính xác mô tả
-- Hỗ trợ đổi trả 100% nếu lỗi sản phẩm từ shop`
+import { InfoProduct } from "../Modal/ModalProduct";
+
+
+type DescriptionProductProps={
+    data:InfoProduct
+}
+
+
+
+
+
+const DescriptionProduct = ({data}:DescriptionProductProps) => {
+
     return ( 
         <div className="w-full h-auto bg-white  rounded-sm flex flex-col">
         <div className="flex p-7  min-h-10 flex-col">
@@ -15,7 +18,7 @@ Xưởng may LÂM TÚ cam kết
                 <p className="ml-3 text-[20px]">MÔ TẢ SẢN PHẨM</p>
             </div>
             <div className="min-h-10 h-auto w-full mt-5">
-                <p className="h-fit w-full whitespace-pre-line">{text}</p>
+                <p className="h-fit w-full whitespace-pre-line">{data.description}</p>
 
             </div>
         </div>

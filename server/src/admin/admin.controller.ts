@@ -74,7 +74,6 @@ export class AdminController {
         return this.adminService.createVouncher(createVouncherDto)
     }
     @UseGuards(JwtAuthGuard,RolesGuard)
-    @Roles(Role.admin)
     @Get('/get-user')
     GetUser(){
         return this.adminService.getUser()
@@ -89,7 +88,6 @@ export class AdminController {
         return this.adminService.changeUser(id,updateUserDto)
     }
     @UseGuards(JwtAuthGuard,RolesGuard)
-    @Roles(Role.admin)
     @Get('/search-user/:email')
     GetSearchUser(
         @Param('email') email:string

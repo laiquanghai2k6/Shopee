@@ -1,21 +1,26 @@
 'use client'
 import { requestUser } from "@/service/axiosRequest";
-import { setToken } from "@/slice/accessTokenSlice";
-import { setUser } from "@/slice/userSlice";
+import { resetToken, setToken } from "@/slice/accessTokenSlice";
+import { resetMyVouncher } from "@/slice/myVouncherSlice";
+import { resetUserCart } from "@/slice/userCartSlice";
+import { resetUser, setUser } from "@/slice/userSlice";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SpinnerShopee from "../Spinner/SpinnerShopee";
 
 type ModalSettingProp = {
     openSettingModal: boolean,
-    closeModalSetting: Function
+    closeModalSetting: Function,
+    Loading: Function
 }
 
 
-const ModalSetting = ({ openSettingModal, closeModalSetting }: ModalSettingProp) => {
+const ModalSetting = ({ openSettingModal, Loading, closeModalSetting }: ModalSettingProp) => {
     const [shouldRenderModal, setShouldRenderModal] = useState(false)
     const dispatch = useDispatch()
+    const [isPending, startTransition] = useTransition()
     const accessToken = useSelector((state: RootState) => state.accessToken.accessToken)
     const router = useRouter()
     useEffect(() => {
@@ -28,31 +33,49 @@ const ModalSetting = ({ openSettingModal, closeModalSetting }: ModalSettingProp)
     }, [openSettingModal])
     const GoToAccount = () => {
         closeModalSetting()
-        router.push('/user')
+        startTransition(() => {
+
+            router.push('/user')
+        })
     }
     const GoToHistory = () => {
         closeModalSetting()
-        router.push('/history')
+        startTransition(() => {
+
+            router.push('/history')
+        })
     }
     const LogOut = async () => {
 
         try {
-            console.log('in sign out')
             const r = await requestUser.get('/sign-out')
-            console.log('sign outed')
-            dispatch(setUser({ email: '', image: '', id: '' }))
-            dispatch(setToken({ accessToken: '' }))
-            router.push('/login')
+            startTransition(() => {
+                dispatch(resetUser())
+                dispatch(resetToken())
+                dispatch(resetMyVouncher())
+                dispatch(resetUserCart())
+                startTransition(()=>{
+
+                    router.push('/login')
+                })
+            })
 
         } catch (e) {
             console.log(e)
         }
 
     }
-    const GoToEditMode = ()=>{
+    const GoToEditMode = () => {
+        startTransition(() => {
+
             router.push('/admin')
+        })
 
     }
+    useEffect(() => {
+        if (isPending) Loading(true)
+        else Loading(false)
+    }, [isPending])
     return (
         <>
             {

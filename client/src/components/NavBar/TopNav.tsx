@@ -12,7 +12,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
-const TopNav = () => {
+import SpinnerShopee from "../Spinner/SpinnerShopee";
+const TopNav = ({Loading}:{Loading:Function}) => {
     const router = useRouter()
     const dispatch =useDispatch()
     const currentUser = useSelector((state:RootState)=>{
@@ -26,7 +27,7 @@ const TopNav = () => {
         setOpenSettingModal(false)
       },[])
     return (
-
+<>
         <div className="flex flex-row justify-between ">
             <div className="flex flex-row space-x-4 max-lg:hidden ">
                 <ItemText text="Kênh bán hàng" />
@@ -40,7 +41,7 @@ const TopNav = () => {
                 {currentUser.name != '' ? (
 
                 <ItemText extraClass="relative" image={currentUser.image} isOpa={false} text={currentUser.name} type="left" icon={Default} isImage={true} onMouseEnter={()=>setOpenSettingModal(true)} onMouseLeave={()=>setOpenSettingModal(false)} >
-                 <ModalSetting openSettingModal={openSettingModal}closeModalSetting={closeModalSetting} />
+                 <ModalSetting Loading={Loading}  openSettingModal={openSettingModal}closeModalSetting={closeModalSetting} />
                     
                 </ItemText>
                 ):(
@@ -49,6 +50,8 @@ const TopNav = () => {
             </div>
 
         </div>
+</>
+
     );
 }
 

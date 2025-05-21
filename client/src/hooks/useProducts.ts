@@ -29,7 +29,9 @@ export const useProducts = ()=>{
         queryKey:['product'],
         queryFn:({pageParam=1})=>fetchProduct(pageParam),
         getNextPageParam:(lastPage)=>{
-            return lastPage.page+1 
+            if(lastPage?.page )
+            return lastPage?.page+1 
+            else return 1
         },
         initialPageParam:1
     })

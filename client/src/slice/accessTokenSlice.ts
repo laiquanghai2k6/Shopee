@@ -16,8 +16,11 @@ export const AccessTokenSlice = createSlice({
     reducers:{
         setToken(state,action:PayloadAction<AccessToken>){
             state.accessToken = action.payload.accessToken
+        },
+        resetToken:(state)=>{
+            state.accessToken = initialState.accessToken
         }
     }
 })
 
-export const {setToken} = AccessTokenSlice.actions
+export const {setToken,resetToken} = AccessTokenSlice.actions

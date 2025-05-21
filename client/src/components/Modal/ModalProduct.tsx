@@ -10,11 +10,11 @@ import ButtonOrange from '../Button/ButtonOrange'
 import { Category } from '../Home/Category'
 import { requestAdmin, requestUser } from '@/service/axiosRequest'
 import { PagePagination } from '@/hooks/useProducts'
-import SpinnerShopee from '../Spinner/SpinnerShopee'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
 import { LoadingType, setLoading } from '@/slice/loadingSlice'
 import { CreateImage } from './ModalCategory'
+import { UserClient } from '@/hooks/useUser'
 type ModalProductProp = {
     CloseModal: Function,
     type: string,
@@ -29,6 +29,13 @@ export type Detail = {
     name: string,
     value: string
 }
+export type Response = {
+    id: string,
+    comment: string,
+    image: string,
+    star: number,
+    user: UserClient
+}
 export type InfoProduct = {
     id?: string | undefined,
     type: string | undefined
@@ -42,6 +49,10 @@ export type InfoProduct = {
     description: string | undefined,
     created_at: Date | null | undefined,
     remain: string | undefined,
+    sold?: string,
+    starAvg?: number,
+    response?: Response[]
+
 
 }
 export type SendProduct = {
@@ -107,7 +118,6 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
             return alert('Giảm giá tối đa 100%')
         }
         if (infoProduct.price && infoProduct.price.length > 13) {
-            console.log(infoProduct)
             return alert('Giá quá cao!')
         }
         const timeString = `${date.year}-${date.month}-${date.day}`
@@ -137,7 +147,12 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     image: newImage != '' ? newImage : infoProduct.image
                 }
                 setIsLoading(true)
-                await requestAdmin.post('/create-product', sendProduct)
+                const res = await requestAdmin.post('/create-product', sendProduct)
+                if (res.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 queryClient.setQueryData(['product'], (oldData: PagePagination | undefined) => {
                     if (!oldData) return oldData;
 
@@ -178,7 +193,11 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     image: newImage != '' ? newImage : infoProduct.image
                 }
                 const res = await requestAdmin.patch(`/change-product/${id}`, changeProduct)
-                console.log('change:', res)
+                if (res.status == 403) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+
+                }
                 queryClient.setQueryData(['product'], (oldData: PagePagination | undefined) => {
                     if (!oldData) return oldData
                     const newPages = [...oldData.pages]
@@ -342,7 +361,6 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                             <img src={typeof Add == 'string' ? Add : Add.src} className='h-[50%]' />
                         </div>
                         {infoProduct.detail && infoProduct.detail.map((d, i) => {
-                            console.log('detail:', infoProduct.detail)
                             return (
                                 <div key={`detail:${i}`} onClick={() => setAddProductsOption({ type: 'change-detail', active: true, index: -1, indexOption: -1, indexDetail: i })} className='w-30 h-10 hover:bg-black/20 rounded-lg border-1 flex items-center justify-center cursor-pointer'>
                                     <p>{`${d.name} : ${d.value}`}</p>

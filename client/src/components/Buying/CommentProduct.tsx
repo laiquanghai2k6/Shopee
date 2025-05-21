@@ -16,6 +16,8 @@ export enum OptionComment{
     IMAGE='image'
 }
 const CommentProduct = () => {
+        console.log('ha')
+
     const [optionComment,setOptionComment] = useState<OptionComment>(OptionComment.ALL)
     const currentDate = new Date().toISOString().slice(0,16).replace('T',' ')
     const text = `Sốp rep thân thiện (ko như sốp 2 số nào đó), bao bọc hàng kĩ, nhưng mà hộp em hơi móp bên trong như video ạ :< Giao hàng nhanh như The flash ( dự kiến 24-29/4 nhưng mới 14 đã tới) mô hình đủ quà tặng và runner (không như hãng M nào đó 🐧)`

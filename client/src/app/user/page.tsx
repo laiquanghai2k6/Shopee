@@ -9,7 +9,6 @@ const UserSetting = () => {
     const [currentFile,setCurrentFIle] = useState<File | undefined>(undefined)
     const ChangeImage = async(event:React.ChangeEvent<HTMLInputElement>)=>{
         try{
-        console.log(event.target?.files?.[0] as File)
         const data = new FormData()
         data.append('file',event.target?.files?.[0] as File)
         data.append('folder','user-image')
