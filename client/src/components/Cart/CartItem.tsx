@@ -62,14 +62,14 @@ const CartItem = React.memo(({ i, deleteHandler, decreaseItem, item, increaseIte
                 <div id={`${i}`} className="w-[40%] min-h-20  items-start line-clamp-5 ml-3 max-md:ml-2">
                     <p className='max-md:text-[13px] '>{item.product?.title}</p>
                 </div>
-                <div className="h-full w-25 flex flex-col grow-1 relative"
-
+                <div className="h-full w-25 flex flex-col grow-1 relative  self-start"
+                    
                 >
                     <div className="h-full w-full flex flex-row items-center select-none max-md:text-[13px]">
                         <p className="text-[#888]">Phân loại hàng: </p>
                         {/* <img src={typeof Triangle == 'string' ? Triangle : Triangle.src} className="size-2 ml-2" /> */}
                     </div>
-                    <div className="min-h-[100%] w-full max-md:text-[13px]">
+                    <div className="min-h-[100%] w-full max-md:text-[13px] ">
                         <p className="line-clamp-2 block text-[#888]">{`${item.choosedOption}`}</p>
                         {/* <p className="line-clamp-2 block text-[#888]">{`${item.sizeChosen.size}`}</p> */}
                     </div>

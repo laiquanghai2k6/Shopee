@@ -7,9 +7,8 @@ import Triangle from '../../../public/triangle-reverse.png'
 import ModalOption, { ProductOptions } from './ModalOption'
 import ButtonLightRed from '../Button/ButtonLightRed'
 import ButtonOrange from '../Button/ButtonOrange'
-import { Category } from '../Home/Category'
+import { Category } from '../Home/Categories'
 import { requestAdmin, requestUser } from '@/service/axiosRequest'
-import { PagePagination } from '@/hooks/useProducts'
 import { useQueryClient } from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
 import { LoadingType, setLoading } from '@/slice/loadingSlice'
@@ -21,7 +20,7 @@ type ModalProductProp = {
     categories: Category[],
     indexPage: number,
     indexProduct: number,
-    data: PagePagination | undefined,
+    data: InfoProduct[] ,
     id: string,
     setIsLoading: Function
 }
@@ -60,21 +59,24 @@ export type SendProduct = {
 }
 
 const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, type, categories, data }: ModalProductProp) => {
-    const refDescription = useRef<HTMLTextAreaElement | null>(null)
+    const descriptionRef = useRef<HTMLTextAreaElement>(null)
     const queryClient = useQueryClient();
     const dispatch = useDispatch()
+    console.log('indexProduct',indexProduct)
+    console.log('data[indexProduct]',data[indexProduct])
+    
     const [infoProduct, setInfoProduct] = useState<InfoProduct>({
-        type: type == 'create' ? categories[0].name : data?.pages[indexPage].product[indexProduct].type,
-        image: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].image,
-        title: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].title,
-        price: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].price,
-        discount: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].discount,
-        timeDiscount: type == 'create' ? 0 : data?.pages[indexPage].product[indexProduct].timeDiscount,
-        productOptions: type == 'create' ? [] : data?.pages[indexPage].product[indexProduct].productOptions,
-        detail: type == 'create' ? [] : data?.pages[indexPage].product[indexProduct].detail,
-        description: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].description,
-        created_at: type == 'create' ? null : data?.pages[indexPage].product[indexProduct].created_at,
-        remain: type == 'create' ? '' : data?.pages[indexPage].product[indexProduct].remain,
+        type: type == 'create' ? categories[0].name : data[indexProduct].type,
+        image: type == 'create' ? '' : data[indexProduct].image,
+        title: type == 'create' ? '' : data[indexProduct].title,
+        price: type == 'create' ? '' : data[indexProduct].price,
+        discount: type == 'create' ? '' : data[indexProduct].discount,
+        timeDiscount: type == 'create' ? 0 : data[indexProduct].timeDiscount,
+        productOptions: type == 'create' ? [] : data[indexProduct].productOptions,
+        detail: type == 'create' ? [] : data[indexProduct].detail,
+        description: type == 'create' ? '' : data[indexProduct].description,
+        created_at: type == 'create' ? null : data[indexProduct].created_at,
+        remain: type == 'create' ? '' : data[indexProduct].remain,
     })
     const time = new Date()
     const formatDate = new Date(time)
@@ -98,27 +100,31 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
     const CloseModalOption = useCallback(() => {
         setAddProductsOption((prev) => ({ ...prev, active: false }))
     }, [])
+    
     const Save = async () => {
         if (infoProduct.type == '') {
-            return alert('Vui lòng điền thể loại')
+            return dispatch(setLoading({active:true,text:'Vui lòng điền thể loại',type:LoadingType.ERROR}))
         }
         if (infoProduct.image == '') {
-            return alert('Vui lòng thêm hình ảnh')
+            return dispatch(setLoading({active:true,text:'Vui lòng thêm ảnh',type:LoadingType.ERROR}))
+        }
+         if (infoProduct.discount == '') {
+            return dispatch(setLoading({active:true,text:'Vui lòng thêm số giảm giá',type:LoadingType.ERROR}))
         }
         if (infoProduct.price == '') {
-            return alert('Vui lòng điền giá')
+            return dispatch(setLoading({active:true,text:'Vui lòng điền giá',type:LoadingType.ERROR}))
         }
-        if (infoProduct.title == 'Vui lòng điền tiêu đề') {
-            return alert('Vui lòng điền thể loại')
+        if (infoProduct.title == '') {
+            return dispatch(setLoading({active:true,text:'Vui lòng điền tiêu đề',type:LoadingType.ERROR}))
         }
         if (infoProduct.remain && infoProduct.remain.length > 9) {
-            return alert('Số lượng hàng hóa quá nhiều')
+            return dispatch(setLoading({active:true,text:'Số lượng hàng quá nhiều',type:LoadingType.ERROR}))
         }
         if (infoProduct.discount && (infoProduct.discount?.length >= 3 && infoProduct.discount != '100')) {
-            return alert('Giảm giá tối đa 100%')
+            return dispatch(setLoading({active:true,text:'Giảm tối đa 100%',type:LoadingType.ERROR}))
         }
         if (infoProduct.price && infoProduct.price.length > 13) {
-            return alert('Giá quá cao!')
+            return dispatch(setLoading({active:true,text:'Giá quá cao',type:LoadingType.ERROR}))
         }
         const timeString = `${date.year}-${date.month}-${date.day}`
         const future = new Date(timeString)
@@ -128,6 +134,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
             const create_at = new Date(now)
 
             try {
+                setIsLoading(true)
                 let newImage = ''
                 if (fileImage) {
                     const data = new FormData()
@@ -143,29 +150,23 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     price: infoProduct.price,
                     created_at: create_at,
                     timeDiscount: future,
-                    description: refDescription.current?.value ?? '',
+                    description: descriptionRef?.current?.value,
                     image: newImage != '' ? newImage : infoProduct.image
                 }
-                setIsLoading(true)
                 const res = await requestAdmin.post('/create-product', sendProduct)
+                console.log(res)
                 if (res.status == 403) {
                     setIsLoading(false)
                     return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
                 }
-                queryClient.setQueryData(['product'], (oldData: PagePagination | undefined) => {
+                queryClient.setQueryData(['product'], (oldData: InfoProduct[] ) => {
                     if (!oldData) return oldData;
 
-                    const newPages = [...oldData.pages];
-                    newPages[0] = {
-                        ...newPages[0],
-                        product: [sendProduct, ...newPages[0].product], // Thêm mới lên đầu
-                    };
+                    const newPages = [sendProduct,...oldData];
+                    
 
-                    return {
-                        ...oldData,
-                        pages: newPages,
-                    };
+                    return newPages;
                 });
                 setIsLoading(false)
 
@@ -189,7 +190,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     ...infoProduct,
                     price: infoProduct.price,
                     timeDiscount: future,
-                    description: refDescription.current?.value ?? '',
+                    description: descriptionRef?.current?.value,
                     image: newImage != '' ? newImage : infoProduct.image
                 }
                 const res = await requestAdmin.patch(`/change-product/${id}`, changeProduct)
@@ -198,18 +199,15 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
                 }
-                queryClient.setQueryData(['product'], (oldData: PagePagination | undefined) => {
+                queryClient.setQueryData(['product',indexPage], (oldData: InfoProduct[] ) => {
                     if (!oldData) return oldData
-                    const newPages = [...oldData.pages]
-                    newPages[indexPage].product[indexProduct] = { ...changeProduct, id }
-                    return {
-                        ...oldData,
-                        newPages
-                    }
+                    const newPages = [...oldData]
+                    newPages[indexProduct] = { ...changeProduct, id }
+                    return newPages
                 })
                 setIsLoading(false)
 
-                dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Tạo sản phẩm thành công!' }))
+                dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Chỉnh sản phẩm thành công!' }))
 
             } catch (e) {
                 console.log(e)
@@ -259,7 +257,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     )}
                     <input className='hidden' id='image-product' onChange={(e) => {
                         const file = e.target.files?.[0] as File
-                        if (!file.type.startsWith('image')) return alert('Vui lòng chọn ảnh')
+                        if (!file.type.startsWith('image')) return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
                         const url = URL.createObjectURL(file)
                         setFileImage(file)
                         setInfoProduct((prev) => ({ ...prev, image: url }))
@@ -362,7 +360,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                         </div>
                         {infoProduct.detail && infoProduct.detail.map((d, i) => {
                             return (
-                                <div key={`detail:${i}`} onClick={() => setAddProductsOption({ type: 'change-detail', active: true, index: -1, indexOption: -1, indexDetail: i })} className='w-30 h-10 hover:bg-black/20 rounded-lg border-1 flex items-center justify-center cursor-pointer'>
+                                <div key={`detail:${i}`} onClick={() => setAddProductsOption({ type: 'change-detail', active: true, index: -1, indexOption: -1, indexDetail: i })} className='w-30 h-fit hover:bg-black/20 rounded-lg border-1 flex items-center justify-center cursor-pointer'>
                                     <p>{`${d.name} : ${d.value}`}</p>
                                 </div>
                             )
@@ -371,7 +369,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
                     <p className='mt-5'>Thêm mô tả</p>
                     <div className='w-full h-40 mt-3'>
 
-                        <textarea ref={refDescription} className='w-full h-40 p-3  rounded-sm outline-none border-[1px] p-1 border-gray-400 focus:border-black' />
+                        <textarea ref={descriptionRef} defaultValue={type=='create'?'': data[indexProduct].description}  className='w-full h-40 p-3  rounded-sm outline-none border-[1px] p-1 border-gray-400 focus:border-black' />
                     </div>
                     <div className="flex flex-row justify-between mt-5">
 

@@ -108,7 +108,7 @@ const Cart = () => {
         }
     }
     const ConfirmBuy = () => {
-        if (total == 0) return alert('Vui lòng chọn sản phẩm')
+        if (total == 0) return dispatch(setLoading({active:true,text:'Vui lòng chọn sản phẩm',type:LoadingType.ERROR}))
         const userCarts = itemChecked.status.reduce((prev: UserCart[], curr, i) => {
             if (curr) {
                 prev.push(cartItems[i])

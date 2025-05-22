@@ -1,58 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { ProductOverview } from "../Home/FlashSale";
 import Right from '../../../public/right.png'
 import Left from '../../../public/left.png'
 import ProductCardOverview from "./ProductCardOverview";
+import { InfoProduct } from "../Modal/ModalProduct";
 
 type ProductListProps = {
-    product: ProductOverview[]
+    product: InfoProduct[],
+    Loading: Function
 }
 
-export const throttle = (callback:Function,delay:number)=>{
-    let lastArgs:any = null
-    let shouldWait  = false
+export const throttle = (callback: Function, delay: number) => {
+    let lastArgs: any = null
+    let shouldWait = false
 
-    return(...args:any)=>{
-        if(shouldWait){
+    return (...args: any) => {
+        if (shouldWait) {
             lastArgs = args
             return
         }
         callback(...args)
         shouldWait = true
-        setTimeout(()=>{
-            if(lastArgs == null){
+        setTimeout(() => {
+            if (lastArgs == null) {
                 shouldWait = false
-            }else {
+            } else {
                 callback(...lastArgs)
                 lastArgs = null
                 shouldWait = false
 
             }
-        },delay)
-     
+        }, delay)
+
     }
 }
 
-const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
-    const width = window.innerWidth
-    const [ITEMS_PER_PAGE,setITEMS_PER_PAGE] = useState(width < 768 ? 3 : 6)
+const ProductListFlashSaleMemo = ({ product, Loading }: ProductListProps) => {
+    const [ITEMS_PER_PAGE, setITEMS_PER_PAGE] = useState(6)
     const [page, setPage] = useState(0)
-    const [currentProducts, setCurrentProducts] = useState<ProductOverview[]>([])
-    const [nextProducts, setNextProducts] = useState<ProductOverview[]>([])
-    const [previousProducts, setPreviousProducts] = useState<ProductOverview[]>([])
+    const [currentProducts, setCurrentProducts] = useState<InfoProduct[]>([])
+    const [nextProducts, setNextProducts] = useState<InfoProduct[]>([])
+    const [previousProducts, setPreviousProducts] = useState<InfoProduct[]>([])
     const [animDirection, setAnimDirection] = useState<'left' | 'right'>('left')
-    
+    useEffect(() => {
+        const width = window.innerWidth
+        setITEMS_PER_PAGE(width < 768 ? 3 : 6)
+    }, [])
     useEffect(() => {
         setCurrentProducts(product.slice(0, ITEMS_PER_PAGE))
         const handlerResize = (width: number) => {
             setITEMS_PER_PAGE(width < 768 ? 3 : 6)
         };
         const throttledResize = throttle(() => handlerResize(window.innerWidth), 1000);
-        window.addEventListener('resize',throttledResize)
+        window.addEventListener('resize', throttledResize)
         handlerResize(window.innerWidth);
-        return ()=>removeEventListener('resize',throttledResize)
+        return () => removeEventListener('resize', throttledResize)
     }, [page])
     const nextPage = (page: number) => {
+        console.log('in next;')
         const start = (page + 1) * ITEMS_PER_PAGE
 
         const end = start + ITEMS_PER_PAGE
@@ -66,6 +71,8 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
         setAnimDirection('left')
 
     }
+    const [isPending, startTransition] = useTransition()
+
     useEffect(() => {
         const start = page * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
@@ -86,7 +93,11 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
         setAnimDirection('right')
         setPage(prev => prev - 1)
     }
-
+    useEffect(() => {
+        if (isPending) {
+            Loading(true)
+        } else Loading(false)
+    }, [isPending])
 
     return (
         <div className="relative">
@@ -96,12 +107,16 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
                     (!previousProducts.length ? (
                         <>
                             <div className={`grid grid-cols-6 gap-2 box-border max-sm:grid-cols-3 `} key={`${Date.now()}  sfdsdsq`}>
-                                {currentProducts.map((product, idx) => {
-                                    const priceDiscount = product.price - product.price * (product.discount / 100)
+                                {currentProducts.map((productM, idx) => {
+                                    const price = Number(productM.price?.replaceAll('.', ''))
+                                    const discount = Number(productM.discount?.replaceAll('.', ''))
+
+                                    const priceDiscount = price - price * (discount / 100)
                                     const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
-                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(product.price)
+                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
+
                                     return (
-                                        <ProductCardOverview key={idx} image={product.image} priceFormat={priceFormat} priceFormatDiscount={priceFormatDiscount} title={product.title}/>
+                                        <ProductCardOverview date={productM?.timeDiscount?.toString() ?? ''} startTransition={startTransition} price={price} discount={productM.discount ?? ''} id={productM.id ?? ''} selled={productM.sold} sellNum={true} key={idx} image={productM.image ?? ''} priceFormatDiscount={priceFormat} title={productM.title ?? ''} />
 
                                     )
                                 })}
@@ -109,36 +124,42 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
                         </>
                     ) : (
                         <>
-                              <div className={`grid grid-cols-6 gap-2 size-full box-border max-md:grid-cols-3 absolute slideOutRightToLeft`} key={`ác${Date.now()}  bvfdvsq`}>
-                                {previousProducts.map((product, idx) => {
-                                    const priceDiscount = product.price - product.price * (product.discount / 100)
-                                    const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
-                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(product.price)
+                            <div className={`grid grid-cols-6 gap-2 size-full box-border max-md:grid-cols-3 absolute slideOutRightToLeft`} key={`ác${Date.now()}  bvfdvsq`}>
+                                {previousProducts.map((productM, idx) => {
+                                    const price = Number(productM.price?.replaceAll('.', ''))
+                                    const discount = Number(productM.discount?.replaceAll('.', ''))
 
+                                    const priceDiscount = price - price * (discount / 100)
+                                    const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
+                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
+                                    
                                     return (
-                                        <ProductCardOverview key={idx} image={product.image} priceFormat={priceFormat} priceFormatDiscount={priceFormatDiscount} title={product.title}/>
+                                        <ProductCardOverview date={productM?.timeDiscount?.toString() ?? ''} startTransition={startTransition} price={price} discount={productM.discount ?? ''} id={productM.id ?? ''} selled={productM.sold} sellNum={true} key={idx} image={productM.image ?? ''} priceFormatDiscount={priceFormat} title={productM.title ?? ''} />
 
                                     )
                                 }
                                 )}
-                                
-                            </div> 
-                            <div className={`grid grid-cols-6  gap-2 box-border size-full max-md:grid-cols-3  right-[0] slideInRightToLeft`} key={`${Date.now()}  sqwrq`}>
-                                {currentProducts.map((product, idx) => {
-                                    const priceDiscount = product.price - product.price * (product.discount / 100)
-                                    const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
-                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(product.price)
 
+                            </div>
+                            <div className={`grid grid-cols-6  gap-2 box-border size-full max-md:grid-cols-3  right-[0] slideInRightToLeft`} key={`${Date.now()}  sqwrq`}>
+                                {currentProducts.map((productM, idx) => {
+                                    const price = Number(productM.price?.replaceAll('.', ''))
+                                    const discount = Number(productM.discount?.replaceAll('.', ''))
+
+                                    const priceDiscount = price - price * (discount / 100)
+                                    const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
+                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
+                                    
                                     return (
-                                        <ProductCardOverview key={idx} image={product.image} priceFormat={priceFormat} priceFormatDiscount={priceFormatDiscount} title={product.title}/>
+                                        <ProductCardOverview date={productM?.timeDiscount?.toString() ?? ''} startTransition={startTransition} price={price} discount={productM.discount ?? ''} id={productM.id ?? ''} selled={productM.sold} sellNum={true} key={idx} image={productM.image ?? ''} priceFormatDiscount={priceFormat} title={productM.title ?? ''} />
 
                                     )
                                 })}
-                                
-                                
 
-                            </div> 
-                         
+
+
+                            </div>
+
                         </>
                     )
                     )
@@ -146,23 +167,30 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
                     : (
                         <>
                             <div className={`grid grid-cols-6  gap-2 box-border size-full max-md:grid-cols-3 absolute slideOutLeftToRight`} key={`${Date.now()}  vssq`}>
-                                {nextProducts.map((product, idx) => {
-                                    const priceDiscount = product.price - product.price * (product.discount / 100)
+                                {nextProducts.map((productM, idx) => {
+                                    const price = Number(productM.price?.replaceAll('.', ''))
+                                    const discount = Number(productM.discount?.replaceAll('.', ''))
+
+                                    const priceDiscount = price - price * (discount / 100)
                                     const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
-                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(product.price)
+                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
+                                    
                                     return (
-                                        <ProductCardOverview key={idx} image={product.image} priceFormat={priceFormat} priceFormatDiscount={priceFormatDiscount} title={product.title}/>
+                                        <ProductCardOverview date={productM?.timeDiscount?.toString() ?? ''} startTransition={startTransition} price={price} discount={productM.discount ?? ''} id={productM.id ?? ''} selled={productM.sold} sellNum={true} key={idx} image={productM.image ?? ''} priceFormatDiscount={priceFormat} title={productM.title ?? ''} />
 
                                     )
                                 })}
                             </div>
                             <div className={`grid grid-cols-6 gap-2 size-full box-border max-md:grid-cols-3  left-[0] slideInLeftToRight`} key={`${Date.now()}  sdssdfq`}>
                                 {currentProducts.map((product, idx) => {
-                                    const priceDiscount = product.price - product.price * (product.discount / 100)
+                                    const price = Number(product.price?.replaceAll('.', ''))
+                                    const discount = Number(product.discount?.replaceAll('.', ''))
+
+                                    const priceDiscount = price - price * (discount / 100)
                                     const priceFormatDiscount = new Intl.NumberFormat('vi-VN').format(priceDiscount)
-                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(product.price)
+                                    const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
                                     return (
-                                        <ProductCardOverview key={idx} image={product.image} priceFormat={priceFormat} priceFormatDiscount={priceFormatDiscount} title={product.title}/>
+                                        <ProductCardOverview date={product?.timeDiscount?.toString() ?? ''} startTransition={startTransition} price={price} discount={product.discount ?? ''} id={product.id ?? ''} selled={product.sold} sellNum={true} key={idx} image={product.image ?? ''} priceFormatDiscount={priceFormat} title={product.title ?? ''} />
 
                                     )
                                 })}
@@ -172,7 +200,7 @@ const ProductListFlashSaleMemo = ({ product }: ProductListProps) => {
 
 
             </div>
-            {page < Math.floor(product.length /ITEMS_PER_PAGE )&& (
+            {page < Math.floor(product.length / ITEMS_PER_PAGE) && (
 
                 <div onClick={() => nextPage(page)} className="flex absolute top-[50%] rounded-full right-[-1.25rem] max-md:right-1 max-md:size-7 size-10 z-5 bg-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] cursor-pointer hover:shadow-[4px_4px_8px_rgba(0,0,0,0.5)] hover:scale-150 transition-transform duration-300">
                     <img src={typeof Right == 'string' ? Right : Right.src} className="size-70% object-cover" />

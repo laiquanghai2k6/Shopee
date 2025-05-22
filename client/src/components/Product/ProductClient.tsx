@@ -48,7 +48,7 @@ const ProductClient = ({ data }: ProductClientProp) => {
                 <ProductBuyingClient Loading={Loading} data={data} openModal={openModal} />
                 <DetailProduct data={data} />
                 <DescriptionProduct data={data} />
-                <CommentProduct />
+                {/* <CommentProduct /> */}
             </div>
 
         </div>

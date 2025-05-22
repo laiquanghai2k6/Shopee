@@ -32,7 +32,7 @@ export class HistoryCartController {
     DeleteUserCart(@Query('id') id:string){
         return this.HistoryCartService.deleteUserCart(id)
     }
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('get-history')
     GetHistoryCart(@Query('id') id:string){
         return this.HistoryCartService.getHistoryCart(id)

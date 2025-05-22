@@ -25,6 +25,7 @@ const fetchMyUserCart =async (id:string)=>{
 export const useMyUserCart = (id:string)=>{
     return useQuery({
         queryKey:['user-cart',id],
-        queryFn:()=>fetchMyUserCart(id)
+        queryFn:()=>fetchMyUserCart(id),
+        enabled: !!id
     })
 }

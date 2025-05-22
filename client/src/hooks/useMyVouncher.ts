@@ -22,6 +22,7 @@ const fetchMyVouncher =async (id:string)=>{
 export const useMyVouncher = (id:string)=>{
     return useQuery({
         queryKey:['myVouncher',id],
-        queryFn:()=>fetchMyVouncher(id)
+        queryFn:()=>fetchMyVouncher(id),
+        enabled: !!id
     })
 }

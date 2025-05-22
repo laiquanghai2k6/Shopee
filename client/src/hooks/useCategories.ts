@@ -1,5 +1,5 @@
 'use client'
-import { Category } from "@/components/Home/Category"
+import { Category } from "@/components/Home/Categories"
 import { requestCategory } from "@/service/axiosRequest"
 import { useQuery } from "@tanstack/react-query"
 

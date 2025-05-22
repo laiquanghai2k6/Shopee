@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import Back from '../../../public/back.png'
 import SettingVouncher from "@/components/Admin/SettingVouncher"
 import SettingUsers from "@/components/Admin/SettingUsers"
+import SettingRevenue from "@/components/Admin/SettingRevenue"
 
 
 const items = ['Điều chỉnh Banner', 'Điều chỉnh gian hàng', 'Điều chỉnh vouncher', 'Xem doanh thu',"Cài đặt người dùng"]
@@ -39,7 +40,7 @@ const Admin = () => {
             case 2:
                 return <SettingVouncher topContent={items[currentIndex]}/>
             case 3:
-                return <div>{items[currentIndex]}</div>
+                return <SettingRevenue topContent={items[currentIndex]} />
             case 4:
                 return <SettingUsers topContent={items[currentIndex]} />
             default:

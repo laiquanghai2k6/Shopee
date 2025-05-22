@@ -20,6 +20,7 @@ type ModalSettingProp = {
 const ModalSetting = ({ openSettingModal, Loading, closeModalSetting }: ModalSettingProp) => {
     const [shouldRenderModal, setShouldRenderModal] = useState(false)
     const dispatch = useDispatch()
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
     const [isPending, startTransition] = useTransition()
     const accessToken = useSelector((state: RootState) => state.accessToken.accessToken)
     const router = useRouter()
@@ -48,20 +49,23 @@ const ModalSetting = ({ openSettingModal, Loading, closeModalSetting }: ModalSet
     const LogOut = async () => {
 
         try {
+            setIsLoggingOut(true)
             const r = await requestUser.get('/sign-out')
+            dispatch(resetUser())
+            dispatch(resetToken())
+            dispatch(resetMyVouncher())
+            dispatch(resetUserCart())
             startTransition(() => {
-                dispatch(resetUser())
-                dispatch(resetToken())
-                dispatch(resetMyVouncher())
-                dispatch(resetUserCart())
-                startTransition(()=>{
+
+                
 
                     router.push('/login')
-                })
+                
             })
-
+setIsLoggingOut(false)
         } catch (e) {
             console.log(e)
+            setIsLoggingOut(false)
         }
 
     }
@@ -73,9 +77,12 @@ const ModalSetting = ({ openSettingModal, Loading, closeModalSetting }: ModalSet
 
     }
     useEffect(() => {
-        if (isPending) Loading(true)
+        if (isPending || isLoggingOut){
+            console.log('sign outtt')
+             Loading(true)
+        }
         else Loading(false)
-    }, [isPending])
+    }, [isPending,isLoggingOut])
     return (
         <>
             {

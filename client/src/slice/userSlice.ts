@@ -28,7 +28,6 @@ const initialState:UserState = {
         }
     }
 }
-
 export const UserSlice = createSlice({
     name:'user',
     initialState,
@@ -38,7 +37,22 @@ export const UserSlice = createSlice({
         },
         resetUser:(state)=>{
             state.user = initialState.user
+        },
+        increase:(state,action:PayloadAction<number>)=>{
+            const temp = state.user
+            temp.money+=action.payload
+            state.user = temp
+        },
+        decrease:(state,action:PayloadAction<number>)=>{
+            const temp = state.user
+            temp.money-=action.payload
+            state.user = temp
+        },
+        uploadUserImage:(state,action:PayloadAction<string>)=>{
+            const temp = state.user
+            temp.image=action.payload
+            state.user = temp
         }
     }
 })
-export const {setUser,resetUser} = UserSlice.actions
+export const {setUser,resetUser,increase,uploadUserImage,decrease} = UserSlice.actions

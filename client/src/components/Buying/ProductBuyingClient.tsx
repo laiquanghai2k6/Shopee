@@ -64,7 +64,7 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
     const IntoCartHandler  =async () => {
         const isNot = currentProductOptions.some((option) => option.key == -1)
         if (isNot) {
-           return alert("Vui lòng điền đầy đủ tùy chọn")
+           return dispatch(setLoading({active:true,text:'Vui lòng điền đầy đủ',type:LoadingType.ERROR}))
         }
         const keys = currentProductOptions.map((option)=>option.key)
         const choosedOption = data.productOptions?.map((pd,i)=>{
@@ -96,7 +96,7 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
     const BuyHandler = () => {
         const isNot = currentProductOptions.some((option) => option.key == -1)
         if (isNot) {
-            return alert("Vui lòng điền đầy đủ tùy chọn")
+            return dispatch(setLoading({active:true,text:'Vui lòng điền đầy đủ',type:LoadingType.ERROR}))
         }
         const keys = currentProductOptions.map((option)=>option.key)
         const choosedOption = data.productOptions?.map((pd,i)=>{
@@ -265,8 +265,8 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
 
                     </div>
                     <div className="flex flex-row h-15 w-[65%] max-sm:w-full max-sm:pr-1 ml-2 items-center justify-between">
-                        <ButtonLightRed onClick={IntoCartHandler} image={typeof IntoCart == 'string' ? IntoCart : IntoCart.src} text={"Thêm vào giỏ hàng"} extraClass="h-13 w-50 " />
-                        <ButtonOrange onClick={BuyHandler} text={"Mua ngay"} extraClass="h-13 w-50 rounded-sm" />
+                        <ButtonLightRed onClick={IntoCartHandler} image={typeof IntoCart == 'string' ? IntoCart : IntoCart.src} text={"Thêm vào giỏ hàng"} extraClass="h-13 w-50 max-md:w-40 " />
+                        <ButtonOrange onClick={BuyHandler} text={"Mua ngay"} extraClass="h-13 w-50 rounded-sm max-md:w-40 " />
                     </div>
 
                 </div>

@@ -23,6 +23,7 @@ const ModalVouncherClient = ({ closeModal, type = 'client', setCurrentVouncher, 
     const vounchers = useSelector((state: RootState) => state.vouncher.vouncher)
     const userId = useSelector((state: RootState) => state.user.user.id)
     const myVouncher = useSelector((state: RootState) => state.myVouncher.myVouncher)
+    console.log('myVouncher:',myVouncher)
     const [loading, Loading] = useState(false)
     const dispatch = useDispatch()
     const SaveVouncher = async (id: string) => {
@@ -66,7 +67,7 @@ const ModalVouncherClient = ({ closeModal, type = 'client', setCurrentVouncher, 
                                 const month = String(formatDate.getMonth() + 1).padStart(2, '0')
                                 const year = String(formatDate.getFullYear())
                                 return (
-                                    <div key={i} className='cursor-pointer w-full min-h-35 my-3 border-1 flex shadow-[4px_4px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row"'>
+                                    <div key={i} className='cursor-pointer w-full min-h-35 h-150 max-md:min-h-40 my-3 border-1 flex shadow-[4px_4px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row"'>
                                         <div className="w-[30%] select-none self-stretch bg-[#ee4d2d] flex  items-center justify-center">
                                             <img src={typeof Shopee == 'string' ? Shopee : Shopee.src} className="size-30 max-md:size-15" />
                                         </div>
@@ -102,7 +103,7 @@ const ModalVouncherClient = ({ closeModal, type = 'client', setCurrentVouncher, 
                                     const month = String(formatDate.getMonth() + 1).padStart(2, '0')
                                     const year = String(formatDate.getFullYear())
                                     return (
-                                        <div key={i} className='cursor-pointer w-full min-h-35 my-3 border-1 flex shadow-[4px_4px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row"'>
+                                        <div key={i} className='cursor-pointer w-full min-h-35 max-md:min-h-40 h-150 my-3 border-1 flex shadow-[4px_4px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row"'>
                                             <div className="w-[30%] select-none self-stretch bg-[#ee4d2d] flex  items-center justify-center">
                                                 <img src={typeof Shopee == 'string' ? Shopee : Shopee.src} className="size-30 max-md:size-15" />
                                             </div>

@@ -1,5 +1,5 @@
 'use client'
-import { Category } from "../Home/Category";
+import { Category } from "../Home/Categories";
 import Close from '../../../public/close.png'
 import { useEffect, useRef, useState } from "react";
 import Add from '../../../public/Add.png'
@@ -18,15 +18,19 @@ type ModalCategoryProps = {
     type?: string,
     setIsLoading: Function
 }
-export const CreateImage =async (file: File, folder: string) => {
-   
+export const CreateImage = async (file: File, folder: string) => {
 
-        const data = new FormData()
-        data.append('file', file)
-        data.append('folder', folder)
-        const res2 = await requestUser.post('/upload-user-image', data)
-        return res2.data
-   
+
+    const data = new FormData()
+    data.append('file', file)
+    data.append('folder', folder)
+    const res2 = await requestUser.post('/upload-user-image', data)
+    if (res2.status === 413) {
+
+        return alert('Ảnh quá lớn')
+    }
+    return res2.data
+
 }
 
 const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, type = 'change' }: ModalCategoryProps) => {
@@ -40,23 +44,27 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
             try {
                 let newImage = ''
                 setIsLoading(true)
-                if(file){
-                    newImage = await CreateImage(file,'category')
+                if (file) {
+                    newImage = await CreateImage(file, 'category')
                 }
                 console.log(file)
                 const data = {
                     name: nameRef.current?.value,
-                    image: file == undefined ? categories[currentIndex].image :newImage
+                    image: file == undefined ? categories[currentIndex].image : newImage
                 }
 
                 const res = await requestAdmin.patch(`/update-category/${categories[currentIndex].id}`, data)
-                if(res.status == 403){
+                if (res.status == 403) {
                     setIsLoading(false)
-                return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
                 }
+                if (res.status === 413) {
+                    setIsLoading(false)
+                    return dispatch(setLoading({ active: true, text: 'Ảnh quá lớn', type: LoadingType.ERROR }))
+                }
                 dispatch(changeCategory(res.data as Category))
-                dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Tạo thể loại thành công!' }))
+                dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Sửa thể loại thành công!' }))
                 setIsLoading(false)
 
             } catch (e) {
@@ -71,8 +79,8 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                 let newImage = ''
 
                 setIsLoading(true)
-                if(file){
-                    newImage = await CreateImage(file,'category')
+                if (file) {
+                    newImage = await CreateImage(file, 'category')
                 }
                 const data = {
                     name: nameRef.current?.value,
@@ -80,12 +88,17 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                 }
                 console.log(file)
 
-                const res = await requestAdmin.post(`/create-category`,data)
-                 if(res.status == 403){
+                const res = await requestAdmin.post(`/create-category`, data)
+                if (res.status == 403) {
                     setIsLoading(false)
 
-                return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
+                    return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
 
+                }
+                if (res.status === 413) {
+                    setIsLoading(false)
+
+                    return dispatch(setLoading({ active: true, text: 'Ảnh quá lớn', type: LoadingType.ERROR }))
                 }
                 dispatch(addCategory(res.data as Category))
                 dispatch(setLoading({ active: true, type: LoadingType.SUCCESS, text: 'Thay đổi thể loại thành công!' }))
@@ -137,7 +150,7 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                             )}
                             <input className="hidden" id="category" type="file" onChange={(e) => {
                                 if (!e.target?.files?.[0].type.startsWith('image'))
-                                    return alert('Vui lòng chọn ảnh')
+                                    return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
                                 setFile(e.target?.files?.[0] as File)
                                 const url = URL.createObjectURL(e.target?.files?.[0] as File)
                                 setCurrentImage(url)
@@ -187,7 +200,7 @@ const ModalCategory = ({ currentIndex, setIsLoading, categories, CloseModal, typ
                             )}
                             <input className="hidden" id="category" type="file" onChange={(e) => {
                                 if (!e.target?.files?.[0].type.startsWith('image'))
-                                    return alert('Vui lòng chọn ảnh')
+                                    return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
                                 setFile(e.target?.files?.[0] as File)
                                 const url = URL.createObjectURL(e.target?.files?.[0] as File)
                                 setCurrentImage(url)

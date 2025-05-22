@@ -94,5 +94,9 @@ export class AdminController {
     ){
         return this.adminService.searchUser(email)
     }
-
+    // @UseGuards(JwtAuthGuard)
+    @Get('/search-history')
+    SearchHistory(@Query('from') from:string,@Query('to') to:string){
+        return this.adminService.searchHistory(from,to)
+    }
 }

@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useEffect, useState, useCallback, useTransition } from 'react';
+import { useRef, useEffect, useState, useCallback, useTransition, useMemo } from 'react';
 import ShopeeIcon from '../../../public/shopee-icon.png';
 import Search from '../../../public/search.png';
 import { Abel } from 'next/font/google';
@@ -10,6 +10,9 @@ import { ProductOverview } from '../Home/FlashSale';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import SpinnerShopee from '../Spinner/SpinnerShopee';
+import { debounce } from '../Admin/SettingUsers';
+import { SearchTitle, useSearchProduct } from '@/hooks/useSearchProduct';
+import { toSlug } from '../Product/ProductCardOverview';
 
 const abel = Abel({ subsets: ['latin'], weight: '400' });
 
@@ -34,42 +37,25 @@ type BottomNavProp = {
 
 const BottomNav = ({ Loading }: BottomNavProp) => {
   const trendingRef = useRef<HTMLDivElement>(null)
-  const [trendingVisible, setTrendingVisible] = useState<string[]>([])
   const [openCartModal, setOpenCartModal] = useState(false)
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-
+  const [inputSearch, setInputSearch] = useState('')
+  const [inputSearchDebounce, setInputSearchDebounce] = useState('')
   const CartItems = useSelector((state: RootState) => state.userCart.userCart)
-  useEffect(() => {
-    const totalWidth = trendingRef.current?.offsetWidth ?? 0
-    let currentWidth = 0
-    const fakeTrendingElement = document.createElement('span')
-    fakeTrendingElement.style.visibility = 'hidden'
-    fakeTrendingElement.style.position = 'fixed'
-    document.body.appendChild(fakeTrendingElement)
-    const tempVisible = []
-    const l = TrendingItem.length
-    for (let i = 0; i < l; i++) {
-      fakeTrendingElement.innerText = TrendingItem[i]
-      const itemWidth = fakeTrendingElement.offsetWidth + 12
-      if (currentWidth + itemWidth <= totalWidth) {
-        tempVisible.push(TrendingItem[i])
-        currentWidth += itemWidth
-      }
-    }
-    setTrendingVisible(tempVisible)
-  }, [])
+
   const GoToCart = () => {
     const hasMouse = window.matchMedia('(pointer: fine)').matches;
+    
     if (!hasMouse) {
 
-      setOpenCartModal(!openCartModal)
-    } else {
+      setOpenCartModal(false)
+    } 
       startTransition(() => {
 
         router.push('/cart')
       })
-    }
+    
   }
   const GoToHome = () => {
     startTransition(() => {
@@ -87,6 +73,28 @@ const BottomNav = ({ Loading }: BottomNavProp) => {
 
     } else Loading(false)
   }, [isPending])
+  const changeDebounce = (value: string) => {
+    setInputSearchDebounce(value)
+  }
+  const debounceSearch = useMemo(() => {
+    return debounce(changeDebounce, 200)
+  }, [])
+  const goInToSlug = (t:SearchTitle)=>{
+    const slug = toSlug(t.title)
+    setInputSearch('')
+    setInputSearchDebounce('')
+    startTransition(()=>{
+      router.push(`${slug}-${t.id}`)
+    })
+  }
+  const goInSearch = (t:string)=>{
+    setInputSearch('')
+    setInputSearchDebounce('')
+    startTransition(()=>{
+      router.push(`/search/${t}`)
+    })
+  }
+  const { isLoading, data } = useSearchProduct(inputSearchDebounce)
   return (
     <>
 
@@ -105,29 +113,49 @@ const BottomNav = ({ Loading }: BottomNavProp) => {
 
         <div className="flex flex-col min-w-0 flex-grow mx-10 max-md:mx-2 max-md:h-full justify-center">
 
-          <div className="relative bg-white w-full h-10 max-md:h-8 mt-2 rounded-sm select-none">
+          <div className="relative bg-white w-full h-10 max-md:h-8 mt-2 rounded-t-sm select-none">
             <input
+              value={inputSearch}
+              onChange={(e) => {
+                setInputSearch(e.target.value)
+                debounceSearch(e.target.value)
+              }}
+              onKeyDown={(e)=>{
+                if(e.key == 'Enter'){
+                  goInSearch(inputSearchDebounce)
+                }
+              }}
               className="border-0 w-full outline-none p-1.5 text-lg max-md:text-sm max-md:p-1.5"
               placeholder="Giảm đến 50%"
             />
+            {inputSearchDebounce !='' && (
+              <div className='absolute w-full p-3  rounded-b-sm  h-fit bg-[#f5f5f5] z-10000 flex flex-col flex-wrap'>
+                {data?.length == 0 && (
+                  <div className='w-full flex justify-center'>
+                    <p>Không có sản phẩm</p>
+                  </div>
+                )}
+                {data?.map((t,i) => {
+                  return (
+                    <div key={i} onClick={()=>{goInToSlug(t)}} className=' p-2 hover:bg-gray-300 cursor-pointer'>
+                      <p className='line-clamp-1'>{t?.title}</p>
+                    </div>
+
+                  )
+                })}
+              </div>
+
+            )}
             <div className="absolute right-0 top-0  w-22.5 max-md:w-12.5 h-full bg-white flex justify-center items-center rounded-sm">
-              <div className="navbar w-[90%] h-[90%] rounded-sm flex items-center justify-center cursor-pointer hover:opacity-90">
+              <div onClick={()=>{
+                goInSearch(inputSearchDebounce)
+              }} className="navbar bg-red-200 w-[90%] h-[90%] rounded-sm flex items-center justify-center cursor-pointer hover:opacity-90">
                 <img className="size-7 max-md:size-5" src={typeof Search === 'string' ? Search : Search.src} />
               </div>
             </div>
           </div>
 
 
-          <div
-            ref={trendingRef}
-            className="flex flex-row space-x-3 whitespace-nowrap mt-1 max-md:hidden"
-          >
-            {trendingVisible.map((item, index) => (
-              <p key={index} className="text-white text-md max-md:text-sm cursor-pointer hover:underline">
-                {item}
-              </p>
-            ))}
-          </div>
         </div>
 
 

@@ -107,10 +107,14 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
     }
     const HandlerImage = async (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
         if (!e.target?.files?.[0].type.startsWith('image'))
-            return alert('Vui lòng chọn ảnh')
+            return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
         try {
             setIsLoading(true)
             const url = await CreateImage(e.target?.files?.[0] as File, 'banner')
+             if (url.status === 413) {
+                       
+                       return dispatch(setLoading({active:true,text:'Ảnh quá lớn',type:LoadingType.ERROR}))
+                   }
             SaveBanner(type, url)
             setIsLoading(false)
             dispatch(setLoading({ active: true, text: 'Tải ảnh lên thành công', type: LoadingType.SUCCESS }))

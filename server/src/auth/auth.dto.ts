@@ -56,3 +56,15 @@ export class GetMyVouncherDto{
     @IsNotEmpty({ message: 'Lỗi thiếu id' })
     userId:string
 }
+export class IncDto{
+    @IsNotEmpty({ message: 'Lỗi thiếu id' })
+    id:string
+    @IsNotEmpty()
+    amount:number
+}
+export class UserImageDto{
+    @IsNotEmpty()
+    url:string
+    @IsNotEmpty()
+    id:string
+}

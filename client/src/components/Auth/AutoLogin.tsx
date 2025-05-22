@@ -20,6 +20,8 @@ import { useMyUserCart } from "@/hooks/useMyUserCart";
 import { setUserCart } from "@/slice/userCartSlice";
 import { useHistory } from "@/hooks/useHistory";
 import { setHistory } from "@/slice/historySlice";
+import { useFlashSale } from "@/hooks/useFlashSale";
+import { setFlashSale } from "@/slice/flashSaleSlice";
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0YmU3ZmIzLTQ1ZTItNDc0ZC04ODIwLTAwY2Q4ZTRjZTdlZSIsImlhdCI6MTc0NjQ0MTI2NiwiZXhwIjoxNzQ2NDQ0ODY2fQ.xrMnHMU4vSQObbnxWhhjvjJsYG5JImSqbxubdT29Ds8'
 export type SignInResponse = {
     user: User,
@@ -53,6 +55,14 @@ const AutoLogin = () => {
     const myVouncherData = useMyVouncher(user?.id ?? '')
     const myUserCartData = useMyUserCart(user?.id ?? '')
     const historyData = useHistory(user?.history?.id ?? '')
+    const flashSaleData = useFlashSale()
+
+    useEffect(() => {
+        if (flashSaleData.data) {
+            console.log('flash')
+            dispatch(setFlashSale(flashSaleData.data))
+        }
+    }, [flashSaleData.data])
     useEffect(() => {
         if (categoriesData.data) {
             dispatch(setCategories(categoriesData.data))
@@ -86,7 +96,7 @@ const AutoLogin = () => {
         }
     },[historyData.data])
 
-    if (loading || categoriesData.isLoading || vouncherData.isLoading || bannerData.isLoading) return <SpinnerShopee />
+    if (loading || categoriesData.isLoading || flashSaleData.isLoading|| vouncherData.isLoading || bannerData.isLoading) return <SpinnerShopee />
     return null;
 }
 

@@ -1,13 +1,16 @@
-import { useRef, useState, useTransition } from "react";
-import { fakeProduct } from "../Home/FlashSale";
+import { useEffect, useRef, useState, useTransition } from "react";
 import ProductCardOverview from "./ProductCardOverview";
 import DoubleLeft from '../../../public/double-left.png'
 import DoubleRight from '../../../public/double-right.png'
-import { useProducts } from "@/hooks/useProducts";
+import { LIMIT_PER_PAGE, useProducts } from "@/hooks/useProducts";
 import SpinnerShopee from "../Spinner/SpinnerShopee";
+import { Category } from "../Home/Categories";
+type SuggessProductProp = {
+    category:Category
+}
 
-const SuggestProduct = () => {
-    const max = 13;
+const SuggestProduct = ({category}:SuggessProductProp) => {
+    const [max,setMax] = useState(0)
     const [chosen, setChosen] = useState(1)
       const [isPending, startTransition] = useTransition()
     const scrollRef = useRef<HTMLParagraphElement>(null)
@@ -17,21 +20,24 @@ const SuggestProduct = () => {
     }
     const {
         data,
-        fetchNextPage,
-        isError,
-        isFetchingNextPage
-    } = useProducts()
+        isLoading,} = useProducts(chosen,category?.id )
+    useEffect(()=>{
+        if(data){
+            setMax(Math.ceil(data.total /LIMIT_PER_PAGE) )
+        }
+    },[data])
+    
     return (
         <>
 
-            {(isFetchingNextPage||isPending) && <SpinnerShopee />}
-            <div className="h-auto max-h-1500 overflow-y-auto w-full bg-[#f5f5f5] flex items-center flex-col">
+            {(isLoading||isPending) && <SpinnerShopee />}
+            <div className="h-auto pb-20 max-h-1500 overflow-y-auto w-full bg-[#f5f5f5] flex items-center flex-col">
                 <div className="w-290 max-xs:w-full max-md:w-full h-auto overflow-hidden ">
                     <div className="w-full h-15 border-b-6 border-[#ee4d2d] flex items-center justify-center">
                         <p ref={scrollRef} className="text-[20px] max-md:text-[18px] text-[#ee4d2d]">GỢI Ý HÔM NAY</p>
                     </div>
                     <div className="grid grid-cols-[repeat(auto-fit,_minmax(160px,1fr))] gap-4 justify-center items-center select-none" id="pli">
-                        {data?.pages[chosen - 1]?.product.map((product, idx) => {
+                        {data?.product.map((product, idx) => {
                             const price = Number(product.price?.replaceAll('.', ''))
                             const priceFormat = new Intl.NumberFormat('vi-VN').format(price)
                             return (
@@ -44,13 +50,14 @@ const SuggestProduct = () => {
                     </div>
 
                 </div>
+                {category?.id == '' &&
                 <div className="w-120 h-15 bg-gray-200 max-md:w-[80%] mt-5 mb-5 flex flex-row items-center justify-around select-none">
                     {chosen > 3 && <img onClick={() => {
 
                         scrollHandler(1)
                     }} className="w-7 h-7 cursor-pointer hover:scale-110 transition-transform duration-300" src={typeof DoubleLeft == 'string' ? DoubleLeft : DoubleLeft.src} />}
                     {chosen < 3 && chosen < max - 1 ? (
-                        Array.from({ length: 5 }, (_, i) => {
+                        Array.from({ length: Math.min(5,max) }, (_, i) => {
                             return (
                                 <div key={i} onClick={() => {
                                     scrollHandler(i + 1)
@@ -61,9 +68,8 @@ const SuggestProduct = () => {
                         }
                         )
                     ) : (
-                        Array.from({ length: 5 }, (_, i) => {
+                        Array.from({ length: Math.min(max,5) }, (_, i) => {
                             if (chosen < max - 1) {
-
                                 return (
                                     <div key={i} onClick={() => {
 
@@ -76,13 +82,15 @@ const SuggestProduct = () => {
                         })
                     )}
                     {chosen >= max - 1 && (
-                        Array.from({ length: 5 }, (_, i) => {
+                        
+                        Array.from({ length: Math.min(5,max) }, (_, i) => {
+                            console.log('here')
                             return (
                                 <div key={i} onClick={() => {
 
-                                    scrollHandler(max - 4 + i)
-                                }} className={`h-7 w-10 ${max - 4 + i == chosen && 'bg-[#ee4d2d] text-white'} flex justify-center items-center cursor-pointer ${max - 4 + i != chosen && 'hover:bg-gray-400'} `}>
-                                    {max - 4 + i}
+                                    scrollHandler(max - Math.min(5,max)+1 + i)
+                                }} className={`h-7 w-10 ${max - Math.min(5,max)+1 + i == chosen && 'bg-[#ee4d2d] text-white'} flex justify-center items-center cursor-pointer ${max - Math.min(5,max)+1 + i!= chosen && 'hover:bg-gray-400'} `}>
+                                    {max - Math.min(5,max)+1 + i}
                                 </div>
                             )
                         }
@@ -93,6 +101,7 @@ const SuggestProduct = () => {
 
 
                 </div>
+                }
             </div>
         </>
     );

@@ -36,12 +36,12 @@ const ModalVouncher = ({ CloseModal, vouncher, setIsLoading, type }: ModalVounch
     const Save = async () => {
         const timeString = `${date.year}-${date.month}-${date.day}`
         if (maxDiscountInput == '' || discountInput == '')
-            return alert('Vui lòng điền đầy đủ!')
+            return dispatch(setLoading({active:true,text:'Vui lòng điền đầy đủ',type:LoadingType.ERROR}))
 
         if (maxDiscountInput.length > 13)
-            return alert('Sô tiền giảm quá lớn!')
+            return dispatch(setLoading({active:true,text:'Số tiền giảm quá lớn',type:LoadingType.ERROR}))
         if (discountInput.length >= 3 && discountInput != '100')
-            return alert('Giảm tối đa 100%')
+            return dispatch(setLoading({active:true,text:'Giảm tối đa 100%',type:LoadingType.ERROR}))
 
         const timeDate = new Date(timeString)
         const maxDiscountNum = maxDiscountInput.replaceAll('.', '')
@@ -81,12 +81,12 @@ const ModalVouncher = ({ CloseModal, vouncher, setIsLoading, type }: ModalVounch
 
                 const res = await requestAdmin.post('/create-vouncher', newVouncher)
                 console.log(res)
-                dispatch(addVouncher(res.data as Vouncher))
                 if (res.status == 403) {
                     setIsLoading(false)
                     return dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Bạn không phải admin!' }))
-
+                    
                 }
+                dispatch(addVouncher(res.data as Vouncher))
                 if (res.status == 400) {
                     dispatch(setLoading({ active: true, type: LoadingType.ERROR, text: 'Tạo vouncher thất bại!' }))
 

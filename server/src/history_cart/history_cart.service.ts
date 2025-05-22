@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserCartDto, HistoryCartDto, UpdateHistoryCartDto } from './history_cart.dto';
 import { History } from 'src/entities/history.entity';
 import { UserCart, UserCartType } from 'src/entities/user_cart.entity';
+import { Products } from 'src/entities/products.entity';
 
 @Injectable()
 export class HistoryCartService {
@@ -14,7 +15,9 @@ export class HistoryCartService {
         @InjectRepository(UserCart)
         private userCartRepo: Repository<UserCart>,
         @InjectRepository(History)
-        private historyRepo: Repository<History>
+        private historyRepo: Repository<History>,
+        @InjectRepository(Products)
+        private productrepo: Repository<Products>
     ) {
 
     }
@@ -24,7 +27,7 @@ export class HistoryCartService {
             const history = await this.historyRepo.count({ where: { id: HistoryCartDto.historyId } })
             if (!history)
                 throw new NotFoundException(['Lỗi không thấy lịch sử'])
-            console.log('HistoryCartDto:',HistoryCartDto)
+            console.log('HistoryCartDto:', HistoryCartDto)
             if (!HistoryCartDto.userCart[0].id) {
 
                 const userCart = await this.userCartRepo.create({ ...HistoryCartDto.userCart[0], type: UserCartType.FINISH })
@@ -33,13 +36,13 @@ export class HistoryCartService {
                 HistoryCartDto.userCart[0] = newUserCart
                 console.log('im here')
             }
-            const userCartPromises = HistoryCartDto.userCart.map(async (cart) => {    
+            const userCartPromises = HistoryCartDto.userCart.map(async (cart) => {
 
                 await this.userCartRepo.update(cart.id, {
                     type: UserCartType.FINISH,
                 });
 
-                return await this.userCartRepo.findOneBy({ id: cart.id }); 
+                return await this.userCartRepo.findOneBy({ id: cart.id });
             });
 
             const updatedUserCartsWithNulls = await Promise.all(userCartPromises);
@@ -51,7 +54,11 @@ export class HistoryCartService {
             const historyCart = await this.historyCartRepo.create(HistoryCartDto)
 
             const newHistoryCart = await this.historyCartRepo.save(historyCart)
-            return newHistoryCart
+            const fullHistoryCart = await this.historyCartRepo.findOne({
+                where: { id: newHistoryCart.id },
+                relations: ['userCart', 'userCart.product'], 
+            });
+            return fullHistoryCart
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi tạo đơn hàng'])
@@ -61,7 +68,7 @@ export class HistoryCartService {
         try {
 
             const userCart = await this.userCartRepo.find({
-                where: { userId: id,type:UserCartType.PENDING },
+                where: { userId: id, type: UserCartType.PENDING },
                 relations: ['product']
             })
             return userCart
@@ -91,30 +98,50 @@ export class HistoryCartService {
             throw new BadRequestException(['Lỗi xóa đơn hàng'])
         }
     }
-    async getHistoryCart(historyId:string){
+    async getHistoryCart(historyId: string) {
         try {
-            const historyCart = this.historyCartRepo.find({where:{
-                historyId:historyId
-            },
-            relations:['userCart','userCart.product'],
-            order:{
-                create_at:'desc'
-            }
-        })
+            const historyCart = this.historyCartRepo.find({
+                where: {
+                    historyId: historyId
+                },
+                relations: ['userCart', 'userCart.product'],
+                order: {
+                    create_at: 'desc'
+                }
+            })
             return historyCart
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi Lấy lịch sử'])
         }
     }
-    async updateHistoryCart(historyDto:UpdateHistoryCartDto){
-        const {historyId,received_at} = historyDto
+    async updateHistoryCart(historyDto: UpdateHistoryCartDto) {
+        const { historyId, received_at } = historyDto
         try {
-            await this.historyCartRepo.update(historyId,{
-                state:StateHistory.RECEIVED,
-                received_at:received_at
+            await this.historyCartRepo.update(historyId, {
+                state: StateHistory.RECEIVED,
+                received_at: received_at,
             })
-            return {message:'success'}
+            const history = await this.historyCartRepo.findOne({
+                where: { id: historyId },
+                relations: ['userCart', 'userCart.product'],
+            });
+            if (!history) {
+                throw new BadRequestException('Không tìm thấy đơn hàng');
+            }
+            for (const item of history.userCart) {
+                const product = await this.productrepo.findOne({
+                    where: { id: item.product.id },
+                });
+                if (!product) continue;
+                const remain = parseInt(product.remain || '0');
+                const newRemain = remain - item.quantity;
+                const newSold = product.sold + item.quantity
+                product.remain = String(newRemain.toString())
+                product.sold = newSold
+                await this.productrepo.save(product)
+            }
+            return { message: 'success' }
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi cập nhật lịch sử'])

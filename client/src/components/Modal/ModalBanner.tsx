@@ -219,7 +219,7 @@ const ModalBanner = ({ closeBanner,setIsLoading, bgNavigate, SaveBanner }: Modal
                                 <img onClick={() => document.getElementById(`banner-${i}`)?.click()} src={img} draggable className='image hover:shadow-[0px_0px_7px_rgba(0,0,0,0.5)] cursor-pointer aspect-[16/9] object-cover size-full' />
                                 <input onChange={async (e) => {
                                     if (!e.target?.files?.[0].type.startsWith('image'))
-                                    return alert('Vui lòng chọn ảnh')
+                                    return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
                                     try{
                                         setIsLoading(true)
                                         const url =await  CreateImage(e.target?.files?.[0],'banner')
@@ -259,7 +259,7 @@ const ModalBanner = ({ closeBanner,setIsLoading, bgNavigate, SaveBanner }: Modal
                     id={`banner-create-z`} className='hidden' type='file'
                     onChange={async (e) => {
                                     if (!e.target?.files?.[0].type.startsWith('image'))
-                                    return alert('Vui lòng chọn ảnh')
+                                    return dispatch(setLoading({active:true,text:'Vui lòng chọn ảnh',type:LoadingType.ERROR}))
                                     try{
                                         setIsLoading(true)
                                         const url =await  CreateImage(e.target?.files?.[0],'banner')

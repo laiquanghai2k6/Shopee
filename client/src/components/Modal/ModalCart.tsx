@@ -50,20 +50,20 @@ const ModalCart = ({ productCart, Loading, openCartModal, closeModalCart }: Moda
     }, [isPending])
     return (
         <>
-            {shouldRenderCart && (<div className={`${openCartModal == false ? 'disappearCart' : ' appearCart'} absolute shadow-[0px_0px_7px_rgba(0,0,0,0.2)] w-100 min-h-30 bg-white rounded-sm transition-all right-0 max-md:right-[-50%] top-[90%] origin-top-right transform translate-x-[-16px] translate-y-[8px] z-1000  `}>
+            {shouldRenderCart && (<div className={`${openCartModal == false ? 'disappearCart' : ' appearCart'} absolute shadow-[0px_0px_7px_rgba(0,0,0,0.2)] w-100 min-h-30 bg-white rounded-sm transition-all right-0 max-md:right-[-50%] top-[65%] origin-top-right transform translate-x-[-16px] translate-y-[8px] z-1000  `}>
                 <div className="flex flex-col">
                     <div className="flex max-h-100 overflow-y-auto flex-col">
                         {productCart.map((item, i) => {
                             const now = Date.now()
-                            const numVouncher = new Date(String(item.product?.timeDiscount)).getTime()
-                            const priceFormat = ConvertToVND(Number(item.priceProduct.replaceAll('.', '')))
-                            const discountFormat = ConvertToVND(Number(item.priceDiscount.replaceAll('.', '')))
+                            const numVouncher = new Date(String(item?.product?.timeDiscount)).getTime()
+                            const priceFormat = ConvertToVND(Number(item?.priceProduct.replaceAll('.', '')))
+                            const discountFormat = ConvertToVND(Number(item?.priceDiscount.replaceAll('.', '')))
                             return (
-                                <div key={i} onClick={() => ViewProduct(item.product?.title ?? 'Error', item.product?.id ?? 'error')} className="flex p-2 cursor-pointer hover:bg-[rgba(0,0,0,0.2)] flex-row items-center justify-between h-20  w-full">
+                                <div key={i} onClick={() => ViewProduct(item?.product?.title ?? 'Error', item?.product?.id ?? 'error')} className="flex p-2 cursor-pointer hover:bg-[rgba(0,0,0,0.2)] flex-row items-center justify-between h-fit min-h-20  w-full">
                                     <div className="h-15 w-[15%] ">
-                                        <img src={item.product?.image} className="object-cover h-full w-full" />
+                                        <img src={item?.product?.image} className="object-cover h-full w-full" />
                                     </div>
-                                    <div className="justify-start max-w-[60%] w-60 ml-3">{item.product?.title}</div>
+                                    <div className="justify-start max-w-[60%] w-60 h-fit ml-3">{item?.product?.title}</div>
 
                                     <div className="min-w-[25%] h-full flex flex-row items-center  ">
                                         <div className={`w-full flex flex-col justify-center items-center `}>

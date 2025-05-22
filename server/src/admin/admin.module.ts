@@ -1,3 +1,4 @@
+import { HistoryCart } from './../entities/history_cart.entity';
 import { Module } from '@nestjs/common';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
@@ -21,7 +22,7 @@ import { History } from 'src/entities/history.entity';
   providers: [AdminService,AuthService,JwtAuthGuard,RolesGuard,CloudinaryService],
   imports:[AuthModule,
     CloudinaryModule,
-    TypeOrmModule.forFeature([Products,User,Category,History,Banner,Vouncher,UserVouncher])
+    TypeOrmModule.forFeature([Products,HistoryCart,User,Category,History,Banner,Vouncher,UserVouncher])
   ],
   exports:[AdminService]
 })

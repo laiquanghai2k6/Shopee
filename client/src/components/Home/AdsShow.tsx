@@ -3,26 +3,43 @@ import Ticket from '../../../public/ticket.png'
 import test from '../../../public/test2.png'
 import test2 from '../../../public/imgtest.jpg'
 import Wallet from '../../../public/wallet.png'
-import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect, useState, useTransition } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import ModalVouncherClient from '../Modal/ModalVouncherClient'
+import axios from 'axios'
+import { setOrderId } from '@/slice/orderSlice'
+import ModalPayment from '../Modal/ModalPayment'
+import { LoadingType, setLoading } from '@/slice/loadingSlice'
 const images = [
   test,
   test2
 ]
-const AdsShow = () => {
+const AdsShow = ({Loading}:{Loading:Function}) => {
   const [indexAds, setIndexAds] = useState(1)
+  const dispatch = useDispatch()
   const [modal, setModal] = useState({
     active: false
   })
-  const closeModal = useCallback(()=>{
-    setModal({active:false})
-  },[])
+  const userId = useSelector((state:RootState)=>state.user.user.id)
+  
+  const [modalPayment,setModalPayment] = useState(false)
+  const [isPending,startTransition] = useTransition()
+  const closeModal = useCallback(() => {
+    setModal({ active: false })
+  }, [])
   const banner = useSelector((state: RootState) => state.banner.banner)
+  
+  
+  useEffect(()=>{
+    if(isPending) Loading(true)
+      else Loading(false)
+  },[isPending])
+  const closeModals = ()=>setModalPayment(false)
   return (
     <>
       {modal.active && <ModalVouncherClient closeModal={closeModal} />}
+      {modalPayment && <ModalPayment Loading={Loading}  closeModal={closeModals} startTransition={startTransition}/>}
       <div className="overflow-hidden bg-white h-95 max-md:h-auto text-white select-none flex flex-col items-center  ">
         <div className="w-290 max-h-60 flex flex-row gap-2 mt-7 max-md:mt-5 max-md:mx-2  max-md:flex-col max-md:w-[100%] max-md:max-h-280 max-md:h-130   ">
 
@@ -84,7 +101,11 @@ const AdsShow = () => {
         </div>
         <div className="bg-white-700 flex flex-row w-290 h-full items-center justify-around max-md:w-[100%] max-md:h-20 max-md:mt-2 ">
           <div className="flex flex-col justify-center items-center">
-            <div onClick={()=>setModal({active:true})} className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
+            <div onClick={() => {
+              if(userId == '')
+                return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+              setModal({ active: true })
+            }} className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
               <img className="size-[80%]" src={typeof Ticket == 'string' ? Ticket : Ticket.src} />
             </div>
             <p className="text-black">Nhận mã giảm giá</p>
@@ -92,7 +113,11 @@ const AdsShow = () => {
 
           </div>
           <div className="flex flex-col justify-center items-center">
-            <div className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
+            <div onClick={() => {
+               if(userId == '')
+                return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+              setModalPayment(true)
+            }} className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
               <img className="size-[80%]" src={typeof Wallet == 'string' ? Wallet : Wallet.src} />
             </div>
             <p className="text-black" >Nạp tiền vào ví</p>

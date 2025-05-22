@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Req, Res, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthSignInDto, AuthSignUpDto, GetMyVouncherDto, GetUserDto, SaveVouncherDto, SignInGoogleDto, UpdateVouncherDto, UploadImageDto } from './auth.dto';
+import { AuthSignInDto, AuthSignUpDto, GetMyVouncherDto, GetUserDto, IncDto, SaveVouncherDto, SignInGoogleDto, UpdateVouncherDto, UploadImageDto, UserImageDto } from './auth.dto';
 import { GetGoogleUser, GetUser, Public } from './auth.decorator';
 import { User } from 'src/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -82,6 +82,11 @@ export class AuthController {
         return this.authService.uploadUserImage(file,uploadImageDto)
     }
     @UseGuards(JwtAuthGuard)
+    @Post('/user-image')
+    UserImage(@Body() userImageDto:UserImageDto){
+        return this.authService.userImage(userImageDto)
+    }
+    @UseGuards(JwtAuthGuard)
     @Post('/save-vouncher')
     SaveVouncher(@Body() saveVouncherDto:SaveVouncherDto){
         return this.authService.addVouncher(saveVouncherDto)
@@ -97,6 +102,15 @@ export class AuthController {
         return this.authService.getMyVouncher(id)
 
     }
-
+    @UseGuards(JwtAuthGuard)
+    @Post('/increase-money')
+    IncreaseMoney(@Body() IncDto:IncDto){
+        return this.authService.increaseMoney(IncDto)
+    }
+     @UseGuards(JwtAuthGuard)
+    @Post('/decrease-money')
+    DecreaseMoney(@Body() IncDto:IncDto){
+        return this.authService.decreaseMoney(IncDto)
+    }
 
 }

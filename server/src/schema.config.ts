@@ -16,4 +16,5 @@ export const configValidationSchema = Joi.object({
     VNP_HASH_SECRET: Joi.string().required(),
     VNP_URL: Joi.string().required(),
     VNP_RETURN_URL: Joi.string().required(),
+    STRIPE_SECRET:Joi.string().required()
 })

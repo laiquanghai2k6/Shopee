@@ -35,13 +35,16 @@ import { UserVouncher } from './entities/user_vouncher';
 import { VnpayModule } from './vnpay/vnpay.module';
 import { HistoryCartModule } from './history_cart/history_cart.module';
 import { HistoryCartController } from './history_cart/history_cart.controller';
-
+import { StripeController } from './stripe/stripe.controller';
+import { Order } from './entities/order.entity';
+import { StripeModule } from './stripe/stripe.module';
+import * as bodyParser from 'body-parser';
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
-      validationSchema:configValidationSchema
+      validationSchema: configValidationSchema
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -58,7 +61,7 @@ import { HistoryCartController } from './history_cart/history_cart.controller';
         }
       }
     }),
-    TypeOrmModule.forFeature([User,UserVouncher,History,HistoryCart,Banner,UserCart,Products,ProductResponse,Detail,Option,ProductOptions,Category,Vouncher]),
+    TypeOrmModule.forFeature([User, Order, UserVouncher, History, HistoryCart, Banner, UserCart, Products, ProductResponse, Detail, Option, ProductOptions, Category, Vouncher]),
     AuthModule,
     CloudinaryModule,
     CategoryModule,
@@ -67,23 +70,31 @@ import { HistoryCartController } from './history_cart/history_cart.controller';
     ProductModule,
     VnpayModule,
     HistoryCartModule,
+    StripeModule
 
-    
+
   ],
-  controllers: [AuthController,VnpayController,ProductController,HistoryCartController, CloudinaryController, CategoryController,VouncherController,AdminController],
-  providers:[
+  controllers: [AuthController, VnpayController, ProductController, HistoryCartController, CloudinaryController, CategoryController, VouncherController, AdminController],
+  providers: [
+
     JwtAuthGuard,
     {
-      provide:APP_GUARD,
-      useClass:PublicGuard
+      provide: APP_GUARD,
+      useClass: PublicGuard
     }
   ]
-  
+
 })
 export class AppModule {
-  configure(consumer:MiddlewareConsumer){
-    consumer
+  configure(consumer: MiddlewareConsumer) {
+     consumer
       .apply(RefreshTokenMiddlewares)
-      .forRoutes({path:'auth/sign-out-auto',method:RequestMethod.ALL})
+      .forRoutes({ path: 'auth/sign-out-auto', method: RequestMethod.ALL });
+
+    consumer
+      .apply(bodyParser.raw({ type: 'application/json' }))
+      .forRoutes({ path: 'stripe/webhook', method: RequestMethod.POST });
   }
- }
+}
+
+ 

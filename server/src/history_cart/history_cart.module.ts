@@ -13,12 +13,13 @@ import { Vouncher } from 'src/entities/vouncher.entity';
 import { UserVouncher } from 'src/entities/user_vouncher';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 import { UserCart } from 'src/entities/user_cart.entity';
+import { Products } from 'src/entities/products.entity';
 
 @Module({
   controllers: [HistoryCartController],
   providers: [HistoryCartService,AuthService,JwtAuthGuard],
   imports:[
-    TypeOrmModule.forFeature([HistoryCart,User,UserCart,History,Vouncher,UserVouncher]),
+    TypeOrmModule.forFeature([HistoryCart,User,Products,UserCart,History,Vouncher,UserVouncher]),
     AuthModule,
     CloudinaryModule
   ],

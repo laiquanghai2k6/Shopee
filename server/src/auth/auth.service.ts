@@ -1,5 +1,5 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthSignInDto, AuthSignUpDto, GetMyVouncherDto, GetUserDto, SaveVouncherDto, SignInGoogleDto, UpdateVouncherDto, UploadImageDto } from './auth.dto';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { AuthSignInDto, AuthSignUpDto, GetMyVouncherDto, GetUserDto, IncDto, SaveVouncherDto, SignInGoogleDto, UpdateVouncherDto, UploadImageDto, UserImageDto } from './auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -179,6 +179,20 @@ export class AuthService {
             throw new BadRequestException(['Lỗi tải ảnh'])
         }
     }
+    async userImage(userImageDto:UserImageDto){
+        const {id,url} = userImageDto
+        try {
+            const user = await this.userRepository.findOne({where:{id}})
+            if(!user) throw new NotFoundException(['Không thấy user'])
+            user.image = url
+            await this.userRepository.save(user)
+            return user
+        } catch (error) {
+            console.log(error)
+            throw new BadRequestException(['Lỗi tải ảnh user'])
+
+        }
+    }
     async addVouncher(saveVouncherDto: SaveVouncherDto) {
         const { userId, vouncherId } = saveVouncherDto
         try {
@@ -222,6 +236,33 @@ export class AuthService {
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi lấy vouncher'])
+        }
+    }
+    async increaseMoney(IncDto:IncDto){
+        const {id,amount} = IncDto
+        try {
+            const user = await this.userRepository.findOne({where:{id}})
+            if(!user) throw new NotFoundException(['Không thấy user'])
+            user.money += amount
+            await this.userRepository.save(user)
+            return user
+
+        } catch (error) {
+            console.log(error)
+             throw new BadRequestException(['Lỗi tăng tiền'])
+        }
+    }
+    async decreaseMoney(IncDto:IncDto){
+        const {id,amount} = IncDto
+        try {
+            const user = await this.userRepository.findOne({where:{id}})
+            if(!user) throw new NotFoundException(['Không thấy user'])
+            user.money -= amount
+            await this.userRepository.save(user)
+            return user
+        } catch (error) {
+            console.log(error)
+             throw new BadRequestException(['Lỗi tăng tiền'])
         }
     }
 }

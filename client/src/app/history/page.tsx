@@ -55,7 +55,11 @@ const History = () => {
         <div className="min-h-screen flex justify-center w-full bg-[#f5f5f5]">
             {loading && <SpinnerShopee />}
             <div className="w-290 min-h-100 pb-30">
-
+                {histories.length == 0 && (
+                    <div className="w-full flex justify-center">
+                        <p className="text-[25px]">Chưa mua hàng nào</p>
+                    </div>
+                )}
 
                 {histories.map((history, i) => {
                     const total = ConvertToVND(Number(history.total.replaceAll('.', '')))
@@ -68,20 +72,20 @@ const History = () => {
 
 
                     const orderTime = {
-                        day: String(dateTypeOrder.getDate() + 1).padStart(2, '0'),
+                        day: String(dateTypeOrder.getDate() ).padStart(2, '0'),
                         month: String(dateTypeOrder.getMonth() + 1).padStart(2, '0'),
                         year: String(dateTypeOrder.getFullYear())
                     }
                     let receiveTime = null
                     if (dateTypeReceive) {
                         receiveTime = {
-                            day: String(dateTypeReceive.getDate() + 1).padStart(2, '0'),
+                            day: String(dateTypeReceive.getDate() ).padStart(2, '0'),
                             month: String(dateTypeReceive.getMonth() + 1).padStart(2, '0'),
                             year: String(dateTypeReceive.getFullYear())
                         }
                     }
                     const futureTime = {
-                        day: String(dateTypeFuture.getDate() + 1).padStart(2, '0'),
+                        day: String(dateTypeFuture.getDate() ).padStart(2, '0'),
                         month: String(dateTypeFuture.getMonth() + 1).padStart(2, '0'),
                         year: String(dateTypeFuture.getFullYear())
                     }

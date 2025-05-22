@@ -35,9 +35,9 @@ const TopNav = ({Loading}:{Loading:Function}) => {
                 <ItemText text="Kết nối" type="right" icon={FacebookIcon}  />
             </div>
             <div className="flex flex-row space-x-6 justify-center max-md:space-x-4 max-lg:justify-between max-lg:w-full ">
-                <ItemText text="Thông báo" type="left" icon={Notification} />
-                <ItemText text="Tải ứng dụng" type="left" icon={Question} />
-                <ItemText text="Kết nối" type="left" icon={Global} />
+                <ItemText  extraClass="max-md:text-[13px]" text="Thông báo" type="left" icon={Notification} />
+                <ItemText  extraClass="max-md:text-[13px]" text="Tải ứng dụng" type="left" icon={Question} />
+                <ItemText extraClass="max-md:text-[13px]"  text="Kết nối" type="left" icon={Global} />
                 {currentUser.name != '' ? (
 
                 <ItemText extraClass="relative" image={currentUser.image} isOpa={false} text={currentUser.name} type="left" icon={Default} isImage={true} onMouseEnter={()=>setOpenSettingModal(true)} onMouseLeave={()=>setOpenSettingModal(false)} >
@@ -45,7 +45,7 @@ const TopNav = ({Loading}:{Loading:Function}) => {
                     
                 </ItemText>
                 ):(
-                    <ItemText text="Đăng nhập" onClick={()=>{router.push('/login')}} />
+                    <ItemText extraClass="max-md:text-[13px]"  text="Đăng nhập" onClick={()=>{router.push('/login')}} />
                 )}
             </div>
 

@@ -8,7 +8,16 @@ import { Category } from 'src/entities/category.entity';
 import { Banner } from 'src/entities/banner.entity';
 import { Vouncher } from 'src/entities/vouncher.entity';
 import { User } from 'src/entities/user.entity';
+import { HistoryCart } from 'src/entities/history_cart.entity';
 export const PRODUCT_PER_PAGE = 30
+export const removeVietnameseTones=(str: string) => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+    .replace(/[^a-zA-Z0-9 ]/g, '') 
+    .toLowerCase();
+}
 
 @Injectable()
 export class AdminService {
@@ -22,7 +31,9 @@ export class AdminService {
         @InjectRepository(Vouncher)
         private vouncherRepository: Repository<Vouncher>,
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+        @InjectRepository(HistoryCart)
+        private historyCartRepo:Repository<HistoryCart>
     ) {
 
     }
@@ -30,6 +41,7 @@ export class AdminService {
         try {
 
             const newProduct = await this.productRepository.create(productDto)
+            newProduct.titleSearch = removeVietnameseTones(newProduct.title)
             const savedProduct = await this.productRepository.save(newProduct); 
             return savedProduct;
         } catch (e) {
@@ -178,6 +190,21 @@ export class AdminService {
         } catch (e) {
             console.log(e)
             throw new BadRequestException(['Lỗi tìm kiếm người dùng'])
+        }
+    }
+    async searchHistory(from:string,to:string){
+        try {
+          const fromDate = new Date(from)
+          const toDate = new Date(to)
+          const histories = await this.historyCartRepo.createQueryBuilder('hc')
+          .where('hc.received_at BETWEEN :start AND :end',{start:fromDate,end:toDate})
+          .leftJoinAndSelect('hc.userCart','userCart')
+          .leftJoinAndSelect('userCart.product','product')
+          .getMany()
+          return histories
+        } catch (error) {
+            console.log(error)
+            throw new BadRequestException(['Lỗi truy vấn lịch sử'])
         }
     }
 

@@ -39,7 +39,7 @@ export type ProductDetail = {
 
 
 export async function generateMetadata({ params }: ProductBuyingProps): Promise<Metadata> {
-    const { slug } = params;
+    const { slug } = await  params;
     const id = slug.split("-").slice(-5).join('-');
 
     if (!id) {
@@ -63,21 +63,27 @@ const fetchProductById = async (id: string): Promise<InfoProduct> => {
     const data = await res.json();
     return data as InfoProduct;
 }
+export const NotFound = ()=>{
+    return(
+        <div className='min-h-screen bg-[#f5f5f5] flex justify-center'>
+            <p className='text-[30px] mt-5'>Không tìm thấy sản phẩm</p>
+        </div>
+    )
+}
 const PageSlug = async ({ params }: ProductBuyingProps) => {
     const { slug } = await params;
     const parts = slug.split('-');
-    if (parts.length < 5) return <p>Không tìm thấy sản phẩm</p>;
+    if (parts.length < 5) return NotFound();
     const uuidParts = parts.slice(-5);
     const uuid = uuidParts.join('-');
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(uuid)) return <p>Không tìm thấy sản phẩm</p>;;
-
+    if (!uuidRegex.test(uuid)) return NotFound()
     try {
         const product = await fetchProductById(uuid ?? '');
         return <ProductClient data={product}/>
     } catch (e) {
         console.log(e)
-        return <p>Không tìm thấy sản phẩm</p>;
+        return NotFound()
     }
 }
 

@@ -1,4 +1,4 @@
-import { Category } from "@/components/Home/Category";
+import { Category } from "@/components/Home/Categories";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type CategoriesState = {

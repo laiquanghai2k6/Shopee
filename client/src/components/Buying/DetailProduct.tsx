@@ -23,7 +23,7 @@ const DetailProduct = ({data}:DetailProductProps) => {
 
     return (
         <div className="w-full h-auto bg-white mt-5 rounded-sm flex flex-col">
-            <div className="flex p-7  min-h-160 flex-col">
+            <div className="flex p-7  h-fit flex-col">
                 <div className="w-full h-15 bg-[#f5f5f5] flex items-center">
                     <p className="ml-3 text-[20px]">CHI TIẾT SẢN PHẨM</p>
                 </div>
