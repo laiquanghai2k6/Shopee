@@ -23,7 +23,6 @@ const ModalVouncherClient = ({ closeModal, type = 'client', setCurrentVouncher, 
     const vounchers = useSelector((state: RootState) => state.vouncher.vouncher)
     const userId = useSelector((state: RootState) => state.user.user.id)
     const myVouncher = useSelector((state: RootState) => state.myVouncher.myVouncher)
-    console.log('myVouncher:',myVouncher)
     const [loading, Loading] = useState(false)
     const dispatch = useDispatch()
     const SaveVouncher = async (id: string) => {

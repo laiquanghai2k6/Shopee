@@ -4,8 +4,7 @@
 
 
 import { toSlug } from "@/components/Product/ProductCardOverview"
-import { requestAdmin, requestProduct, requestVouncher } from "@/service/axiosRequest"
-import { Vouncher } from "@/slice/vouncherSlice"
+import {  requestProduct } from "@/service/axiosRequest"
 import { useQuery } from "@tanstack/react-query"
 
 

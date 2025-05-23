@@ -26,7 +26,6 @@ export const UserCartSlice = createSlice({
 
         },
         increaseQuantity: (state, action: PayloadAction<string>) => {
-            console.log('inces',action.payload)
             const temp = [...state.userCart].map((t, i) => {
                 if (t.id == action.payload) t.quantity += 1
                 return t;

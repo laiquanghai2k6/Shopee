@@ -1,8 +1,6 @@
 'use client'
 
-import { Color, ProductDetail, Sizes } from "@/app/[slug]/page"
-import { useCallback, useState } from "react"
-import Test3 from '../../../public/test3.png'
+import {  useState } from "react"
 import Truck from '../../../public/truck.png'
 import Star from '../../../public/star.png'
 import HalfStar from '../../../public/half-star.png'
@@ -14,13 +12,11 @@ import ButtonOrange from "../Button/ButtonOrange"
 import ButtonLightRed from "../Button/ButtonLightRed"
 import IntoCart from '../../../public/into-cart.png'
 import { InfoProduct } from "../Modal/ModalProduct"
-import { ProductOptions } from "../Modal/ModalOption"
-import ModalBuying, { UserCart, UserCartType } from "../Modal/ModalBuying"
+import  { UserCart, UserCartType } from "../Modal/ModalBuying"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { addUserCart } from "@/slice/userCartSlice"
 import { requestHistoryCart } from "@/service/axiosRequest"
-import SpinnerShopee from "../Spinner/SpinnerShopee"
 import { LoadingType, setLoading } from "@/slice/loadingSlice"
 
 type ProductBuyingClientProps = {

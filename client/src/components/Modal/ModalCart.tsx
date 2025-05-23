@@ -1,13 +1,10 @@
 'use client'
 import { useRouter } from "next/navigation";
 import ButtonOrange from "../Button/ButtonOrange";
-import { ProductOverview } from "../Home/FlashSale";
-import { EventHandler, MouseEvent, useEffect, useState, useTransition } from "react";
-import { InfoProduct } from "./ModalProduct";
+import {  MouseEvent, useEffect, useState, useTransition } from "react";
 import { UserCart } from "./ModalBuying";
 import { ConvertToVND } from "@/app/cart/page";
 import { toSlug } from "../Product/ProductCardOverview";
-import SpinnerShopee from "../Spinner/SpinnerShopee";
 
 type ModalCartProps = {
     productCart: UserCart[],

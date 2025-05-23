@@ -1,10 +1,7 @@
 'use client'
-import Input from "@/components/Input/Input";
-import ItemText from "@/components/NavBar/ItemText";
 import Default from '../../../public/default-image.png'
 import React, { useEffect, useState } from "react";
 import { requestUser } from "@/service/axiosRequest";
-import { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
 import { RootState } from "@/store/store";
@@ -28,11 +25,9 @@ const UserSetting = () => {
             // const data = new FormData()
             // data.append('file', event.target?.files?.[0] as File)
             // data.append('folder', 'user-image')
-            console.log('file', event.target?.files?.[0] )
             // console.log('data',data)
             Loading(true)
             const response = await CreateImage(event.target?.files?.[0] as File,'user-image')
-            console.log('resposne:',response)
             const dataForm = {
                 id: user.id,
                 url: response
@@ -43,7 +38,6 @@ const UserSetting = () => {
                 return dispatch(setLoading({ active: true, text: 'Ảnh quá lớn', type: LoadingType.ERROR }))
             }
             const res = await requestUser.post('/user-image', dataForm)
-            console.log('res:',res)
 
             Loading(false)
             dispatch(uploadUserImage(response))

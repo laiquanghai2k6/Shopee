@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
 import NavWrapper from "@/components/NavBar/NavWrapper";
 import ReduxProvider from "@/provider/reduxProvider";
 import AutoLogin from "@/components/Auth/AutoLogin";

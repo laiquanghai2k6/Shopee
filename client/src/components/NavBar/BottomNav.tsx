@@ -6,37 +6,35 @@ import { Abel } from 'next/font/google';
 import Cart from '../../../public/cart.png';
 import { useRouter } from 'next/navigation';
 import ModalCart from '../Modal/ModalCart';
-import { ProductOverview } from '../Home/FlashSale';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import SpinnerShopee from '../Spinner/SpinnerShopee';
 import { debounce } from '../Admin/SettingUsers';
 import { SearchTitle, useSearchProduct } from '@/hooks/useSearchProduct';
 import { toSlug } from '../Product/ProductCardOverview';
 
 const abel = Abel({ subsets: ['latin'], weight: '400' });
 
-const TrendingItem = [
+// const TrendingItem = [
 
-  'Áo thun ôm body',
-  'Áo thun ',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm body',
-  'Áo thun ôm bodyádsa',
+//   'Áo thun ôm body',
+//   'Áo thun ',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm body',
+//   'Áo thun ôm bodyádsa',
 
-];
+// ];
 type BottomNavProp = {
   Loading: Function
 }
 
 const BottomNav = ({ Loading }: BottomNavProp) => {
-  const trendingRef = useRef<HTMLDivElement>(null)
+  // const trendingRef = useRef<HTMLDivElement>(null)
   const [openCartModal, setOpenCartModal] = useState(false)
   const router = useRouter()
   const [isPending, startTransition] = useTransition()

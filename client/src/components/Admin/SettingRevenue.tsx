@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import ButtonLightRed from "../Button/ButtonLightRed";
 import { useDispatch } from "react-redux";
-import { LoadingType, setLoading } from "@/slice/loadingSlice";
 import { useHistoryQuery } from "@/hooks/useHistoryQuery";
 import { ConvertToVND } from "@/app/cart/page";
 import ButtonOrange from "../Button/ButtonOrange";
@@ -47,7 +46,6 @@ const SettingRevenue = ({ topContent }: SettingRevenueProp) => {
             return prev +price
         },0)
         setCurrentTotal(total ?? 0)
-        console.log('histories.data',total)
     },[histories.data])
     return (
         <div className="min-h-screen w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">

@@ -1,7 +1,7 @@
 'use client'
 import CartItem from "@/components/Cart/CartItem"
 import { Color, Sizes } from "../[slug]/page"
-import { useCallback, useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import ButtonOrange from "@/components/Button/ButtonOrange"
 import Memeguy from '../../../public/meme-guy.png'
 import { useDispatch, useSelector } from "react-redux"

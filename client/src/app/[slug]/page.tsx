@@ -1,13 +1,7 @@
 
 
-import CommentProduct from '@/components/Buying/CommentProduct';
-import DescriptionProduct from '@/components/Buying/DescriptionProduct';
-import DetailProduct from '@/components/Buying/DetailProduct';
-import ProductBuyingClient from '@/components/Buying/ProductBuyingClient'
 import { InfoProduct } from '@/components/Modal/ModalProduct';
 import ProductClient from '@/components/Product/ProductClient';
-import { requestProduct } from '@/service/axiosRequest';
-import { useQuery } from '@tanstack/react-query';
 import { Metadata } from 'next';
 
 type ProductBuyingProps = {

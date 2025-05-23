@@ -32,7 +32,6 @@ const SearchTitle = async ({ params }: SearchTitleProp) => {
         .replace(/\s+/g, ' ')                
         .trim()                              
         .toLowerCase();
-         console.log('searchTitle:',searchTitle)
     try {
         const res = await requestProduct.get(`/search-product?title=${searchTitle}`)
         if (res.data.length == 0) {

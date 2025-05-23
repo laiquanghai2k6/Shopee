@@ -1,6 +1,6 @@
 import { InfoProduct } from "@/components/Modal/ModalProduct"
 import { requestProduct } from "@/service/axiosRequest"
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
+import {  useQuery } from "@tanstack/react-query"
 export const LIMIT_PER_PAGE = 30
 
 export type ReturnPage = {

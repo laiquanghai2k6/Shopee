@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import ButtonOrange from '@/components/Button/ButtonOrange';
 import Input from '@/components/Input/Input'
 import { requestUser } from '@/service/axiosRequest'
-import { AxiosError } from 'axios'
 import SpinnerShopee from '@/components/Spinner/SpinnerShopee'
 import { useRouter, useSearchParams } from 'next/navigation'
 

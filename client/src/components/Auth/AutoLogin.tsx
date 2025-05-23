@@ -1,12 +1,9 @@
 'use client'
 
 import { requestUser } from "@/service/axiosRequest";
-import { GetNewAccessToken } from "@/service/GetNewAccessToken";
-import { setToken } from "@/slice/accessTokenSlice";
 import { setUser, User } from "@/slice/userSlice";
-import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import SpinnerShopee from "../Spinner/SpinnerShopee";
 import { useCategories } from "@/hooks/useCategories";
 import { setCategories } from "@/slice/categoriesSlice";
@@ -22,7 +19,6 @@ import { useHistory } from "@/hooks/useHistory";
 import { setHistory } from "@/slice/historySlice";
 import { useFlashSale } from "@/hooks/useFlashSale";
 import { setFlashSale } from "@/slice/flashSaleSlice";
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI0YmU3ZmIzLTQ1ZTItNDc0ZC04ODIwLTAwY2Q4ZTRjZTdlZSIsImlhdCI6MTc0NjQ0MTI2NiwiZXhwIjoxNzQ2NDQ0ODY2fQ.xrMnHMU4vSQObbnxWhhjvjJsYG5JImSqbxubdT29Ds8'
 export type SignInResponse = {
     user: User,
 
@@ -59,7 +55,6 @@ const AutoLogin = () => {
 
     useEffect(() => {
         if (flashSaleData.data) {
-            console.log('flash')
             dispatch(setFlashSale(flashSaleData.data))
         }
     }, [flashSaleData.data])

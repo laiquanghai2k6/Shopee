@@ -1,14 +1,13 @@
 'use client'
 import { requestUser } from "@/service/axiosRequest";
-import { resetToken, setToken } from "@/slice/accessTokenSlice";
+import { resetToken } from "@/slice/accessTokenSlice";
 import { resetMyVouncher } from "@/slice/myVouncherSlice";
 import { resetUserCart } from "@/slice/userCartSlice";
-import { resetUser, setUser } from "@/slice/userSlice";
+import { resetUser } from "@/slice/userSlice";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SpinnerShopee from "../Spinner/SpinnerShopee";
 
 type ModalSettingProp = {
     openSettingModal: boolean,
@@ -78,7 +77,6 @@ setIsLoggingOut(false)
     }
     useEffect(() => {
         if (isPending || isLoggingOut){
-            console.log('sign outtt')
              Loading(true)
         }
         else Loading(false)

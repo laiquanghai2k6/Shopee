@@ -6,9 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 
 const fetchHistoryQuery = async (from:string,to:string)=>{
     try {
-        console.log(`/search-history?from=${from}&to=${to}`)
         const res = await requestAdmin.get(`/search-history?from=${from}&to=${to}`)
-        console.log('res',res)
         return res.data as HistoryCart[]
     } catch (error) {
         console.log(error)

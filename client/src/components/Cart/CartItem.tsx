@@ -1,14 +1,10 @@
 'use client'
-import Triangle from '../../../public/triangle-reverse.png'
 
-import { Choose, ConvertToVND, ProductCart } from "@/app/cart/page";
+import { Choose, ConvertToVND } from "@/app/cart/page";
 import React, { useEffect, useState } from "react";
-import ButtonOrange from '../Button/ButtonOrange';
 import MinusBlack from '../../../public/minus-black.png'
 import PlusBlack from '../../../public/plus-black.png'
 import { UserCart } from '../Modal/ModalBuying';
-import { useDispatch } from 'react-redux';
-import { requestHistoryCart } from '@/service/axiosRequest';
 type CartItemProp = {
     i: number,
     item: UserCart
@@ -25,7 +21,6 @@ const CartItem = React.memo(({ i, deleteHandler, decreaseItem, item, increaseIte
     const now = Date.now()
     const numVouncher = new Date(String(item.product?.timeDiscount)).getTime()
     const discount = now < numVouncher ? Number(item.priceDiscount.replaceAll('.', '')) : price
-    console.log('discount',discount)
     const [totalItem, setTotalItem] = useState('')
     const priceFormat = ConvertToVND(price)
     const discountPriceFormat = ConvertToVND(discount)

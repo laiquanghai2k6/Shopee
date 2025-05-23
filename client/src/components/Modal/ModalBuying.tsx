@@ -3,16 +3,15 @@ import { ConvertToVND } from '@/app/cart/page';
 import Close from '../../../public/close.png'
 import { InfoProduct } from './ModalProduct';
 import ButtonOrange from '../Button/ButtonOrange';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AddressLocation, useAddress } from '@/hooks/useAddress';
 import SpinnerShopee from '../Spinner/SpinnerShopee';
-import Input from '../Input/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import ModalVouncherClient from './ModalVouncherClient';
 import { Vouncher } from '@/slice/vouncherSlice';
 import { requestHistoryCart, requestUser } from '@/service/axiosRequest';
-import { deleteUserCart, resetUserCart } from '@/slice/userCartSlice';
+import { deleteUserCart } from '@/slice/userCartSlice';
 import { LoadingType, setLoading } from '@/slice/loadingSlice';
 import { decrease } from '@/slice/userSlice';
 import { addHistory } from '@/slice/historySlice';
@@ -192,10 +191,8 @@ const ModalBuying = ({ closeModal, userCart }: ModalBuyingProp) => {
                 }
                 Loading(true)
                 const historyCart = await requestHistoryCart.post('/create-history-cart', HistoryCart)
-                console.log('historyCart:', historyCart)
                 if (historyCart.status != 201) throw new Error()
                 const res = await requestUser.post('/decrease-money', data)
-                console.log('res:', res)
                 dispatch(addHistory(historyCart.data))
                 const aDeleteUC = HistoryCart.userCart.map((z) => z.id).filter((x) => x != undefined)
                 dispatch(deleteUserCart(aDeleteUC))
@@ -295,7 +292,6 @@ const ModalBuying = ({ closeModal, userCart }: ModalBuyingProp) => {
                             <p className='text-[20px] max-md:text-[15px] mr-10'>Địa chỉ</p>
                             <Listbox value={address.tinh}
                                 onChange={(e:any) => {
-                                    console.log('e:',e)
                                     const split = e.split('-')
                                     setAddress({
                                         tinh: split[0],

@@ -1,20 +1,13 @@
 'use client'
 import Ticket from '../../../public/ticket.png'
-import test from '../../../public/test2.png'
-import test2 from '../../../public/imgtest.jpg'
 import Wallet from '../../../public/wallet.png'
 import { useCallback, useEffect, useState, useTransition } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import ModalVouncherClient from '../Modal/ModalVouncherClient'
-import axios from 'axios'
-import { setOrderId } from '@/slice/orderSlice'
 import ModalPayment from '../Modal/ModalPayment'
 import { LoadingType, setLoading } from '@/slice/loadingSlice'
-const images = [
-  test,
-  test2
-]
+
 const AdsShow = ({Loading}:{Loading:Function}) => {
   const [indexAds, setIndexAds] = useState(1)
   const dispatch = useDispatch()

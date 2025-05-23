@@ -84,7 +84,6 @@ const SuggestProduct = ({category}:SuggessProductProp) => {
                     {chosen >= max - 1 && (
                         
                         Array.from({ length: Math.min(5,max) }, (_, i) => {
-                            console.log('here')
                             return (
                                 <div key={i} onClick={() => {
 

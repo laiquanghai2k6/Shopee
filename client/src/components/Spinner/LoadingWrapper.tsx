@@ -1,6 +1,6 @@
 'use client'
 
-import { Loading, LoadingType, setLoading, turnOff } from "@/slice/loadingSlice";
+import {  LoadingType, turnOff } from "@/slice/loadingSlice";
 import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

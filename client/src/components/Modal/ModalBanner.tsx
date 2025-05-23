@@ -1,7 +1,6 @@
 'use client'
 import { Fragment, useEffect, useState } from 'react'
 import Close from '../../../public/close.png'
-import Input from '../Input/Input'
 import ButtonOrange from '../Button/ButtonOrange'
 import { CreateImage } from './ModalCategory'
 import { useDispatch } from 'react-redux'

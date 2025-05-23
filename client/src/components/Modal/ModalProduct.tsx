@@ -3,7 +3,6 @@ import { Fragment, useCallback, useRef, useState } from 'react'
 import Close from '../../../public/close.png'
 import Input from '../Input/Input'
 import Add from '../../../public/Add.png'
-import Triangle from '../../../public/triangle-reverse.png'
 import ModalOption, { ProductOptions } from './ModalOption'
 import ButtonLightRed from '../Button/ButtonLightRed'
 import ButtonOrange from '../Button/ButtonOrange'
@@ -62,8 +61,6 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
     const queryClient = useQueryClient();
     const dispatch = useDispatch()
-    console.log('indexProduct',indexProduct)
-    console.log('data[indexProduct]',data[indexProduct])
     
     const [infoProduct, setInfoProduct] = useState<InfoProduct>({
         type: type == 'create' ? categories[0].name : data[indexProduct].type,

@@ -36,7 +36,6 @@ const SideBar = ({ items,setOpenSidebar, openSidebar, currentIndex, setCurrentIn
         };
     }, [openSidebar])
     const a = useSelector((state: RootState) => state.accessToken.accessToken)
-    // console.log('currentIndex',currentRef.current[currentIndex]?.offsetHeight)
     return (
         <div ref={sidebarRef} className="flex w-[75%] sidebar  max-md:fixed max-md:z-2000  p-3 relative fixed h-screen flex-col bg-[#19232b] select-none md:rouded-md  ">
             <div className="h-30 w-full  flex justify-center items-center ">

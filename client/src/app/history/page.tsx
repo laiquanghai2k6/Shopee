@@ -1,7 +1,6 @@
 'use client'
 
 import ButtonOrange from "@/components/Button/ButtonOrange"
-import { Color, Sizes } from "../[slug]/page"
 import { ConvertToVND } from "../cart/page"
 import ButtonLightRed from "@/components/Button/ButtonLightRed"
 import { useDispatch, useSelector } from "react-redux"

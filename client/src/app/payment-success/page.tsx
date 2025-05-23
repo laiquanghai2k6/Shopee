@@ -4,8 +4,8 @@ import { LoadingType, setLoading } from "@/slice/loadingSlice";
 import { RootState } from "@/store/store";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const PaymentSuccess = () => {
     const searchParams = useSearchParams();
@@ -14,7 +14,6 @@ const PaymentSuccess = () => {
      useEffect(() => {
     const fetchStatus = async () => {
       const orderId = searchParams.get('orderId');
-      console.log('order:',orderId)
       if (orderId) {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/order/${orderId}`);
         if(res.data.status == 'paid')

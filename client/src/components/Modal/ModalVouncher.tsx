@@ -2,14 +2,13 @@
 import { addVouncher, changeVouncher, Vouncher } from '@/slice/vouncherSlice';
 import Close from '../../../public/close.png'
 import Input from '../Input/Input';
-import { useRef, useState } from 'react';
+import {  useState } from 'react';
 import { ConvertToVND } from '@/app/cart/page';
 
 import ButtonOrange from '../Button/ButtonOrange';
 import { useDispatch } from 'react-redux';
 import { requestAdmin } from '@/service/axiosRequest';
 import { LoadingType, setLoading } from '@/slice/loadingSlice';
-import SpinnerShopee from '../Spinner/SpinnerShopee';
 type ModalVouncherProps = {
     CloseModal: Function,
     vouncher: Vouncher,

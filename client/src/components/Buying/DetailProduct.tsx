@@ -4,17 +4,7 @@ export type ProductDetail = {
     key: string,
     value: string | number
 }
-const fakeProductDetail: ProductDetail[] = [
-    { key: 'Kho', value: 3432 },
-    { key: 'Xuất xứ', value: 'Việt Nam' },
-    { key: 'Chiều dài tay áo', value: "Dài tay" },
-    { key: 'Cổ áo', value: 'Cổ chữ V' },
-    { key: 'Chất liệu', value: 'Cotton' },
-    { key: 'Mẫu', value: 'Trơn' },
-    { key: 'Mùa', value: 'Mùa thu' },
-    { key: 'Gửi từ', value: 'TP. Hồ Chí Minh' },
 
-]
 type DetailProductProps = {
     data: InfoProduct
 }

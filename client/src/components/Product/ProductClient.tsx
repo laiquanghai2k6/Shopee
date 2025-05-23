@@ -1,5 +1,4 @@
 'use client'
-import CommentProduct from "../Buying/CommentProduct";
 import DescriptionProduct from "../Buying/DescriptionProduct";
 import DetailProduct from "../Buying/DetailProduct";
 import ProductBuyingClient from "../Buying/ProductBuyingClient";

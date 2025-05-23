@@ -1,16 +1,15 @@
 'use client'
 import { Category } from "../Home/Categories";
 import Close from '../../../public/close.png'
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import Add from '../../../public/Add.png'
 import Input from "../Input/Input";
 import ButtonOrange from "../Button/ButtonOrange";
 import { useDispatch } from "react-redux";
-import Square from '../../../public/square.png'
 import { addCategory, changeCategory, deleteCategory } from "@/slice/categoriesSlice";
 import ButtonLightRed from "../Button/ButtonLightRed";
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
-import { requestAdmin, requestCategory, requestUser } from "@/service/axiosRequest";
+import { requestAdmin, requestUser } from "@/service/axiosRequest";
 type ModalCategoryProps = {
     currentIndex: number,
     categories: Category[],

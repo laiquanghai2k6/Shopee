@@ -2,7 +2,6 @@
 
 import { ConvertToVND } from "@/app/cart/page"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
 
 export type ProductCardOverview = {
     image: string,

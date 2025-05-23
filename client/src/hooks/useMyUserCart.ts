@@ -1,9 +1,7 @@
 
 
 import { UserCart } from "@/components/Modal/ModalBuying"
-import { requestHistoryCart, requestUser, requestVouncher } from "@/service/axiosRequest"
-import { MyVouncher } from "@/slice/myVouncherSlice"
-import { Vouncher } from "@/slice/vouncherSlice"
+import { requestHistoryCart } from "@/service/axiosRequest"
 import { useQuery } from "@tanstack/react-query"
 
 

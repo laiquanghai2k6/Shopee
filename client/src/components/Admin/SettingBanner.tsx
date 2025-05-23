@@ -1,18 +1,16 @@
 'use client'
-import { Abel } from 'next/font/google';
-import test from '../../../public/test2.png'
-import test2 from '../../../public/imgtest.jpg'
+// import { Abel } from 'next/font/google';
 import Add from '../../../public/Add.png'
 import ModalBanner from "@/components/Modal/ModalBanner"
-import React, { EventHandler, useCallback, useState } from "react"
+import React, {  useCallback, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { Banner, setBanner } from '@/slice/bannerSlice';
+import {  setBanner } from '@/slice/bannerSlice';
 import { CreateImage } from '../Modal/ModalCategory';
 import SpinnerShopee from '../Spinner/SpinnerShopee';
 import { LoadingType, setLoading } from '@/slice/loadingSlice';
 import { requestAdmin } from '@/service/axiosRequest';
-const abel = Abel({ subsets: ['latin'], weight: '400' });
+// const abel = Abel({ subsets: ['latin'], weight: '400' });
 
 type SettingBanner = {
     topContent: string

@@ -16,7 +16,6 @@ export enum OptionComment{
     IMAGE='image'
 }
 const CommentProduct = () => {
-        console.log('ha')
 
     const [optionComment,setOptionComment] = useState<OptionComment>(OptionComment.ALL)
     const currentDate = new Date().toISOString().slice(0,16).replace('T',' ')

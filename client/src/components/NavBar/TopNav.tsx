@@ -12,7 +12,6 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
-import SpinnerShopee from "../Spinner/SpinnerShopee";
 const TopNav = ({Loading}:{Loading:Function}) => {
     const router = useRouter()
     const dispatch =useDispatch()

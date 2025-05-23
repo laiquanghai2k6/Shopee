@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useTransition } from "react";
-import { ProductOverview } from "../Home/FlashSale";
 import Right from '../../../public/right.png'
 import Left from '../../../public/left.png'
 import ProductCardOverview from "./ProductCardOverview";
@@ -57,7 +56,6 @@ const ProductListFlashSaleMemo = ({ product, Loading }: ProductListProps) => {
         return () => removeEventListener('resize', throttledResize)
     }, [page])
     const nextPage = (page: number) => {
-        console.log('in next;')
         const start = (page + 1) * ITEMS_PER_PAGE
 
         const end = start + ITEMS_PER_PAGE

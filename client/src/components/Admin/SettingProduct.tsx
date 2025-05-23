@@ -1,6 +1,5 @@
 'use client'
 import { useSelector } from "react-redux";
-import Input from "../Input/Input";
 import { RootState } from "@/store/store";
 import Plus from '../../../public/plus-black.png'
 import ModalCategory from "../Modal/ModalCategory";
@@ -175,7 +174,6 @@ const SettingProduct = ({ topContent }: SettingProductProps) => {
                     {indexPage >= max - 1 && (
                         
                         Array.from({ length: Math.min(5,max) }, (_, i) => {
-                            console.log('here')
                             return (
                                 <div key={i} onClick={() => {
 

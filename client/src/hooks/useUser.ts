@@ -1,7 +1,6 @@
 
 
-import { requestAdmin, requestVouncher } from "@/service/axiosRequest"
-import { Vouncher } from "@/slice/vouncherSlice"
+import { requestAdmin } from "@/service/axiosRequest"
 import { useQuery } from "@tanstack/react-query"
 
 export enum Role  {

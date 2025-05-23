@@ -1,8 +1,6 @@
 'use client';
 import { memo } from "react";
 import NavBar from "./NavBar";
-import { shallowEqual, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { usePathname } from "next/navigation";
 
 
