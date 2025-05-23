@@ -1,5 +1,4 @@
 'use client'
-import { ConvertToVND } from '@/app/cart/page';
 import Close from '../../../public/close.png'
 import { InfoProduct } from './ModalProduct';
 import ButtonOrange from '../Button/ButtonOrange';
@@ -16,6 +15,7 @@ import { LoadingType, setLoading } from '@/slice/loadingSlice';
 import { decrease } from '@/slice/userSlice';
 import { addHistory } from '@/slice/historySlice';
 import { Listbox } from '@headlessui/react';
+import { ConvertToVND } from '../Home/FlashSale';
 export enum StateHistory {
     RECEIVED = 'Đã nhận ✅',
     DELIVERING = 'Đang giao hàng 🚚',

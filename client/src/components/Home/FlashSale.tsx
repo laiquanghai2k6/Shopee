@@ -5,7 +5,10 @@ import SpinnerShopee from "../Spinner/SpinnerShopee"
 import { useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import CountingTimer from "./CountingTimer"
-
+export const ConvertToVND = (num: number) => {
+    const strFormat = new Intl.NumberFormat('vi-VN').format(num)
+    return strFormat
+}
 export type ProductOverview = {
     id: string,
     title: string,

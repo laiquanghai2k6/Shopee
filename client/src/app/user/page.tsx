@@ -8,7 +8,8 @@ import { RootState } from "@/store/store";
 import SpinnerShopee from "@/components/Spinner/SpinnerShopee";
 import { uploadUserImage } from "@/slice/userSlice";
 import { CreateImage } from "@/components/Modal/ModalCategory";
-import { ConvertToVND } from "../cart/page";
+import { ConvertToVND } from '@/components/Home/FlashSale';
+
 const UserSetting = () => {
     const user = useSelector((state: RootState) => state.user.user)
     const [currentFile, setCurrentFIle] = useState<File | undefined>(undefined)

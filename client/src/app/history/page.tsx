@@ -1,7 +1,7 @@
 'use client'
 
 import ButtonOrange from "@/components/Button/ButtonOrange"
-import { ConvertToVND } from "../cart/page"
+
 import ButtonLightRed from "@/components/Button/ButtonLightRed"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
@@ -11,6 +11,7 @@ import { requestHistoryCart } from "@/service/axiosRequest"
 import { LoadingType, setLoading } from "@/slice/loadingSlice"
 import { updateHistory, UpdateHistory } from "@/slice/historySlice"
 import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
+import { ConvertToVND } from "@/components/Home/FlashSale"
 
 
 export enum StateProduct {

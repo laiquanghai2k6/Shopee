@@ -1,7 +1,7 @@
 'use client'
 
-import { ConvertToVND } from "@/app/cart/page"
 import { useRouter } from "next/navigation"
+import { ConvertToVND } from "../Home/FlashSale"
 
 export type ProductCardOverview = {
     image: string,

@@ -9,8 +9,9 @@ import DoubleLeft from '../../../public/double-left.png'
 import DoubleRight from '../../../public/double-right.png'
 import Add from '../../../public/Add.png'
 import { LIMIT_PER_PAGE, useProducts } from "@/hooks/useProducts";
-import { ConvertToVND } from "@/app/cart/page";
+
 import SpinnerShopee from "../Spinner/SpinnerShopee";
+import { ConvertToVND } from "../Home/FlashSale";
 type SettingProductProps = {
     topContent: string
 }

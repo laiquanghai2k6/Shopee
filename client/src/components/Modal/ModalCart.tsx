@@ -3,8 +3,8 @@ import { useRouter } from "next/navigation";
 import ButtonOrange from "../Button/ButtonOrange";
 import {  MouseEvent, useEffect, useState, useTransition } from "react";
 import { UserCart } from "./ModalBuying";
-import { ConvertToVND } from "@/app/cart/page";
 import { toSlug } from "../Product/ProductCardOverview";
+import { ConvertToVND } from "../Home/FlashSale";
 
 type ModalCartProps = {
     productCart: UserCart[],

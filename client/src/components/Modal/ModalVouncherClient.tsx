@@ -4,13 +4,13 @@ import Close from '../../../public/close.png'
 import { RootState } from '@/store/store'
 import Shopee from '../../../public/shopee-icon.png'
 import ButtonOrange from '../Button/ButtonOrange'
-import { ConvertToVND } from '@/app/cart/page'
 import { requestUser } from '@/service/axiosRequest'
 import { useState } from 'react'
 import SpinnerShopee from '../Spinner/SpinnerShopee'
 import { addMyVouncher, MyVouncher, StateVouncher } from '@/slice/myVouncherSlice'
 import { LoadingType, setLoading } from '@/slice/loadingSlice'
 import { Vouncher } from '@/slice/vouncherSlice'
+import { ConvertToVND } from '../Home/FlashSale'
 
 
 type ModalVouncherClientProp = {

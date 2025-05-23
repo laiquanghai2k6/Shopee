@@ -1,10 +1,11 @@
 'use client'
 
-import { Choose, ConvertToVND } from "@/app/cart/page";
+import { Choose } from "@/app/cart/page";
 import React, { useEffect, useState } from "react";
 import MinusBlack from '../../../public/minus-black.png'
 import PlusBlack from '../../../public/plus-black.png'
 import { UserCart } from '../Modal/ModalBuying';
+import { ConvertToVND } from "../Home/FlashSale";
 type CartItemProp = {
     i: number,
     item: UserCart

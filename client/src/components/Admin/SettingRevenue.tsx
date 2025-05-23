@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import ButtonLightRed from "../Button/ButtonLightRed";
 import { useDispatch } from "react-redux";
 import { useHistoryQuery } from "@/hooks/useHistoryQuery";
-import { ConvertToVND } from "@/app/cart/page";
 import ButtonOrange from "../Button/ButtonOrange";
 import SpinnerShopee from "../Spinner/SpinnerShopee";
+import { ConvertToVND } from "../Home/FlashSale";
 
 type SettingRevenueProp = {
     topContent: string

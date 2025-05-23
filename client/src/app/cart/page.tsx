@@ -11,6 +11,7 @@ import { decreaseQuantity, deleteUserCart, increaseQuantity } from "@/slice/user
 import { requestHistoryCart } from "@/service/axiosRequest"
 import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
 import { LoadingType, setLoading } from "@/slice/loadingSlice"
+import { ConvertToVND } from "@/components/Home/FlashSale"
 export type ProductCart = {
     id: string,
     title: string,
@@ -34,10 +35,7 @@ export type Choose = {
     checkAll: boolean
 }
 
-export const ConvertToVND = (num: number) => {
-    const strFormat = new Intl.NumberFormat('vi-VN').format(num)
-    return strFormat
-}
+
 type totalCartModal = {
     active: boolean,
     totalCart: UserCart[]

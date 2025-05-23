@@ -2,7 +2,6 @@
 import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import Shopee from '../../../public/shopee-icon.png'
-import { ConvertToVND } from "@/app/cart/page";
 import ButtonOrange from "../Button/ButtonOrange";
 import ButtonLightRed from "../Button/ButtonLightRed";
 import ModalVouncher from "../Modal/ModalVouncher";
@@ -11,6 +10,7 @@ import { deleteVouncher } from "@/slice/vouncherSlice";
 import SpinnerShopee from "../Spinner/SpinnerShopee";
 import { requestAdmin } from "@/service/axiosRequest";
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
+import { ConvertToVND } from "../Home/FlashSale";
 type SettingVouncherProps = {
     topContent: string
 }
