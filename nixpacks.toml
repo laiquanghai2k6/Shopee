@@ -1,3 +1,5 @@
+language = "nodejs"
+
 [env]
 NODE_VERSION = "23"
 
