@@ -33,7 +33,7 @@ export type ProductDetail = {
 
 
 export async function generateMetadata({ params }: ProductBuyingProps): Promise<Metadata> {
-    const { slug } = await  params;
+    const { slug } =   params;
     const id = slug.split("-").slice(-5).join('-');
 
     if (!id) {
@@ -65,7 +65,7 @@ export const NotFound = ()=>{
     )
 }
 const PageSlug = async ({ params }: ProductBuyingProps) => {
-    const { slug } = await params;
+    const { slug } =  params;
     const parts = slug.split('-');
     if (parts.length < 5) return NotFound();
     const uuidParts = parts.slice(-5);

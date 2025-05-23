@@ -11,7 +11,7 @@ type SearchTitleProp = {
 
 
 export const generateMetadata = async ({ params }: SearchTitleProp) => {
-    const { title } = await params
+    const { title } =  params
     const decodedTitle = decodeURIComponent(title);
     if (!title) {
         return {
@@ -24,7 +24,7 @@ export const generateMetadata = async ({ params }: SearchTitleProp) => {
     }
 }
 const SearchTitle = async ({ params }: SearchTitleProp) => {
-    const { title } = await params
+    const { title } =  params
     const decodedTitle = decodeURIComponent(title);
 
     const searchTitle = decodedTitle.normalize("NFD")                   
