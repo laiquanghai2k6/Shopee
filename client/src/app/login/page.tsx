@@ -115,10 +115,10 @@ const Login = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {loading && <SpinnerShopee />}
-            <div className="bg-white h-25 select-none">
+            <div className="bg-white h-25 max-md:h-15 select-none">
                 <div className="flex flex-row h-full max-w-7xl mx-auto select-none cursor-pointer items-center 
                 ">
-                    <div className="size-10 max-md:size-5 ">
+                    <div className="size-10 max-md:size-7 ">
                         <img
                             className="w-full h-full object-contain"
                             src={typeof ShopeeIcon === 'string' ? ShopeeIcon : ShopeeIcon.src}
@@ -129,12 +129,12 @@ const Login = () => {
                 </div>
                
             </div>
-            <div className={`aspect-[16/9] grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end `}  style={{
+            <div className={`aspect-[16/9] max-md:w-full grow-1 bg-no-repeat bg-contain bg-center bg-[#d0011b] flex items-center justify-end max-md:justify-center `}  style={{
                 backgroundImage: `url(${banner.bgLogin})`
              }}>
                 {routeState == Route.LOGIN ? (
 
-                <div className='flex p-10 rounded-sm flex-col bg-white w-110 h-150 mr-40 select-none'>
+                <div className='flex p-10 rounded-sm flex-col bg-white w-110 max-md:w-[90%] max-md:mr-0 h-150 max-md:h-fit mr-40 select-none'>
                     <div className='flex flex-row h-5 w-full items-center justify-center'>
                         <p className='text-[20px]'>Đăng nhập</p>
                     </div>
@@ -169,7 +169,7 @@ const Login = () => {
                     </div>
                 </div>
                 ):(
-                    <div className='flex p-10 rounded-sm flex-col bg-white w-110 h-150 mr-40'>
+                    <div className='flex p-10 rounded-sm flex-col bg-white w-110 max-md:w-[90%] max-md:h-fit max-md:mr-0 h-150 mr-40'>
                     <div className='flex flex-row h-5 w-full items-center justify-center'>
                         <p className='text-[20px]'>Đăng ký</p>
                     </div>
