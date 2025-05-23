@@ -71,7 +71,7 @@ export class StripeService {
      const endpointSecret = 'whsec_...'; 
     let event: Stripe.Event;
     console.log('typeof req.body:', typeof req.body);
-  console.log('is buffer:', Buffer.isBuffer(req.body));
+    console.log('is buffer:', Buffer.isBuffer(req.body));
     try {
         event = this.stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
