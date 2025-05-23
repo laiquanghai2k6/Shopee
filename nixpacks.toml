@@ -1,7 +1,7 @@
 language = "nodejs"
 
 [env]
-NODE_VERSION = "23"
+NODE_VERSION = "18"
 
 [phases.build]
 command = "cd server && npm install && npm run build"
