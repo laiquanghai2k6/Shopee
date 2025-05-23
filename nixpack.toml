@@ -1,0 +1,8 @@
+[phases.setup]
+command = "cd server && npm install"
+
+[phases.build]
+command = "cd server && npm run build"
+
+[phases.start]
+command = "cd server && npm start"
