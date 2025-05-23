@@ -12,9 +12,9 @@ import { useQueryClient } from "@tanstack/react-query";
 type SettingUsersProps = {
     topContent: string
 }
-export const debounce = (callback: Function, delay: number) => {
+export const debounce = <T extends (...args: any[]) => void>(callback: T, delay: number) => {
     let timeOut: NodeJS.Timeout | undefined = undefined
-    return (...args: any[]) => {
+    return (...args: Parameters<T>) => {
         clearTimeout(timeOut)
         timeOut = setTimeout(() => {
             callback(...args)
@@ -71,7 +71,7 @@ const SettingUsers = ({ topContent }: SettingUsersProps) => {
     }, [])
     return (
         <>
-            {isLoading && <SpinnerShopee />}
+            {isLoading || loading && <SpinnerShopee />}
             {modal.active && <ModalUser id={modal.id} Save={Save} CloseModal={closeModal} />}
             <div className="min-h-screen w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">

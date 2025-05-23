@@ -36,7 +36,7 @@ const AutoLogin = () => {
                 console.log(user)
                 dispatch(setUser((currentUser.data as SignInResponse).user))
                 setCurrentUser(currentUser.data.user)
-            } catch (e: any) {
+            } catch (e: unknown) {
                 setLoading(false)
 
                 console.log(e)

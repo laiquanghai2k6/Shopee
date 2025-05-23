@@ -13,7 +13,7 @@ type SettingRevenueProp = {
 const SettingRevenue = ({ topContent }: SettingRevenueProp) => {
     const time = Date.now();
     const formatDate = new Date(time)
-    const dispatch = useDispatch()
+
     const [currentTotal, setCurrentTotal] = useState(0)
     const [dataSend, setDataSend] = useState({
         from: '',

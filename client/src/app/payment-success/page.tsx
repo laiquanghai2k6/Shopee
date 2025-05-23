@@ -1,7 +1,6 @@
 'use client'
 
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
-import { RootState } from "@/store/store";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

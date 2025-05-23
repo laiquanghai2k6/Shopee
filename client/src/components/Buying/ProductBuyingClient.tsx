@@ -21,8 +21,8 @@ import { LoadingType, setLoading } from "@/slice/loadingSlice"
 
 type ProductBuyingClientProps = {
     data: InfoProduct,
-    openModal:Function,
-    Loading:Function
+    openModal:(usercart:UserCart)=>void,
+    Loading:(loading:boolean)=>void
 }
 export type ChooseOption = {
     key: number

@@ -1,14 +1,14 @@
 'use client'
 import { RootState } from "@/store/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 
 type SideBarProps = {
     items: string[],
     currentIndex: number,
-    setCurrentIndex: Function,
-    setOpenSidebar: Function,
+    setCurrentIndex: (index: number) => void
+    setOpenSidebar:  (open: boolean) => void;
     openSidebar: boolean
 }
 
@@ -35,7 +35,7 @@ const SideBar = ({ items,setOpenSidebar, openSidebar, currentIndex, setCurrentIn
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [openSidebar])
-    const a = useSelector((state: RootState) => state.accessToken.accessToken)
+    
     return (
         <div ref={sidebarRef} className="flex w-[75%] sidebar  max-md:fixed max-md:z-2000  p-3 relative fixed h-screen flex-col bg-[#19232b] select-none md:rouded-md  ">
             <div className="h-30 w-full  flex justify-center items-center ">

@@ -33,9 +33,6 @@ export type Choose = {
     status: boolean[],
     checkAll: boolean
 }
-export type CartProps = {
-
-}
 
 export const ConvertToVND = (num: number) => {
     const strFormat = new Intl.NumberFormat('vi-VN').format(num)
@@ -176,11 +173,11 @@ const Cart = () => {
                                     <input type="checkbox" checked={itemChecked.checkAll} onChange={() => setItemCheck((prev) => {
                                         if (prev.checkAll) {
 
-                                            const falseTemp = itemChecked.status.map((_, i) => false)
+                                            const falseTemp = itemChecked.status.map(() => false)
                                             return { checkAll: false, status: [...falseTemp] }
 
                                         } else {
-                                            const trueTemp = itemChecked.status.map((_, i) => true)
+                                            const trueTemp = itemChecked.status.map(() => true)
                                             return { checkAll: true, status: [...trueTemp] }
                                         }
 

@@ -3,9 +3,7 @@ import { useState } from 'react'
 import StarOrange from './../../../public/star-orange.png'
 import Default from '../../../public/default-image.png'
 
-export const ConvertImg = (img:any)=>{
-    return typeof img == 'string' ? img : img.src
-}
+
 export enum OptionComment{
     ALL='all',
     FIVE='five',
@@ -34,7 +32,7 @@ const CommentProduct = () => {
                         </div>
                         <div className="flex flex-row items-center">
                             {Array.from({length:5},(_,i)=>(
-                                <img key={i} src={ConvertImg(StarOrange)} className='size-6' />
+                                <img key={i} src={typeof StarOrange =='string' ? StarOrange : StarOrange.src} className='size-6' />
                             ))}
 
                         </div>
@@ -73,7 +71,7 @@ const CommentProduct = () => {
                             <p>Lại Hải</p>
                             <div className="flex flex-row items-center">
                             {Array.from({length:5},(_,i)=>(
-                                <img key={i} src={ConvertImg(StarOrange)} className='size-3.5' />
+                                <img key={i} src={typeof StarOrange =='string' ? StarOrange : StarOrange.src} className='size-3.5' />
                             ))}
 
                         </div>
@@ -94,7 +92,7 @@ const CommentProduct = () => {
                             <p>Lại Hải</p>
                             <div className="flex flex-row items-center">
                             {Array.from({length:5},(_,i)=>(
-                                <img key={i} src={ConvertImg(StarOrange)} className='size-3.5' />
+                                <img key={i} src={typeof StarOrange =='string' ? StarOrange : StarOrange.src} className='size-3.5' />
                             ))}
 
                         </div>

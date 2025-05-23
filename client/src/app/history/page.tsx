@@ -11,7 +11,7 @@ import { requestHistoryCart } from "@/service/axiosRequest"
 import { LoadingType, setLoading } from "@/slice/loadingSlice"
 import { updateHistory, UpdateHistory } from "@/slice/historySlice"
 import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
-import { toSlug } from "@/components/Product/ProductCardOverview"
+
 
 export enum StateProduct {
     RECEIVED = 'Đã nhận ✅',
@@ -42,14 +42,15 @@ const History = () => {
             dispatch(setLoading({ active: true, text: 'Cập nhật đơn hàng thành công!', type: LoadingType.SUCCESS }))
 
         } catch (error) {
+            console.log(error)
             Loading(false)
             dispatch(setLoading({ active: true, text: 'Cập nhật đơn hàng lỗi!', type: LoadingType.ERROR }))
         }
     }
-    const BuyAgain = (title:string)=>{
-            const slugTitle = toSlug(title)
+    // const BuyAgain = (title:string)=>{
+    //         const slugTitle = toSlug(title)
         
-    }
+    // }
     return (
         <div className="min-h-screen flex justify-center w-full bg-[#f5f5f5]">
             {loading && <SpinnerShopee />}

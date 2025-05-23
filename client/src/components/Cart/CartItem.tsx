@@ -9,7 +9,7 @@ type CartItemProp = {
     i: number,
     item: UserCart
     isCheck: boolean,
-    setItemCheck: Function,
+    setItemCheck: Function
     decreaseItem: Function
     increaseItem: Function,
     deleteHandler: Function

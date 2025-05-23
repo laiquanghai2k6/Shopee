@@ -38,13 +38,13 @@ const UserSetting = () => {
                 return dispatch(setLoading({ active: true, text: 'Ảnh quá lớn', type: LoadingType.ERROR }))
             }
             const res = await requestUser.post('/user-image', dataForm)
-
+            console.log(res)
             Loading(false)
             dispatch(uploadUserImage(response))
             dispatch(setLoading({ active: true, text: 'Tải ảnh thành công', type: LoadingType.SUCCESS }))
             setCurrentFIle(currentFile)
             setCurrentImage(response)
-        } catch (e: any) {
+        } catch (e: unknown) {
             Loading(false)
             dispatch(setLoading({ active: true, text: 'Lỗi tải ảnh', type: LoadingType.ERROR }))
             console.log(e)
