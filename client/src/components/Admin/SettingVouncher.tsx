@@ -52,7 +52,7 @@ const SettingVouncher = ({ topContent }: SettingVouncherProps) => {
         <>
             {loading && <SpinnerShopee />}
             {modal.active && <ModalVouncher setIsLoading={SetIsLoading} type={modal.type} CloseModal={CloseModal} vouncher={vounchers[modal.index]} />}
-            <div className="min-h-screen max-md:w-[90%] w-[75%] bg-red-200 flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen overflow-x-hidden max-md:w-[90%] w-[75%] bg-red-200 flex items-center overflow-y-auto  flex-col pb-10">
 
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>

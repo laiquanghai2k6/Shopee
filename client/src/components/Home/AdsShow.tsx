@@ -8,38 +8,63 @@ import ModalVouncherClient from '../Modal/ModalVouncherClient'
 import ModalPayment from '../Modal/ModalPayment'
 import { LoadingType, setLoading } from '@/slice/loadingSlice'
 
-const AdsShow = ({Loading}:{Loading:Function}) => {
+const AdsShow = ({ Loading }: { Loading: Function }) => {
   const [indexAds, setIndexAds] = useState(1)
   const dispatch = useDispatch()
   const [modal, setModal] = useState({
     active: false
   })
-  const userId = useSelector((state:RootState)=>state.user.user.id)
-  
-  const [modalPayment,setModalPayment] = useState(false)
-  const [isPending,startTransition] = useTransition()
+  const userId = useSelector((state: RootState) => state.user.user.id)
+
+  const [modalPayment, setModalPayment] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const closeModal = useCallback(() => {
     setModal({ active: false })
   }, [])
   const banner = useSelector((state: RootState) => state.banner.banner)
-  
-  
-  useEffect(()=>{
-    if(isPending) Loading(true)
-      else Loading(false)
-  },[isPending])
-  const closeModals = ()=>setModalPayment(false)
+
+
+  useEffect(() => {
+    if (isPending) Loading(true)
+    else Loading(false)
+  }, [isPending])
+  useEffect(() => {
+    const time = setInterval(() => {
+      setIndexAds((prev) => {
+
+        if (prev == banner.bgNavigate.length) {
+          const currentElement = document.getElementById(`slide-1`)
+          currentElement?.scrollIntoView({
+            block: 'nearest',
+            inline: 'start',
+          })
+          return 1
+        } else {
+          const currentElement = document.getElementById(`slide-${prev + 1}`)
+          currentElement?.scrollIntoView({
+            block: 'nearest',
+            inline: 'start',
+          })
+          return prev + 1
+        }
+      })
+    }, 3000)
+    return () => {
+      clearInterval(time)
+    }
+  }, [indexAds])
+  const closeModals = () => setModalPayment(false)
   return (
     <>
       {modal.active && <ModalVouncherClient closeModal={closeModal} />}
-      {modalPayment && <ModalPayment Loading={Loading}  closeModal={closeModals} startTransition={startTransition}/>}
+      {modalPayment && <ModalPayment Loading={Loading} closeModal={closeModals} startTransition={startTransition} />}
       <div className="overflow-hidden bg-white h-95 max-md:h-auto text-white select-none flex flex-col items-center  ">
         <div className="w-290 max-h-60 flex flex-row gap-2 mt-7 max-md:mt-5 max-md:mx-2  max-md:flex-col max-md:w-[100%] max-md:max-h-280 max-md:h-130   ">
 
           <div className="h-full max-md:mx-2 max-md:h-20 h-1 max-md:grow-6 max-md:h-10 flex relative grow-12 basis-0 hover:scale-102
           transition-transform
           duration-300 "  >
-            <div className="flex scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto
+            <div className="flex touch-none scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto
           size-full
   
         [-ms-overflow-style:none] select-none
@@ -95,8 +120,8 @@ const AdsShow = ({Loading}:{Loading:Function}) => {
         <div className="bg-white-700 flex flex-row w-290 h-full items-center justify-around max-md:w-[100%] max-md:h-20 max-md:mt-2 ">
           <div className="flex flex-col justify-center items-center">
             <div onClick={() => {
-              if(userId == '')
-                return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+              if (userId == '')
+                return dispatch(setLoading({ active: true, text: 'Vui lòng đăng nhập', type: LoadingType.ERROR }))
               setModal({ active: true })
             }} className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
               <img className="size-[80%]" src={typeof Ticket == 'string' ? Ticket : Ticket.src} />
@@ -107,8 +132,8 @@ const AdsShow = ({Loading}:{Loading:Function}) => {
           </div>
           <div className="flex flex-col justify-center items-center">
             <div onClick={() => {
-               if(userId == '')
-                return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+              if (userId == '')
+                return dispatch(setLoading({ active: true, text: 'Vui lòng đăng nhập', type: LoadingType.ERROR }))
               setModalPayment(true)
             }} className="bg-white rounded-xl size-10 border-2 border-gray-200 items-center justify-center flex cursor-pointer">
               <img className="size-[80%]" src={typeof Wallet == 'string' ? Wallet : Wallet.src} />

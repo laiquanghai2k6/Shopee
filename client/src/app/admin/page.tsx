@@ -66,8 +66,9 @@ const Admin = () => {
         return (
             <div className="flex relative flex-row w-full h-screen">
                 {isPending && <SpinnerShopee />}
-                {openSidebar && <div className="absolute top-0 left-0 size-9 mt-2 cursor-pointer  z-2001 flex " onClick={() => setOpenSidebar(false)}>
-                    <Image alt="Back" src={typeof Back == 'string' ? Back : Back.src} className="size-full"  />
+                {openSidebar && 
+                <div className="absolute  top-0 left-0 size-9 mt-2 cursor-pointer  z-2001 flex " onClick={() => setOpenSidebar(false)}>
+                    <Image alt="Back" src='/back.png' fill />
                    
                 </div>}
                 {openSidebar &&
@@ -76,12 +77,20 @@ const Admin = () => {
 
                     </>
                 }
+                <div className="max-lg:hidden w-[25%]">
+                <SideBar  openSidebar={openSidebar} setOpenSidebar={setOpenSidebar}  setCurrentIndex={setIndex} items={items} currentIndex={currentIndex} />
+                </div>
                 {!openSidebar ? (
 
-                    <div className="w-[10%] bg-[#19232b] flex justify-center">
-                        <Image alt="side-bar" src={typeof Menu == 'string' ? Menu : Menu.src} className="size-9 mt-3 " onClick={() => {
+                    <div className="w-[10%] lg:hidden bg-[#19232b] flex justify-start">
+                        <div className="relative  size-9 ">
+
+                        <Image alt="side-bar" src='/menu.png' fill 
+                        className="object-cover cursor-pointer"
+                        onClick={() => {
                             setOpenSidebar(true)
                         }} />
+                        </div>
 
                     </div>
                 ) : (

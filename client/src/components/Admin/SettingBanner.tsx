@@ -10,6 +10,7 @@ import { CreateImage } from '../Modal/ModalCategory';
 import SpinnerShopee from '../Spinner/SpinnerShopee';
 import { LoadingType, setLoading } from '@/slice/loadingSlice';
 import { requestAdmin } from '@/service/axiosRequest';
+import Image from 'next/image';
 // const abel = Abel({ subsets: ['latin'], weight: '400' });
 
 type SettingBanner = {
@@ -130,7 +131,7 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
             {loading && <SpinnerShopee />}
             {modal && <ModalBanner setIsLoading={setIsLoading} bgNavigate={banner.banner.bgNavigate} SaveBanner={SaveBanner} closeBanner={closeBanner} />}
 
-            <div className="min-h-screen w-[75%] max-md:w-[90%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen w-[75%] overflow-x-hidden max-md:w-[90%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
 
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>
@@ -147,14 +148,14 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                         {isEnter.bgLogin ? (
                             <div className={`size-full bg-cover opacity-90  bg-center flex items-center justify-center`} style={{ backgroundImage: `url(${banner.banner.bgLogin})` }}>
                                 <div className="flex flex-row gap-3 items-center">
-                                    <img src={typeof Add == 'string' ? Add : Add.src} className="size-10" />
+                                    <Image alt='add' src={'/add.png'} width={40} height={40} />
                                     <p className="text-[25px]">Đổi ảnh</p>
 
                                 </div>
                             </div>
                         ) : (
 
-                            <img src={banner.banner.bgLogin} className="size-full object-cover" />
+                            <img src={banner.banner.bgLogin} className="size-full aspect-[16/9] object-cover" />
                         )}
                         <input className="hidden" id="bg-login" type="file" onChange={async (e) => HandlerImage(e, 'bgLogin')} />
                     </div>
@@ -166,7 +167,7 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                         setModal(true)
                     }} className="w-full p-5 relative aspect-[16/9] select-none bg-[#f5f5f5]  select-none cursor-pointer" onMouseEnter={() => setIsEnter((prev) => ({ ...prev, bannerMain: true }))} onMouseLeave={() => setIsEnter((prev) => ({ ...prev, bgLogin: false }))}>
 
-                        <div className={`size-full  transition-transform
+                        <div className={`size-full touch-none transition-transform
                                  duration-300  bg-cover opacity-90 bg-center flex items-center justify-center`} >
                             <div className="flex size-full [scrollbar-width:none] [-ms-overflow-style:none] flex-row scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto">
                                 {banner.banner.bgNavigate.map((img, i) => {
@@ -184,7 +185,7 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                                 })}
                             </div>
                         </div>
-                        <div className="absolute bottom-0 flex gap-3 z-10 mb-5 left-[50%] max-md:left-[40%] ">
+                        <div className="absolute bottom-0 flex gap-3 z-10 mb-5 left-[45%] max-md:left-[40%] ">
                             {Array.from({ length: banner.banner.bgNavigate.length }, (_, i) => {
 
                                 if (indexBanner == i + 1) {

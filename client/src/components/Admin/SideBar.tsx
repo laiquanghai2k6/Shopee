@@ -37,7 +37,7 @@ const SideBar = ({ items,setOpenSidebar, openSidebar, currentIndex, setCurrentIn
     }, [openSidebar])
     
     return (
-        <div ref={sidebarRef} className="flex w-[75%] sidebar  max-md:fixed max-md:z-2000  p-3 relative fixed h-screen flex-col bg-[#19232b] select-none md:rouded-md  ">
+        <div ref={sidebarRef} className="flex  max-md:w-[75%] max-lg:w-[50%]  sidebar  max-md:fixed max-md:z-2000  p-3 relative fixed h-screen flex-col bg-[#19232b] select-none md:rouded-md  ">
             <div className="h-30 w-full  flex justify-center items-center ">
                 <p className="text-[#f5f6fa]  text-[30px]">Menu</p>
             </div>

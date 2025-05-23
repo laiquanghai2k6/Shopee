@@ -6,7 +6,7 @@ import Notification from '../../../public/bell.png'
 import Question from '../../../public/question.png'
 import Global from '../../../public/global.png'
 import Default from '../../../public/default-image.png'
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import ModalSetting from "../Modal/ModalSetting";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -15,6 +15,7 @@ import { LoadingType, setLoading } from "@/slice/loadingSlice";
 const TopNav = ({Loading}:{Loading:Function}) => {
     const router = useRouter()
     const dispatch =useDispatch()
+    const [isPending,startTransition] = useTransition()
     const currentUser = useSelector((state:RootState)=>{
         return{
             name:state.user.user.email.split('@')[0],
@@ -25,6 +26,10 @@ const TopNav = ({Loading}:{Loading:Function}) => {
      const closeModalSetting = useCallback(()=>{
         setOpenSettingModal(false)
       },[])
+      useEffect(()=>{
+        if(isPending) Loading(true)
+            else Loading(false)
+      },[isPending])
       const ComingSoon = ()=>{
         dispatch(setLoading({active:true,text:'Chức năng sẽ được cập nhật',type:LoadingType.PENDING}))
       }
@@ -47,7 +52,13 @@ const TopNav = ({Loading}:{Loading:Function}) => {
                     
                 </ItemText>
                 ):(
-                    <ItemText extraClass="max-md:text-[11px]"  text="Đăng nhập" onClick={()=>{router.push('/login')}} />
+                    <ItemText extraClass="max-md:text-[11px]"  text="Đăng nhập" onClick={()=>{
+                        startTransition(()=>{
+
+                            router.push('/login')
+                        })
+                    }}
+                         />
                 )}
             </div>
 

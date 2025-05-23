@@ -33,7 +33,7 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
     const [currentProductOptions, setCurrentProductOptions] = useState<ChooseOption[]>(defaultOption)
     const [currentQuantity, setCurrentQuantity] = useState(1)
     const userId = useSelector((state:RootState)=>state.user.user.id)
-
+    const user = useSelector((state:RootState)=>state.user.user)
     const discount = Number(data.discount)
     const now = Date.now()
     const numVouncher = new Date(String(data.timeDiscount)).getTime()
@@ -58,6 +58,10 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
         }
     }
     const IntoCartHandler  =async () => {
+         if(user.id == '' || !user.id || !user){
+            return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+
+        }
         const isNot = currentProductOptions.some((option) => option.key == -1)
         if (isNot) {
            return dispatch(setLoading({active:true,text:'Vui lòng điền đầy đủ',type:LoadingType.ERROR}))
@@ -90,6 +94,10 @@ const ProductBuyingClient = ({ data,openModal,Loading }: ProductBuyingClientProp
         }
     }
     const BuyHandler = () => {
+        if(user.id == '' || !user.id || !user){
+            return dispatch(setLoading({active:true,text:'Vui lòng đăng nhập',type:LoadingType.ERROR}))
+
+        }
         const isNot = currentProductOptions.some((option) => option.key == -1)
         if (isNot) {
             return dispatch(setLoading({active:true,text:'Vui lòng điền đầy đủ',type:LoadingType.ERROR}))

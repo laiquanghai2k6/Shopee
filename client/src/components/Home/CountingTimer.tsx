@@ -45,7 +45,6 @@ const CountingTimer = () => {
     }, [])
     return (
         <>
-
         {time.hour != '0' && time.minute != '0' && time.second != '0' && (
         <div className="flex flex-row items-center">
                     <div className="h-15 w-30 flex item-center">

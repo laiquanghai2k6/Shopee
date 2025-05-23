@@ -73,7 +73,7 @@ const SettingUsers = ({ topContent }: SettingUsersProps) => {
         <>
             {isLoading || loading && <SpinnerShopee />}
             {modal.active && <ModalUser id={modal.id} Save={Save} CloseModal={closeModal} />}
-            <div className="min-h-screen w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen overflow-x-hidden w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>
                 </div>

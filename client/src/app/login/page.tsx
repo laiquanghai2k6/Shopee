@@ -1,8 +1,4 @@
 'use client'
-import ShopeeIcon from '../../../public/shopee-orange.png'
-import EyeOpen from '../../../public/eye-open.png'
-import EyeClose from '../../../public/eye-close.png'
-import Google from '../../../public/google.png'
 import { Abel } from 'next/font/google';
 import { useEffect, useState } from 'react';
 import ButtonOrange from '@/components/Button/ButtonOrange';
@@ -16,6 +12,7 @@ import { setUser } from '@/slice/userSlice'
 import { setToken } from '@/slice/accessTokenSlice'
 import { RootState } from '@/store/store'
 import { AxiosError } from 'axios'
+import Image from 'next/image'
 const abel = Abel({ subsets: ['latin'], weight: '400' });
 export type Login = {
     email: string,
@@ -121,11 +118,13 @@ const Login = () => {
             <div className="bg-white h-25 max-md:h-15 select-none">
                 <div className="flex flex-row h-full max-w-7xl mx-auto select-none cursor-pointer items-center 
                 ">
-                    <div className="size-10 max-md:size-7 ">
-                        <img
-                            className="w-full h-full object-contain"
-                            src={typeof ShopeeIcon === 'string' ? ShopeeIcon : ShopeeIcon.src}
+                    <div className="size-10 max-md:size-7 relative">
+                        <Image 
+                        alt='shopee'
+                        src={'/shopee-orange.png'}
+                        fill
                         />
+                      
                     </div>
                     <p className={`${abel.className} max-md:hidden text-[35px] font-bold max-md:text-[20px] text-[#ee4d2d] ml-2`}>Shopee</p>
                     <p className={` text-[25px] ml-5`}>Đăng nhập</p>
@@ -141,14 +140,24 @@ const Login = () => {
                         <div className='flex flex-row h-5 w-full items-center justify-center'>
                             <p className='text-[20px]'>Đăng nhập</p>
                         </div>
-                        <Input value={loginForm.email} onChange={(e) => setLoginForm((prev) => ({ ...prev, email: e.target.value }))} type="email" placeholder='Email' />
+                        <Input value={loginForm.email} onKeyDown={(e)=>{
+                                if(e.key == 'Enter'){
+                                    SignInHandler()
+                                }
+                            }} onChange={(e) => setLoginForm((prev) => ({ ...prev, email: e.target.value }))} type="email" placeholder='Email' />
                         <div className='relative w-full h-10 mt-5'>
-                            <input value={loginForm.password} onChange={(e) => setLoginForm((prev) => ({ ...prev, password: e.target.value }))} type={`${loginForm.eye ? 'text' : 'password'}`} placeholder='Mật khẩu' className='pr-13 size-full select-none p-3  rounded-sm outline-none border-[1px] border-gray-400 focus:border-black' />
+                            <input onKeyDown={(e)=>{
+                                if(e.key == 'Enter'){
+                                    SignInHandler()
+                                }
+                            }} value={loginForm.password} onChange={(e) => setLoginForm((prev) => ({ ...prev, password: e.target.value }))} type={`${loginForm.eye ? 'text' : 'password'}`} placeholder='Mật khẩu' className='pr-13 size-full select-none p-3  rounded-sm outline-none border-[1px] border-gray-400 focus:border-black' />
                             <div className='absolute right-[5%] top-[25%] size-5 cursor-pointer select-none' onClick={() => setLoginForm(prev => ({ ...prev, eye: !prev.eye }))}>
                                 {loginForm.eye ? (
-                                    <img src={typeof EyeClose == 'string' ? EyeClose : EyeClose.src} className='size-full' alt="" />
+                                    <Image alt='eye' src={'/eye-close.png'} fill  />
+                                   
                                 ) : (
-                                    <img src={typeof EyeOpen == 'string' ? EyeOpen : EyeOpen.src} className='size-full' alt="" />
+                                    <Image alt='eye' src={'/eye-open.png'} fill  />
+
                                 )}
                             </div>
                         </div>
@@ -163,7 +172,8 @@ const Login = () => {
                             <div className='border-[1px] border-gray-300 h-[1px] w-[40%]'></div>
                         </div>
                         <a onClick={() => StartOAuth()} href={`${process.env.NEXT_PUBLIC_USER_URL}/google`} className='flex select-none mt-5 flex-row cursor-pointer hover:opacity-70 items-center justify-center border-[1px] border-gray-400 w-full h-15'>
-                            <img src={typeof Google == 'string' ? Google : Google.src} className='size-8' />
+                            <Image alt='eye' src={'/google.png'} width={32} height={32}  />
+                           
                             <p className='text-[25px] ml-3'>Google</p>
                         </a>
                         <div className='w-full select-none h-10 mt-5 flex items-center justify-center'>
