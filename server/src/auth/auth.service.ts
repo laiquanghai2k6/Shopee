@@ -19,9 +19,9 @@ export class AuthService {
         @InjectRepository(Vouncher)
         private vouncherRepo: Repository<Vouncher>,
         @InjectRepository(UserVouncher)
-        private userVouncherRepo:Repository<UserVouncher>,
+        private userVouncherRepo: Repository<UserVouncher>,
         @InjectRepository(History)
-        private historyRepo:Repository<History>,
+        private historyRepo: Repository<History>,
         private cloudinaryService: CloudinaryService,
         private jwtService: JwtService
     ) {
@@ -47,13 +47,16 @@ export class AuthService {
             const salt = await bcrypt.genSalt(8)
             const newPassword = await bcrypt.hash(password, salt)
             const history = await this.historyRepo.create();
-            const newUser = await this.userRepository.create({ email, password: newPassword,history:history })
+            const newUser = await this.userRepository.create({ email, password: newPassword, history: history })
             const savedUser = await this.userRepository.save(newUser)
-             await this.historyRepo.save(history);
+            await this.historyRepo.save(history);
             const accessToken = this.generateAccessToken(newUser.id)
             const refreshToken = await this.generateRefreshToken(newUser.id)
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                path: '/',
                 maxAge: 1000 * 3600 * 24 * 7
             })
             return { user: savedUser, accessToken }
@@ -79,6 +82,9 @@ export class AuthService {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
             maxAge: 1000 * 3600 * 24 * 7
         })
         return { user: user, accessToken }
@@ -90,6 +96,9 @@ export class AuthService {
             const refreshToken = await this.generateRefreshToken(user.id)
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                path: '/',
                 maxAge: 1000 * 3600 * 24 * 7
             })
             res.redirect(process.env.CLIENT_URL!)
@@ -100,7 +109,7 @@ export class AuthService {
             const newUser = await this.userRepository.create({
                 email,
                 password: null,
-                history:history
+                history: history
             })
             await this.userRepository.save(newUser)
             const refreshToken = await this.generateRefreshToken(newUser.id)
@@ -149,8 +158,11 @@ export class AuthService {
         console.log('signing out')
         res.clearCookie('refreshToken', {
             httpOnly: true,
+
             secure: true,
             sameSite: 'none',
+
+
             path: '/',
         });
         console.log('fn')
@@ -161,7 +173,7 @@ export class AuthService {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            path: '/',
+            path: '/',          
         });
         return { message: 'sign out success' }
 
@@ -179,11 +191,11 @@ export class AuthService {
             throw new BadRequestException(['Lỗi tải ảnh'])
         }
     }
-    async userImage(userImageDto:UserImageDto){
-        const {id,url} = userImageDto
+    async userImage(userImageDto: UserImageDto) {
+        const { id, url } = userImageDto
         try {
-            const user = await this.userRepository.findOne({where:{id}})
-            if(!user) throw new NotFoundException(['Không thấy user'])
+            const user = await this.userRepository.findOne({ where: { id } })
+            if (!user) throw new NotFoundException(['Không thấy user'])
             user.image = url
             await this.userRepository.save(user)
             return user
@@ -215,54 +227,54 @@ export class AuthService {
         const { userVouncherId } = saveVouncherDto
 
         try {
-            await this.userVouncherRepo.update({id:userVouncherId},{state:StateVouncher.USED})
-            
+            await this.userVouncherRepo.update({ id: userVouncherId }, { state: StateVouncher.USED })
+
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi xóa vouncher'])
         }
     }
-    async getMyVouncher(id:string){
+    async getMyVouncher(id: string) {
 
 
         try {
             const vounchers = this.userVouncherRepo.createQueryBuilder('uv')
-            .leftJoinAndSelect('uv.vouncher','vouncher')
-            .leftJoin('uv.user','user')
-            .addSelect(['user.id'])
-            .where('uv.user.id = :id',{id})
-            .getMany()      
-            return vounchers      
+                .leftJoinAndSelect('uv.vouncher', 'vouncher')
+                .leftJoin('uv.user', 'user')
+                .addSelect(['user.id'])
+                .where('uv.user.id = :id', { id })
+                .getMany()
+            return vounchers
         } catch (error) {
             console.log(error)
             throw new BadRequestException(['Lỗi lấy vouncher'])
         }
     }
-    async increaseMoney(IncDto:IncDto){
-        const {id,amount} = IncDto
+    async increaseMoney(IncDto: IncDto) {
+        const { id, amount } = IncDto
         try {
-            const user = await this.userRepository.findOne({where:{id}})
-            if(!user) throw new NotFoundException(['Không thấy user'])
+            const user = await this.userRepository.findOne({ where: { id } })
+            if (!user) throw new NotFoundException(['Không thấy user'])
             user.money += amount
             await this.userRepository.save(user)
             return user
 
         } catch (error) {
             console.log(error)
-             throw new BadRequestException(['Lỗi tăng tiền'])
+            throw new BadRequestException(['Lỗi tăng tiền'])
         }
     }
-    async decreaseMoney(IncDto:IncDto){
-        const {id,amount} = IncDto
+    async decreaseMoney(IncDto: IncDto) {
+        const { id, amount } = IncDto
         try {
-            const user = await this.userRepository.findOne({where:{id}})
-            if(!user) throw new NotFoundException(['Không thấy user'])
+            const user = await this.userRepository.findOne({ where: { id } })
+            if (!user) throw new NotFoundException(['Không thấy user'])
             user.money -= amount
             await this.userRepository.save(user)
             return user
         } catch (error) {
             console.log(error)
-             throw new BadRequestException(['Lỗi tăng tiền'])
+            throw new BadRequestException(['Lỗi tăng tiền'])
         }
     }
 }

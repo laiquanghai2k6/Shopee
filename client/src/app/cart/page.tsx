@@ -12,6 +12,7 @@ import { requestHistoryCart } from "@/service/axiosRequest"
 import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
 import { LoadingType, setLoading } from "@/slice/loadingSlice"
 import { ConvertToVND } from "@/components/Home/FlashSale"
+import Image from "next/image"
 export type ProductCart = {
     id: string,
     title: string,
@@ -190,7 +191,7 @@ const Cart = () => {
                         </>
                     ) : (
                         <div className="h-100 w-full bg-white mt-5 rounded-sm flex flex-col items-center justify-center">
-                            <img src={typeof Memeguy == 'string' ? Memeguy : Memeguy.src} className="size-30" />
+                            <Image alt="meme" src={typeof Memeguy == 'string' ? Memeguy : Memeguy.src} className="size-30"  />
                             <p className="mt-5 text-[17px]">Giỏ hàng chưa có sản phẩm nào</p>
                         </div>
                     )}
