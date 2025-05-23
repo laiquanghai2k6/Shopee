@@ -14,11 +14,7 @@ import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
 import { ConvertToVND } from "@/components/Home/FlashSale"
 
 
-export enum StateProduct {
-    RECEIVED = 'Đã nhận ✅',
-    DELIVERING = 'Đang giao hàng 🚚',
-    CONFIRMING = 'Đang xác nhận hàng 👨‍💻'
-}
+
 
 const History = () => {
     const histories = useSelector((state: RootState) => state.history.history)
