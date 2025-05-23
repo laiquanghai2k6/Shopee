@@ -27,7 +27,7 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
         banner1: false,
         banner2: false,
     })
-
+    console.log('t')
     const enterBgLogin = () => {
         setIsEnter((prev) => ({ ...prev, bgLogin: true }))
     }
