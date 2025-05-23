@@ -130,6 +130,17 @@ to { transform: translateX(100%) }
     transform: translateY(-100%);
   }
 }
+@keyframes side-bar{
+  0%{
+    transform: translateX(-100%);
+  }
+  100%{
+    transform: translateX(0%);
+  }
+}
+.sidebar{
+  animation: side-bar 0.5s ease-out;
+}
 .slideOutRightToLeft{
   animation: sliderOutRightToLeft 1s ease-out forwards;
 } 

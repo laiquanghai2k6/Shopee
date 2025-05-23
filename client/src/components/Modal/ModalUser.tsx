@@ -15,7 +15,7 @@ const ModalUser = ({ CloseModal, Save, id }: ModalUserProps) => {
     const [select, setSelect] = useState<Role>(Role.CLIENT)
     return (
         <div className="fixed min-h-screen z-11000 select-none min-w-screen justify-center flex bg-black/30  items-center p-3  h-30 w-50 border-1 bg-[#f5f5f5] shadow-[0px_0px_4px_rgba(0,0,0,0.5)]">
-            <div className="w-150  relative h-fit bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
+            <div className="w-150 max-md:w-[95%]  relative h-fit bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
                 <div className="flex justify-end mr-3 h-7 w-full ">
                     <img src={typeof Close == 'string' ? Close : Close.src} className="size-7 cursor-pointer" onClick={() => CloseModal()} />
                 </div>

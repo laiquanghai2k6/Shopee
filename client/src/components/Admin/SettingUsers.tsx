@@ -73,7 +73,7 @@ const SettingUsers = ({ topContent }: SettingUsersProps) => {
         <>
             {isLoading && <SpinnerShopee />}
             {modal.active && <ModalUser id={modal.id} Save={Save} CloseModal={closeModal} />}
-            <div className="min-h-screen w-[75%]  flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>
                 </div>
@@ -86,9 +86,9 @@ const SettingUsers = ({ topContent }: SettingUsersProps) => {
 
                         {data?.map((user, i) => {
                             return (
-                                <div key={i} className=" bg-[#f5f5f5] w-[80%]  min-h-25 px-10 items-center justify-between  my-5 flex shadow-[0px_0px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row">
+                                <div key={i} className=" bg-[#f5f5f5] w-[80%]  min-h-25 px-10 max-md:px-1 items-center justify-between  my-5 flex shadow-[0px_0px_7px_rgba(0,0,0,0.2)] max-md:h-25 flex-row">
                                     <p>{user.email}</p>
-                                    <div onClick={() => setModal({ active: true, id: user.id })} className="h-fit hover:border-1  cursor-pointer rounded-md w-30 bg-red-200 flex items-center justify-center">
+                                    <div onClick={() => setModal({ active: true, id: user.id })} className="h-fit hover:border-1  cursor-pointer rounded-md w-fit p-1 bg-red-200 flex items-center justify-center">
 
                                         <p>{user.role == 'client' ? 'Khách hàng' : 'Admin'}</p>
                                     </div>

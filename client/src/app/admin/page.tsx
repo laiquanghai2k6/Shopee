@@ -5,18 +5,21 @@ import SettingProduct from "@/components/Admin/SettingProduct"
 import SideBar from "@/components/Admin/SideBar"
 import { RootState } from "@/store/store"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useTransition } from "react"
 import { useSelector } from "react-redux"
 import Back from '../../../public/back.png'
 import SettingVouncher from "@/components/Admin/SettingVouncher"
 import SettingUsers from "@/components/Admin/SettingUsers"
 import SettingRevenue from "@/components/Admin/SettingRevenue"
+import Menu from '../../../public/menu.png'
+import SpinnerShopee from "@/components/Spinner/SpinnerShopee"
 
-
-const items = ['Điều chỉnh Banner', 'Điều chỉnh gian hàng', 'Điều chỉnh vouncher', 'Xem doanh thu',"Cài đặt người dùng"]
+const items = ['Điều chỉnh Banner', 'Điều chỉnh gian hàng', 'Điều chỉnh vouncher', 'Xem doanh thu', "Cài đặt người dùng", "Trở về"]
 
 const Admin = () => {
     const router = useRouter()
+    const [openSidebar, setOpenSidebar] = useState(false)
+    const [isPending, startTransition] = useTransition()
     const [currentIndex, setCurrentIndex] = useState(0)
     const currentUser = useSelector((state: RootState) => state.user.user.email)
     useEffect(() => {
@@ -24,8 +27,11 @@ const Admin = () => {
             router.push('/')
         }
     }, [currentUser])
-    const BackToHome = ()=>{
-        router.push('/')
+    const BackToHome = () => {
+        startTransition(() => {
+
+            router.push('/')
+        })
     }
     const setIndex = useCallback((i: number) => {
         setCurrentIndex(i)
@@ -38,27 +44,53 @@ const Admin = () => {
             case 1:
                 return <SettingProduct topContent={items[currentIndex]} />
             case 2:
-                return <SettingVouncher topContent={items[currentIndex]}/>
+                return <SettingVouncher topContent={items[currentIndex]} />
             case 3:
                 return <SettingRevenue topContent={items[currentIndex]} />
             case 4:
                 return <SettingUsers topContent={items[currentIndex]} />
             default:
                 return <SettingBanner topContent={items[currentIndex]} />
-                
+
         }
     }
+    useEffect(() => {
+        if (currentIndex === 5) {
+            BackToHome();
+        }
+    }, [currentIndex]);
 
     if (currentUser == '') return null
     else
         return (
-            <div className="flex relative flex-row w-full">
-                <div className="absolute top-0 left-0 size-9 mt-2 cursor-pointer  z-100 flex " onClick={()=>BackToHome()}>
+            <div className="flex relative flex-row w-full h-screen">
+                {isPending && <SpinnerShopee />}
+                {openSidebar && <div className="absolute top-0 left-0 size-9 mt-2 cursor-pointer  z-2001 flex " onClick={() => setOpenSidebar(false)}>
 
-                    <img src={typeof Back == 'string' ? Back : Back.src} className="size-full"  />
-                </div>
-                <SideBar setCurrentIndex={setIndex} items={items} currentIndex={currentIndex} />
+                    <img src={typeof Back == 'string' ? Back : Back.src} className="size-full" />
+                </div>}
+                {openSidebar &&
+                    <>
+                        <SideBar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar}  setCurrentIndex={setIndex} items={items} currentIndex={currentIndex} />
+
+                    </>
+                }
+                {!openSidebar ? (
+
+                    <div className="w-[10%] bg-[#19232b] flex justify-center">
+                        <img src={typeof Menu == 'string' ? Menu : Menu.src} className="size-9 mt-3 " onClick={() => {
+                            setOpenSidebar(true)
+                        }} />
+
+                    </div>
+                ) : (
+                    <div className="w-[10%] bg-[#19232b] flex justify-center">
+
+
+                    </div>
+                )}
                 {
+
                     renderer()
                 }
 

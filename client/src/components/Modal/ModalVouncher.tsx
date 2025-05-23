@@ -108,7 +108,7 @@ const ModalVouncher = ({ CloseModal, vouncher, setIsLoading, type }: ModalVounch
         <>
 
             <div className="h-full min-w-screen bg-black/50  z-10000 flex fixed items-start select-none  justify-center">
-                <div className="w-200 max-h-150 bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
+                <div className="w-200 max-md:w-[95%] max-h-150 bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
                     <div className="flex justify-end mr-3 h-7 w-full ">
                         <img src={typeof Close == 'string' ? Close : Close.src} className="size-7 cursor-pointer" onClick={() => CloseModal()} />
                     </div>

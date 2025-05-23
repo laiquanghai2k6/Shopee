@@ -228,7 +228,7 @@ const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, t
 
             <div className="h-full min-w-screen bg-black/50  z-10000 flex fixed items-start select-none  justify-center">
 
-                <div className="w-200 overflow-y-auto relative overflow-x-hidden max-h-150 bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
+                <div className="w-200 max-lg:w-[95%] overflow-y-auto relative overflow-x-hidden max-h-150 max-md:h-[80%] bg-[#f5f5f5] flex mt-[10vh] p-2 select-none flex-col">
                     <div className="flex justify-end mr-3 h-7 w-full ">
                         <img src={typeof Close == 'string' ? Close : Close.src} className="size-7 cursor-pointer" onClick={() => CloseModal()} />
                     </div>

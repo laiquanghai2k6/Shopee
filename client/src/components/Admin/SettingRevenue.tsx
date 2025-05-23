@@ -50,14 +50,14 @@ const SettingRevenue = ({ topContent }: SettingRevenueProp) => {
         console.log('histories.data',total)
     },[histories.data])
     return (
-        <div className="min-h-screen w-[75%]  flex items-center overflow-y-auto  flex-col pb-10">
+        <div className="min-h-screen w-[75%] max-md:w-[90%]  flex items-center overflow-y-auto  flex-col pb-10">
             {histories.isLoading && <SpinnerShopee />}
             <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                 <p className={` text-[25px] font-bold `}>{topContent}</p>
             </div>
-            <div className='flex flex-col gap-3 min-h-15 w-full items-center mt-5 '>
-                <div className="flex px-[25%] w-full flex-row justify-between ">
-                    <div className="flex flex-row w-fit h-fit gap-3">
+            <div className='flex flex-col gap-3 min-h-40 w-full items-center mt-5 '>
+                <div className="flex px-[25%] w-full   max-md:gap-3 flex-row max-md:flex-col justify-between ">
+                    <div className="flex flex-row w-fit  h-fit gap-3">
                         <p className='w-fit whitespace-nowrap  flex items-center '>Từ ngày:</p>
                         <select className='cursor-pointer border-1' onChange={(e) => setDate1((prev) => ({ ...prev, day: e.target.value }))} value={date1.day}>
                             {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map((v) => {
@@ -122,7 +122,7 @@ const SettingRevenue = ({ topContent }: SettingRevenueProp) => {
 
             </div>
             {currentTotal != 0 && (
-                <p className="text-[30px] my-3 text-[#ee4d2d]">{`Tổng doanh thu: ${ConvertToVND(currentTotal)}đ`}</p>
+                <p className="text-[30px]  max-md:text-[20px] my-3 text-[#ee4d2d]">{`Tổng doanh thu: ${ConvertToVND(currentTotal)}đ`}</p>
             )}
             {histories.data?.length == 0 && (
                 <div className="w-full flex justify-center">

@@ -63,12 +63,12 @@ const SettingProduct = ({ topContent }: SettingProductProps) => {
             {isLoading || loading && <SpinnerShopee />}
             {modal.active && <ModalCategory setIsLoading={setIsLoading} type={modal.type} CloseModal={CloseModal} categories={Categories} currentIndex={modal.index} />}
             {modalProduct.active && <ModalProduct setIsLoading={setIsLoading} id={modalProduct.id} data={data?.product ?? []} indexProduct={modalProduct.indexProduct} indexPage={modalProduct.indexPage} categories={Categories} type={modalProduct.type} CloseModal={CloseModalProduct} />}
-            <div className="min-h-screen w-[75%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen w-[75%] max-md:w-[90%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
 
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>
                 </div>
-                <div className="w-full select-none bg-[#f5f5f5]  min-h-300 p-5">
+                <div className="w-full select-none bg-[#f5f5f5]  h-fit p-5">
                     
                     <div ref={scrollRef} className="w-full min-h-10 py-2 flex gap-2 flex-row flex-wrap mt-3">
                         <>
@@ -142,7 +142,7 @@ const SettingProduct = ({ topContent }: SettingProductProps) => {
                     </div>
 
                 </div>
-                <div className="w-120 h-15 bg-gray-200 max-md:w-[80%] mt-5 mb-5 flex flex-row items-center justify-around select-none">
+                <div className="w-120 h-15 bg-gray-200  max-md:w-[80%] mt-5 mb-5 flex flex-row items-center justify-around select-none">
                     {indexPage > 3 && <img onClick={() => {
 
                         scrollHandler(1)

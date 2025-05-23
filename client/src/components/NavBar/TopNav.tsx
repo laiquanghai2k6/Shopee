@@ -26,18 +26,21 @@ const TopNav = ({Loading}:{Loading:Function}) => {
      const closeModalSetting = useCallback(()=>{
         setOpenSettingModal(false)
       },[])
+      const ComingSoon = ()=>{
+        dispatch(setLoading({active:true,text:'Chức năng sẽ được cập nhật',type:LoadingType.PENDING}))
+      }
     return (
 <>
         <div className="flex flex-row justify-between ">
             <div className="flex flex-row space-x-4 max-lg:hidden ">
-                <ItemText text="Kênh bán hàng" />
-                <ItemText text="Tải ứng dụng" />
-                <ItemText text="Kết nối" type="right" icon={FacebookIcon}  />
+                <ItemText text="Kênh bán hàng" onClick={()=>ComingSoon()}/>
+                <ItemText text="Tải ứng dụng" onClick={()=>ComingSoon()} />
+                <ItemText text="Kết nối" onClick={()=>ComingSoon()} type="right" icon={FacebookIcon}  />
             </div>
             <div className="flex flex-row space-x-6 justify-center max-md:space-x-4 max-lg:justify-between max-lg:w-full ">
-                <ItemText  extraClass="max-md:text-[13px]" text="Thông báo" type="left" icon={Notification} />
-                <ItemText  extraClass="max-md:text-[13px]" text="Tải ứng dụng" type="left" icon={Question} />
-                <ItemText extraClass="max-md:text-[13px]"  text="Kết nối" type="left" icon={Global} />
+                <ItemText onClick={()=>ComingSoon()}  extraClass="max-md:text-[13px]" text="Thông báo" type="left" icon={Notification} />
+                <ItemText onClick={()=>ComingSoon()}  extraClass="max-md:text-[13px]" text="Tải ứng dụng" type="left" icon={Question} />
+                <ItemText onClick={()=>ComingSoon()} extraClass="max-md:text-[13px]"  text="Kết nối" type="left" icon={Global} />
                 {currentUser.name != '' ? (
 
                 <ItemText extraClass="relative" image={currentUser.image} isOpa={false} text={currentUser.name} type="left" icon={Default} isImage={true} onMouseEnter={()=>setOpenSettingModal(true)} onMouseLeave={()=>setOpenSettingModal(false)} >

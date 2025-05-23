@@ -37,7 +37,7 @@ const LoadingWrapper = () => {
              ${loading.type == LoadingType.SUCCESS && 'bg-green-400'}
              ${loading.type == LoadingType.PENDING && 'bg-yellow-500'}
              items-center justify-center
-             mt-3 mr-3 z-22000
+             mt-3 mr-3 z-22000 select-none
              `}>
                 <div className="flex flex-row w-full h-20 pl-10 items-center">
                     {loading.type == LoadingType.SUCCESS && <img src={typeof Success =='string' ? Success:Success.src } className="size-10" />}

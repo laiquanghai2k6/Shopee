@@ -132,7 +132,7 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
             {loading && <SpinnerShopee />}
             {modal && <ModalBanner setIsLoading={setIsLoading} bgNavigate={banner.banner.bgNavigate} SaveBanner={SaveBanner} closeBanner={closeBanner} />}
 
-            <div className="min-h-screen w-[75%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
+            <div className="min-h-screen w-[75%] max-md:w-[90%] bg-[#f5f5f5] flex items-center overflow-y-auto  flex-col pb-10">
 
                 <div className="h-20 select-none w-full bg-[#F8F8F8] flex items-center justify-center border-b-1">
                     <p className={` text-[25px] font-bold `}>{topContent}</p>
@@ -186,19 +186,18 @@ const SettingBanner = ({ topContent }: SettingBanner) => {
                                 })}
                             </div>
                         </div>
-                        <div className="absolute bottom-0 flex gap-3 z-10 mb-5 left-[50%]">
+                        <div className="absolute bottom-0 flex gap-3 z-10 mb-5 left-[50%] max-md:left-[40%] ">
                             {Array.from({ length: banner.banner.bgNavigate.length }, (_, i) => {
 
                                 if (indexBanner == i + 1) {
                                     return (
-                                        <div key={`nav-to-${i}`} className="size-5 mb-3 navbar rounded-full cursor-pointer"></div>
+                                        <div key={`nav-to-${i}`} className="size-5 max-md:size-3 mb-3 navbar rounded-full cursor-pointer"></div>
                                     )
                                 } else {
                                     return (
-                                        <div key={`nav-to-${i}`} className="size-5 mb-3 bg-gray-500 opacity-75 hover:opacity-100 rounded-full cursor-pointer" onClick={(e) => {
+                                        <div key={`nav-to-${i}`} className="size-5 max-md:size-3 mb-3 bg-gray-500 opacity-75 hover:opacity-100 rounded-full cursor-pointer" onClick={(e) => {
                                             const currentElement = document.getElementById(`slide-setting-${i + 1}`)
                                             e.stopPropagation()
-
                                             currentElement?.scrollIntoView({
                                                 block: 'nearest',
                                                 inline: 'start',
