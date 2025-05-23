@@ -16,6 +16,11 @@ type CartItemProp = {
     deleteHandler: Function
 
 }
+export enum StateProduct {
+    RECEIVED = 'Đã nhận ✅',
+    DELIVERING = 'Đang giao hàng 🚚',
+    CONFIRMING = 'Đang xác nhận hàng 👨‍💻'
+}
 
 const CartItem = React.memo(({ i, deleteHandler, decreaseItem, item, increaseItem, isCheck = false, setItemCheck }: CartItemProp) => {
     const price = Number(item.priceProduct.replaceAll('.', ''))
