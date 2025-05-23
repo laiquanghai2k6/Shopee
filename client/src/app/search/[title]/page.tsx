@@ -3,12 +3,13 @@ import { InfoProduct } from "@/components/Modal/ModalProduct"
 import SearchClient from "@/components/Product/SearchClient"
 import { requestProduct } from "@/service/axiosRequest"
 
-type SearchTitleProp = {
-    params: {
-        title: string
-    }
-}
 
+interface Params {
+  title: string;
+}
+interface SearchTitleProp {
+  params: Params;
+}
 
 export const generateMetadata = async ({ params }: SearchTitleProp) => {
     const { title } =  params

@@ -4,10 +4,12 @@ import { InfoProduct } from '@/components/Modal/ModalProduct';
 import ProductClient from '@/components/Product/ProductClient';
 import { Metadata } from 'next';
 
-type ProductBuyingProps = {
-    params: {
-        slug: string;
-    };
+interface Params {
+  slug: string;
+}
+
+interface ProductBuyingProps  {
+    params: Params
 };
 export type Comment = {
     star: number, user: string, text: string
