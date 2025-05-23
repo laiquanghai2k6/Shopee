@@ -56,8 +56,8 @@ export class StripeService {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `http://localhost:3000/payment-success?orderId=${orderSaved.id}`,
-      cancel_url: `http://localhost:3000/payment-cancel`,
+      success_url: `${process.env.CLIENT_URL}/payment-success?orderId=${orderSaved.id}`,
+      cancel_url: `${process.env.CLIENT_URL}/payment-cancel`,
     });
 
     orderSaved.stripeSessionId = session.id;
