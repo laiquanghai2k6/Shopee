@@ -8,11 +8,11 @@ interface Params {
   title: string;
 }
 interface SearchTitleProp {
-  params: Params;
+  params: Promise<Params>;
 }
 
 export const generateMetadata = async ({ params }: SearchTitleProp) => {
-    const { title } =  params
+    const { title } =  await params
     const decodedTitle = decodeURIComponent(title);
     if (!title) {
         return {
@@ -25,7 +25,7 @@ export const generateMetadata = async ({ params }: SearchTitleProp) => {
     }
 }
 const SearchTitle = async ({ params }: SearchTitleProp) => {
-    const { title } =  params
+    const { title } =await  params
     const decodedTitle = decodeURIComponent(title);
 
     const searchTitle = decodedTitle.normalize("NFD")                   

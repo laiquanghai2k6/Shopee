@@ -9,7 +9,7 @@ interface Params {
 }
 
 interface ProductBuyingProps  {
-    params: Params
+    params: Promise<Params>
 };
 export type Comment = {
     star: number, user: string, text: string
@@ -35,7 +35,7 @@ export type ProductDetail = {
 
 
 export async function generateMetadata({ params }: ProductBuyingProps): Promise<Metadata> {
-    const { slug } =   params;
+    const { slug } = await   params;
     const id = slug.split("-").slice(-5).join('-');
 
     if (!id) {
@@ -67,7 +67,7 @@ export const NotFound = ()=>{
     )
 }
 const PageSlug = async ({ params }: ProductBuyingProps) => {
-    const { slug } =  params;
+    const { slug } = await  params;
     const parts = slug.split('-');
     if (parts.length < 5) return NotFound();
     const uuidParts = parts.slice(-5);
