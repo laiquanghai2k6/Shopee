@@ -1,0 +1,8 @@
+[env]
+NODE_VERSION = "23"
+
+[phases.build]
+command = "cd server && npm install && npm run build"
+
+[phases.start]
+command = "cd server && npm run start:prod"
