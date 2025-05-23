@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import FlashSaleLogo from '../../../public/flash-sale.png'
 
 const CountingTimer = () => {
-    let futureTime = 1752814116642
+    const futureTime = 1752814116642
 
         const [time, setTime] = useState({
         hour: '0',

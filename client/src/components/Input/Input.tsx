@@ -14,5 +14,5 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({extraClass="",ext
         </div>
     );
 })
-
+Input.displayName = 'Custom Input'
 export default Input;

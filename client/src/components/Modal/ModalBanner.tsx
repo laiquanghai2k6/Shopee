@@ -26,7 +26,6 @@ const ModalBanner = ({ closeBanner,setIsLoading, bgNavigate, SaveBanner }: Modal
         const gallery = document.getElementById("gallery");
         if (!gallery) return;
         let draggingEl: HTMLImageElement | null = null;
-        let tempEl: HTMLImageElement | null = null;
         let originX = 0, originY = 0
         const galleryStyle = getComputedStyle(gallery);
         const galleryWidth = gallery.clientWidth;

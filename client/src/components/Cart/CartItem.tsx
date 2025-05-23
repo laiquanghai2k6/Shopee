@@ -107,5 +107,6 @@ const CartItem = React.memo(({ i, deleteHandler, decreaseItem, item, increaseIte
         </div>
     );
 })
+CartItem.displayName = "CartItem";
 
 export default CartItem;

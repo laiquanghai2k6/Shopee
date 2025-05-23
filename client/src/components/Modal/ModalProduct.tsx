@@ -53,9 +53,7 @@ export type InfoProduct = {
 
 
 }
-export type SendProduct = {
 
-}
 
 const ModalProduct = ({ CloseModal, setIsLoading, id, indexPage, indexProduct, type, categories, data }: ModalProductProp) => {
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
