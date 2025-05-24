@@ -28,31 +28,33 @@ const AdsShow = ({ Loading }: { Loading: Function }) => {
     if (isPending) Loading(true)
     else Loading(false)
   }, [isPending])
-  // useEffect(() => {
-  //   const time = setInterval(() => {
-  //     setIndexAds((prev) => {
+  useEffect(() => {
+    const time = setInterval(() => {
+      setIndexAds((prev) => {
 
-  //       if (prev == banner.bgNavigate.length) {
-  //         const currentElement = document.getElementById(`slide-1`)
-  //         currentElement?.scrollIntoView({
-  //           block: 'nearest',
-  //           inline: 'start',
-  //         })
-  //         return 1
-  //       } else {
-  //         const currentElement = document.getElementById(`slide-${prev + 1}`)
-  //         currentElement?.scrollIntoView({
-  //           block: 'nearest',
-  //           inline: 'start',
-  //         })
-  //         return prev + 1
-  //       }
-  //     })
-  //   }, 3000)
-  //   return () => {
-  //     clearInterval(time)
-  //   }
-  // }, [indexAds])
+        if (prev == banner.bgNavigate.length) {
+          const wrapper = document.getElementById("carousel-wrapper");
+          const currentElement = document.getElementById(`slide-1`)
+          wrapper?.scrollTo({
+            left: currentElement?.offsetLeft || 0,
+            behavior:'smooth'
+          })
+          return 1
+        } else {
+          const wrapper = document.getElementById("carousel-wrapper");
+          const currentElement = document.getElementById(`slide-${prev + 1}`)
+          wrapper?.scrollTo({
+            left: currentElement?.offsetLeft || 0,
+            behavior:'smooth'
+          })
+          return prev + 1
+        }
+      })
+    }, 3000)
+    return () => {
+      clearInterval(time)
+    }
+  }, [indexAds])
   const closeModals = () => setModalPayment(false)
   return (
     <>
@@ -64,7 +66,7 @@ const AdsShow = ({ Loading }: { Loading: Function }) => {
           <div className="h-full max-md:mx-2 max-md:h-20 h-1 max-md:grow-6 max-md:h-10 flex relative grow-12 basis-0 hover:scale-102
           transition-transform
           duration-300 "  >
-            <div className="flex touch-none scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto
+            <div id="carousel-wrapper" className="flex touch-none scroll-snap-x scroll-snap-mandatory scroll-smooth overflow-x-auto
           size-full
   
         [-ms-overflow-style:none] select-none
