@@ -45,6 +45,7 @@ const PaymentSuccess = () => {
         );
         if (res.data.status === "paid" || res.data.status === "pending") {
           console.log('res.data',res.data)
+          console.log('user:',user)
           dispatch(setLoading({
             active: true,
             text: "Thanh toán thành công",
