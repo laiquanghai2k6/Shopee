@@ -5,9 +5,9 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({default:0})
   amount: number;
-  @Column()
+  @Column({default:0})
   amountVND:number
   @Column({ default: 'pending' })
   status: 'pending' | 'paid' | 'failed';
