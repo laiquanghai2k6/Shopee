@@ -86,7 +86,7 @@ setIsLoggingOut(false)
             {
                 shouldRenderModal && (
 
-                    <div className={`md:shadow-[0px_0px_7px_rgba(0,0,0,0.2)] transition-all absolute origin-top-right ${openSettingModal ? 'appearCart' : 'disappearCart'} z-[10000]  w-40 h-fit min-h-15 top-[100%] right-0 bg-white`}>
+                    <div className={`md:shadow-[0px_0px_7px_rgba(0,0,0,0.2)] shadow-lg bg-white/100 !bg-white w-40  border border-gray-300 transition-all absolute origin-top-right ${openSettingModal ? 'appearCart' : 'disappearCart'} z-[10000]  w-40 h-fit min-h-15 top-[100%] right-0 bg-white`}>
                         <div className="w-full h-full flex flex-col">
                             <div onClick={() => GoToAccount()} className="hover:bg-gray-300 max-md:active:bg-gray-300 p-4 flex items-center group  ">
                                 <p className=" text-[15px] text-black group-hover:text-[#00bfa5] max-md:group-active:text-[#00bfa5]">Tài khoản của tôi</p>
