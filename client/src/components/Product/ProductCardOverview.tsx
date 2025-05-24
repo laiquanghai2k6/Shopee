@@ -50,7 +50,7 @@ const ProductCardOverview = ({ image, date,startTransition, price, selled, disco
             <div className="size-40 max-md:size-30">
                 <img src={image} alt="image product" className="size-full object-cover" />
             </div>
-            <p >{`${title}`}</p>
+            <p className="line-clamp-4" >{`${title}`}</p>
 
 
             <div className="flex flex-col">

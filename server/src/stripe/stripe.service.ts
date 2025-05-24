@@ -91,6 +91,10 @@ export class StripeService {
         console.log('order:',order)
         if (order) {
             order.status = 'paid';
+            const user = await this.userRepository.findOne({where:{id:order.userId}})
+        if (!user) throw new NotFoundException();
+        user.money += order.amountVND
+        await this.userRepository.save(user)
             console.log('PAID')
             await this.orderRepository.save(order);
         }
@@ -99,10 +103,7 @@ export class StripeService {
   async getOrder(id:string){
     const order = await this.orderRepository.findOneBy({ id });
         if (!order) throw new NotFoundException();
-    const user = await this.userRepository.findOne({where:{id:order.userId}})
-        if (!user) throw new NotFoundException();
-        user.money += order.amountVND
-        await this.userRepository.save(user)
+    
         return { status: order.status,amountVND:order.amountVND };
   }
 }

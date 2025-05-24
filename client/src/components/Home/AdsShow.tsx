@@ -28,31 +28,31 @@ const AdsShow = ({ Loading }: { Loading: Function }) => {
     if (isPending) Loading(true)
     else Loading(false)
   }, [isPending])
-  useEffect(() => {
-    const time = setInterval(() => {
-      setIndexAds((prev) => {
+  // useEffect(() => {
+  //   const time = setInterval(() => {
+  //     setIndexAds((prev) => {
 
-        if (prev == banner.bgNavigate.length) {
-          const currentElement = document.getElementById(`slide-1`)
-          currentElement?.scrollIntoView({
-            block: 'nearest',
-            inline: 'start',
-          })
-          return 1
-        } else {
-          const currentElement = document.getElementById(`slide-${prev + 1}`)
-          currentElement?.scrollIntoView({
-            block: 'nearest',
-            inline: 'start',
-          })
-          return prev + 1
-        }
-      })
-    }, 3000)
-    return () => {
-      clearInterval(time)
-    }
-  }, [indexAds])
+  //       if (prev == banner.bgNavigate.length) {
+  //         const currentElement = document.getElementById(`slide-1`)
+  //         currentElement?.scrollIntoView({
+  //           block: 'nearest',
+  //           inline: 'start',
+  //         })
+  //         return 1
+  //       } else {
+  //         const currentElement = document.getElementById(`slide-${prev + 1}`)
+  //         currentElement?.scrollIntoView({
+  //           block: 'nearest',
+  //           inline: 'start',
+  //         })
+  //         return prev + 1
+  //       }
+  //     })
+  //   }, 3000)
+  //   return () => {
+  //     clearInterval(time)
+  //   }
+  // }, [indexAds])
   const closeModals = () => setModalPayment(false)
   return (
     <>
