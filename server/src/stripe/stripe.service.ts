@@ -6,6 +6,7 @@ import { Order } from 'src/entities/order.entity';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class StripeService {
@@ -13,7 +14,9 @@ export class StripeService {
   constructor(
     private readonly configService: ConfigService,
     @InjectRepository(Order)
-    private orderRepository:Repository<Order>
+    private orderRepository:Repository<Order>,
+    @InjectRepository(User)
+    private userRepository:Repository<User>
   ){
     this.stripe = new Stripe(process.env.STRIPE_SECRET!)
 
@@ -41,8 +44,8 @@ export class StripeService {
 
   //   return { url: session.url };
   // }
-  async createOrder(amount: number,amountVND:number) {
-    const order = this.orderRepository.create({ amount,amountVND });
+  async createOrder(amount: number,amountVND:number,userId:string) {
+    const order = this.orderRepository.create({ amount,amountVND,userId });
     const orderSaved = await this.orderRepository.save(order);
 
     const session = await this.stripe.checkout.sessions.create({
@@ -96,7 +99,10 @@ export class StripeService {
   async getOrder(id:string){
     const order = await this.orderRepository.findOneBy({ id });
         if (!order) throw new NotFoundException();
-
+    const user = await this.userRepository.findOne({where:{id:order.userId}})
+        if (!user) throw new NotFoundException();
+        user.money += order.amountVND
+        await this.userRepository.save(user)
         return { status: order.status,amountVND:order.amountVND };
   }
 }

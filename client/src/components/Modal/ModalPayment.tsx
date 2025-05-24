@@ -52,7 +52,7 @@ const ModalPayment = ({ closeModal, startTransition ,Loading}: ModalPaymentProp)
                     amount:Card[currentCard].value
                 }
                 Loading(true)
-                const res = await requestUser.post('/increase-money',data)
+                await requestUser.post('/increase-money',data)
                 dispatch(increase(Card[currentCard].value))
                 Loading(false)
                 dispatch(setLoading({active:true,text:'Thanh toán thành công!',type:LoadingType.SUCCESS}))
