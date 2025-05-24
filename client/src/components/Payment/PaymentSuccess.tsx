@@ -1,10 +1,11 @@
 'use client'
 import { LoadingType, setLoading } from "@/slice/loadingSlice";
+import { RootState } from "@/store/store";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -12,6 +13,7 @@ const PaymentSuccess = () => {
     const searchParams = useSearchParams();
     const dispatch = useDispatch()
     const router = useRouter()
+    const user = useSelector((state:RootState)=>state.user.user)
      useEffect(() => {
     // const fetchStatus = async () => {
     //   const orderId = searchParams.get('orderId');

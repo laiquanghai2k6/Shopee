@@ -41,8 +41,8 @@ export class StripeService {
 
   //   return { url: session.url };
   // }
-  async createOrder(amount: number) {
-    const order = this.orderRepository.create({ amount });
+  async createOrder(amount: number,amountVND:number) {
+    const order = this.orderRepository.create({ amount,amountVND });
     const orderSaved = await this.orderRepository.save(order);
 
     const session = await this.stripe.checkout.sessions.create({
@@ -97,6 +97,6 @@ export class StripeService {
     const order = await this.orderRepository.findOneBy({ id });
         if (!order) throw new NotFoundException();
 
-        return { status: order.status,amount:order.amount };
+        return { status: order.status,amountVND:order.amountVND };
   }
 }

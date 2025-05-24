@@ -11,8 +11,8 @@ export class StripeController {
     //     return this.stripeService.createCheckoutSession(amount);
     // }
     @Post('create-order')
-    CreateOrder(@Body('amount') amount: number) {
-        return this.stripeService.createOrder(amount)
+    CreateOrder(@Body('amount') amount: number,@Body('amountVND') amountVND:number) {
+        return this.stripeService.createOrder(amount,amountVND)
     }
 
     @Post('webhook')

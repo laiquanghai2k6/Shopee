@@ -7,7 +7,8 @@ export class Order {
 
   @Column()
   amount: number;
-
+  @Column()
+  amountVND:number
   @Column({ default: 'pending' })
   status: 'pending' | 'paid' | 'failed';
 

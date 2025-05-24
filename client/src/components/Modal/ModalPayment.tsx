@@ -38,7 +38,8 @@ const ModalPayment = ({ closeModal, startTransition ,Loading}: ModalPaymentProp)
             const unit_amount = Math.round(amount * 100);
             
             const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/create-order`, {
-              amount: unit_amount
+              amount: unit_amount,
+              amountVND:Card[currentCard]
             });
             startTransition(()=>{
         
