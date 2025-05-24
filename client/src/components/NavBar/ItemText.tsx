@@ -17,7 +17,7 @@ const ItemText = ({ text, type, icon,extraClass="",image='', isOpa=true,children
             {!isImage ? (
                 <div className={`text-[#fff] text-[clamp(8px,1.5vw,15px)] ${isOpa &&'hover:opacity-70 ' }cursor-pointer font-[500] flex flex-row items-center ${extraClass}`} {...other}>
                     {type == 'left' && icon && <img className='mr-2 max-md:mr-0 max-md:size-4  w-5 h-5 object-contain' src={image == '' ? (typeof icon === 'string' ? icon : icon.src):(image)} />}
-                    {text}
+                    <p className='ml-1'>{text}</p>
                     {type == 'right' && icon && <img className='ml-2 max-md:ml-1 max-md:size-4 w-5 h-5 object-contain' src={image == '' ? (typeof icon === 'string' ? icon : icon.src):(image)} />}
                     {children}
                 </div>
@@ -26,7 +26,7 @@ const ItemText = ({ text, type, icon,extraClass="",image='', isOpa=true,children
                     <div className='w-6 h-6 max-md:size-4 rounded-full bg-white mr-1 max-md:mr-0'>
                         <img className='mr-2 w-full h-full object-contain max-md:mr-0 max-md:size-4' src={typeof icon === 'string' ? icon : icon?.src} />
                     </div>
-                    {text}
+                    <p className='ml-1'>{text}</p>
                     {children}
                 </div>
             )}

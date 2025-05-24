@@ -35,7 +35,7 @@ const TopNav = ({Loading}:{Loading:Function}) => {
       }
     return (
 <>
-        <div className="flex flex-row justify-between ">
+        <div className="flex flex-row justify-between max-md:pb-3 max-md:pt-1 ">
             <div className="flex flex-row space-x-4 max-lg:hidden ">
                 <ItemText text="Kênh bán hàng" onClick={()=>ComingSoon()}/>
                 <ItemText text="Tải ứng dụng" onClick={()=>ComingSoon()} />
