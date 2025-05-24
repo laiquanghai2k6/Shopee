@@ -42,6 +42,7 @@ const PaymentSuccess = () => {
           `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/order/${orderId}`
         );
         if (res.data.status === "paid" || res.data.status === "pending") {
+          console.log('res.data',res.data)
           dispatch(setLoading({
             active: true,
             text: "Thanh toán thành công",

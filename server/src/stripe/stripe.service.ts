@@ -97,6 +97,6 @@ export class StripeService {
     const order = await this.orderRepository.findOneBy({ id });
         if (!order) throw new NotFoundException();
 
-        return { status: order.status };
+        return { status: order.status,amount:order.amount };
   }
 }
