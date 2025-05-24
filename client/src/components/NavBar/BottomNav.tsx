@@ -92,6 +92,9 @@ const BottomNav = ({ Loading }: BottomNavProp) => {
       router.push(`/search/${t}`)
     })
   }
+  const handleToggleCartModal = () => {
+  setOpenCartModal((prev) => !prev);
+};
   const { isLoading, data } = useSearchProduct(inputSearchDebounce)
   return (
     <>
@@ -161,6 +164,7 @@ const BottomNav = ({ Loading }: BottomNavProp) => {
           onMouseEnter={() => setOpenCartModal(true)
           }
           onMouseLeave={() => setOpenCartModal(false)}
+            onClick={()=>handleToggleCartModal()} 
           className="flex justify-center items-center w-30 max-md:w-10 select-none relative  cursor-pointer">
           <div onClick={() => GoToCart()} className='size-10 max-md:size-7 cursor-pointer relative'>
             <div className='absolute bg-white top-0 right-[-20%] rounded-full size-5 max-md:size-3.5 max-md:text-[13px] flex justify-center items-center text-[#ee4d2d]'>
