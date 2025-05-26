@@ -32,7 +32,6 @@ It supports user authentication, product management, shopping cart, orders, real
 - Checkout and payment with Stripe
 - View order history
 - Responsive UI (Mobile/Desktop)
-- Drag and drop image in admin dashboard
 
 
 ### 🛠 Admin
@@ -41,6 +40,7 @@ It supports user authentication, product management, shopping cart, orders, real
 - Order management
 - User account management
 - Dashboard with protected admin routes
+- Drag and drop image 
 
 ### ⚡ Performance & UX
 - Debounce & Throttle optimization for inputs
