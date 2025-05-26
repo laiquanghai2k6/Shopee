@@ -32,6 +32,8 @@ It supports user authentication, product management, shopping cart, orders, real
 - Checkout and payment with Stripe
 - View order history
 - Responsive UI (Mobile/Desktop)
+- Drag and drop image in admin dashboard
+
 
 ### 🛠 Admin
 - Product management (CRUD)
